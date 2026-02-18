@@ -9,7 +9,7 @@ export const themeConfig = {
     colorTextBase: '#1F1F1F', // Dark Slate (Softer than pure black)
     
     // 2. SHAPE & FORM (The Minimalist Tweaks)
-    borderRadius: 8,         // Soft squares (Standard AntD is 6, Apple is 12+)
+    borderRadius: 12,         // Soft squares (Standard AntD is 6, Apple is 12+)
     wireframe: false,        // Use modern filled styles instead of outlines
     
     // 3. TYPOGRAPHY
@@ -27,8 +27,8 @@ export const themeConfig = {
       paddingLG: 32,         // More whitespace inside cards
     },
     Layout: {
-      colorBgHeader: '#FFFFFF', // White header (clean look)
-      colorBgBody: '#FFFFFF',   // White body
+      headerBg: '#FFFFFF', // White header (clean look)
+      bodyBg: '#FFFFFF',   // White body
     },
     Typography: {
       titleMarginBottom: '1em',
