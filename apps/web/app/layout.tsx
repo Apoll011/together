@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { ThemeProvider } from "./ThemeContext";
-import { Layout } from "antd";
+import { App, Layout } from "antd";
 import { Content } from "antd/lib/layout/layout";
 import "antd/dist/reset.css";
 import "./globals.css";
@@ -22,29 +22,30 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body>
         <ThemeProvider>
-          <Layout
-            style={{
-              minHeight: "100vh",
-              display: "flex",
-              flexDirection: "column",
-            }}
-          >
-            <Navbar />
-
-            <Content
+          <App>
+            <Layout
               style={{
-                flex: 1,
-                paddingTop: 64,
+                minHeight: "100vh",
+                display: "flex",
+                flexDirection: "column",
               }}
             >
-              {children}
-            </Content>
+              <Navbar />
 
-            <Footer />
-          </Layout>
+              <Content
+                style={{
+                  flex: 1,
+                  paddingTop: 64,
+                }}
+              >
+                {children}
+              </Content>
+
+              <Footer />
+            </Layout>
+          </App>
         </ThemeProvider>
       </body>
     </html>
   );
 }
-

@@ -37,11 +37,8 @@ interface AppItem {
 }
 
 interface NavbarProps {
-  /** When true: transparent bg, white text — designed to sit on top of a hero */
   variant?: "default" | "transparent";
 }
-
-// ─── Data ────────────────────────────────────────────────────────────────────
 
 const apps: AppItem[] = [
   {
@@ -448,7 +445,7 @@ export const Navbar: React.FC<NavbarProps> = ({ variant = "default" }) => {
               {/* Our Apps — mega dropdown */}
               <Dropdown
                 popupRender={() => <MegaMenuOverlay />}
-                placement="bottomCenter"
+                placement="bottom"
                 arrow={false}
                 trigger={["hover"]}
               >

@@ -10,10 +10,10 @@ import {
   Space,
   Divider,
   Form,
-  message,
   Tag,
   Grid,
   Switch,
+  App,
 } from "antd";
 import {
   GithubOutlined,
@@ -28,8 +28,6 @@ import { useTheme } from "../ThemeContext";
 
 const { Text, Title, Link } = Typography;
 const { useBreakpoint } = Grid;
-
-// ─── Data ─────────────────────────────────────────────────────────────────────
 
 const apps = [
   { key: "preserve", label: "We Preserve", icon: "🌿", color: "#52c41a" },
@@ -62,9 +60,10 @@ const socialLinks = [
   { key: "linkedin", icon: <LinkedinOutlined />, label: "LinkedIn", href: "#" },
 ];
 
-// ─── Newsletter ───────────────────────────────────────────────────────────────
 
 const Newsletter: React.FC = () => {
+  const staticFunction = App.useApp();
+  let message = staticFunction.message;
   const [submitted, setSubmitted] = useState(false);
   const [form] = Form.useForm();
   const { colors } = useTheme();
@@ -100,7 +99,7 @@ const Newsletter: React.FC = () => {
       <Form.Item
         name="email"
         rules={[{ type: "email", message: "" }]}
-        style={{ marginBottom: 0, flex: 1 }}
+        style={{ margin: 0, flex: 1 }}
       >
         <Input
           placeholder="Enter your email"
