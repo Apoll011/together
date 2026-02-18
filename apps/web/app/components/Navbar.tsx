@@ -23,9 +23,10 @@ import { ToggleTheme } from "./theme-toggle";
 
 import Image from "next/image";
 import logo from "../static/logo.png"
+import { appsData } from "../data/apps";
 
 const { useBreakpoint } = Grid;
-const { Text, Title } = Typography;
+const { Text } = Typography;
 
 interface AppItem {
   key: string;
@@ -40,51 +41,14 @@ interface NavbarProps {
   variant?: "default" | "transparent";
 }
 
-const apps: AppItem[] = [
-  {
-    key: "preserve",
-    label: "We Preserve",
-    description: "Environmental data & conservation tracking",
-    color: "#52c41a",
-    icon: "🌿",
-  },
-  {
-    key: "learn",
-    label: "We Learn",
-    description: "Collaborative knowledge & courses",
-    color: "#fa8c16",
-    icon: "📚",
-    tag: "New",
-  },
-  {
-    key: "work",
-    label: "We Work",
-    description: "Async tools for distributed teams",
-    color: "#0050B3",
-    icon: "🚀",
-  },
-  {
-    key: "help",
-    label: "We Help",
-    description: "Community aid and mutual support",
-    color: "#eb2f96",
-    icon: "🤝",
-  },
-  {
-    key: "explore",
-    label: "We Explore",
-    description: "Maps and discovery for curious minds",
-    color: "#722ed1",
-    icon: "🧭",
-  },
-  {
-    key: "code",
-    label: "We Code",
-    description: "Open-source contribution platform",
-    color: "#13c2c2",
-    icon: "⌨️",
-  },
-];
+const apps: AppItem[] = appsData.map(app => ({
+  key: app.key,
+  label: app.label,
+  description: app.tagline,
+  color: app.color,
+  icon: app.icon, 
+  tag: app.isNew ? "New" : undefined
+} as AppItem));
 
 const communityItems: MenuProps["items"] = [
   { key: "forum", label: <a href="#">Forum</a> },
@@ -161,7 +125,7 @@ const MegaMenuOverlay: React.FC = () => {
                 width: 40,
                 height: 40,
                 borderRadius: 10,
-                background: `${app.color}18`,
+                background: `${app.color}`,
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
@@ -181,7 +145,7 @@ const MegaMenuOverlay: React.FC = () => {
                 }}
               >
                 <Text strong style={{ fontSize: 14, color: colors.navText }}>
-                  Together {app.label}
+                  Together We {app.label}
                 </Text>
                 {app.tag && (
                   <Tag
@@ -382,7 +346,6 @@ export const Navbar: React.FC<NavbarProps> = ({ variant = "default" }) => {
             gap: 32,
           }}
         >
-          {/* ── Logo ── */}
           <a
             href="/"
             style={{

@@ -5,24 +5,21 @@ import { Typography, Button, Space, Row, Col, Card, Avatar, Tag } from "antd";
 import {
   ArrowRightOutlined,
   PlayCircleOutlined,
-  GlobalOutlined,
-  ReadOutlined,
-  RocketOutlined,
-  HeartOutlined,
-  CodeOutlined,
 } from "@ant-design/icons";
 import { useTheme } from "../ThemeContext";
 import { motion } from "framer-motion";
+import { appsData } from "../data/apps";
 
 const { Title, Paragraph, Text } = Typography;
 
-const ecosystemNodes = [
-  { key: "preserve", icon: <GlobalOutlined />, label: "Preserve", color: "#52c41a", x: 0, y: -160 },
-  { key: "learn", icon: <ReadOutlined />, label: "Learn", color: "#fa8c16", x: 180, y: -60 },
-  { key: "work", icon: <RocketOutlined />, label: "Work", color: "#0050B3", x: -180, y: -40 },
-  { key: "help", icon: <HeartOutlined />, label: "Help", color: "#eb2f96", x: 140, y: 100 },
-  { key: "code", icon: <CodeOutlined />, label: "Code", color: "#13c2c2", x: -120, y: 140 },
-];
+const ecosystemNodes = appsData.map(app => ({
+  key: app.key,
+  icon: app.icon,
+  label: app.label,
+  color: app.color,
+  x: app.heroConfig.x,
+  y: app.heroConfig.y,
+}));
 
 export const Hero = () => {
   const { colors, mode } = useTheme();
