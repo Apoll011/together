@@ -10,7 +10,6 @@ import {
   Grid,
   Tag,
   Divider,
-  Switch,
 } from "antd";
 import type { MenuProps } from "antd";
 import {
@@ -18,11 +17,12 @@ import {
   MenuOutlined,
   CloseOutlined,
   ArrowRightOutlined,
-  SunOutlined,
-  MoonOutlined,
 } from "@ant-design/icons";
 import { useTheme } from "../ThemeContext";
 import { ToggleTheme } from "./theme-toggle";
+
+import Image from "next/image";
+import logo from "../static/logo.png"
 
 const { useBreakpoint } = Grid;
 const { Text, Title } = Typography;
@@ -395,25 +395,16 @@ export const Navbar: React.FC<NavbarProps> = ({ variant = "default" }) => {
           >
             <div
               style={{
-                width: 32,
-                height: 32,
+                    position: "relative",
+                width: 42, height:42,
+                padding: 10,
                 borderRadius: 8,
-                background: isTransparent
-                  ? "rgba(255,255,255,0.2)"
-                  : colors.logoBg,
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                fontSize: 16,
-                color: colors.logoText,
-                fontWeight: 700,
                 border: isTransparent 
                   ? "1px solid rgba(255,255,255,0.3)" 
                   : colors.logoBorder,
-                transition: "background 0.3s",
               }}
             >
-              ✦
+                <Image fill={true} alt={"Together Logo"} src={isDark ? "logo.svg" : logo} />
             </div>
             <span
               style={{
