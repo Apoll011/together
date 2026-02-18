@@ -13,6 +13,7 @@ import {
   message,
   Tag,
   Grid,
+  Switch,
 } from "antd";
 import {
   GithubOutlined,
@@ -20,7 +21,10 @@ import {
   LinkedinOutlined,
   ArrowRightOutlined,
   CheckCircleFilled,
+  SunOutlined,
+  MoonOutlined,
 } from "@ant-design/icons";
+import { useTheme } from "../ThemeContext";
 
 const { Text, Title, Link } = Typography;
 const { useBreakpoint } = Grid;
@@ -63,6 +67,7 @@ const socialLinks = [
 const Newsletter: React.FC = () => {
   const [submitted, setSubmitted] = useState(false);
   const [form] = Form.useForm();
+  const { colors } = useTheme();
 
   const handleSubmit = (values: { email: string }) => {
     if (values.email) {
@@ -121,34 +126,58 @@ const Newsletter: React.FC = () => {
 const FooterLink: React.FC<{ href?: string; children: React.ReactNode }> = ({
   href = "#",
   children,
-}) => (
-  <Link
-    href={href}
-    style={{
-      display: "block",
-      color: "rgba(255,255,255,0.55)",
-      fontSize: 14,
-      marginBottom: 10,
-      transition: "color 0.2s",
-      lineHeight: "1.5",
-    }}
-    onMouseEnter={(e) => ((e.currentTarget as HTMLAnchorElement).style.color = "rgba(255,255,255,0.95)")}
-    onMouseLeave={(e) => ((e.currentTarget as HTMLAnchorElement).style.color = "rgba(255,255,255,0.55)")}
-  >
-    {children}
-  </Link>
-);
+}) => {
+  const { colors } = useTheme();
+  
+  return (
+    <Link
+      href={href}
+      style={{
+        display: "block",
+        color: colors.footerLink,
+        fontSize: 14,
+        marginBottom: 10,
+        transition: "color 0.2s",
+        lineHeight: "1.5",
+      }}
+      onMouseEnter={(e) => ((e.currentTarget as HTMLAnchorElement).style.color = colors.footerLinkHover)}
+      onMouseLeave={(e) => ((e.currentTarget as HTMLAnchorElement).style.color = colors.footerLink)}
+    >
+      {children}
+    </Link>
+  );
+};
+
+// ─── Theme Toggle Component ─────────────────────────────────────────────────
+
+const ThemeToggle: React.FC = () => {
+  const { mode, toggleTheme } = useTheme();
+  const isDark = mode === "dark";
+
+  return (
+    <Switch
+      checked={isDark}
+      onChange={toggleTheme}
+      checkedChildren={<MoonOutlined />}
+      unCheckedChildren={<SunOutlined />}
+      style={{ 
+        background: isDark ? "rgba(255,255,255,0.2)" : "rgba(0,0,0,0.1)" 
+      }}
+    />
+  );
+};
 
 // ─── Footer ───────────────────────────────────────────────────────────────────
 
 export const Footer: React.FC = () => {
   const screens = useBreakpoint();
+  const { colors } = useTheme();
 
   return (
     <footer
       style={{
-        background: "#0A0F1E",   // Deep navy — complements Ocean Blue primary
-        color: "#fff",
+        background: colors.footerBg,
+        color: colors.footerText,
         paddingTop: 72,
         paddingBottom: 0,
       }}
@@ -182,12 +211,12 @@ export const Footer: React.FC = () => {
                   width: 32,
                   height: 32,
                   borderRadius: 8,
-                  background: "#0050B3",
+                  background: colors.logoBg,
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
                   fontSize: 16,
-                  color: "#fff",
+                  color: colors.logoText,
                   fontWeight: 700,
                 }}
               >
@@ -197,18 +226,18 @@ export const Footer: React.FC = () => {
                 style={{
                   fontWeight: 700,
                   fontSize: 20,
-                  color: "#fff",
+                  color: colors.footerText,
                   letterSpacing: "-0.02em",
                 }}
               >
                 Together
-                <span style={{ color: "#0050B3" }}>.</span>
+                <span style={{ color: colors.accentText }}>.</span>
               </span>
             </a>
 
             <Text
               style={{
-                color: "rgba(255,255,255,0.5)",
+                color: colors.footerTextMuted,
                 fontSize: 14,
                 lineHeight: 1.7,
                 display: "block",
@@ -222,7 +251,7 @@ export const Footer: React.FC = () => {
             {/* Newsletter */}
             <Text
               style={{
-                color: "rgba(255,255,255,0.7)",
+                color: colors.footerText,
                 fontWeight: 600,
                 fontSize: 13,
                 letterSpacing: "0.04em",
@@ -244,7 +273,7 @@ export const Footer: React.FC = () => {
             <Text
               strong
               style={{
-                color: "rgba(255,255,255,0.9)",
+                color: colors.footerText,
                 fontSize: 13,
                 letterSpacing: "0.06em",
                 textTransform: "uppercase",
@@ -262,18 +291,18 @@ export const Footer: React.FC = () => {
                   display: "flex",
                   alignItems: "center",
                   gap: 8,
-                  color: "rgba(255,255,255,0.55)",
+                  color: colors.footerLink,
                   marginBottom: 10,
                   fontSize: 14,
                   transition: "color 0.2s",
                 }}
                 onMouseEnter={(e) =>
                   ((e.currentTarget as HTMLAnchorElement).style.color =
-                    "rgba(255,255,255,0.95)")
+                    colors.footerLinkHover)
                 }
                 onMouseLeave={(e) =>
                   ((e.currentTarget as HTMLAnchorElement).style.color =
-                    "rgba(255,255,255,0.55)")
+                    colors.footerLink)
                 }
               >
                 <span
@@ -314,7 +343,7 @@ export const Footer: React.FC = () => {
             <Text
               strong
               style={{
-                color: "rgba(255,255,255,0.9)",
+                color: colors.footerText,
                 fontSize: 13,
                 letterSpacing: "0.06em",
                 textTransform: "uppercase",
@@ -334,7 +363,7 @@ export const Footer: React.FC = () => {
             <Text
               strong
               style={{
-                color: "rgba(255,255,255,0.9)",
+                color: colors.footerText,
                 fontSize: 13,
                 letterSpacing: "0.06em",
                 textTransform: "uppercase",
@@ -353,7 +382,7 @@ export const Footer: React.FC = () => {
         {/* ── Divider ── */}
         <Divider
           style={{
-            borderColor: "rgba(255,255,255,0.08)",
+            borderColor: colors.footerDivider,
             marginTop: 56,
             marginBottom: 0,
           }}
@@ -370,11 +399,14 @@ export const Footer: React.FC = () => {
             padding: "20px 0 24px",
           }}
         >
-          <Text style={{ color: "rgba(255,255,255,0.35)", fontSize: 13 }}>
+          <Text style={{ color: colors.footerBottomText, fontSize: 13 }}>
             © {new Date().getFullYear()} Together Project. All rights reserved.
           </Text>
 
           <Space size={4}>
+            {/* Theme Toggle in Footer */}
+            <ThemeToggle />
+            
             {socialLinks.map((s) => (
               <Button
                 key={s.key}
@@ -383,7 +415,7 @@ export const Footer: React.FC = () => {
                 icon={s.icon}
                 aria-label={s.label}
                 style={{
-                  color: "rgba(255,255,255,0.4)",
+                  color: colors.footerSocialIcon,
                   width: 36,
                   height: 36,
                   borderRadius: 8,
@@ -394,12 +426,12 @@ export const Footer: React.FC = () => {
                 }}
                 onMouseEnter={(e) => {
                   const el = e.currentTarget as HTMLButtonElement;
-                  el.style.color = "rgba(255,255,255,0.9)";
-                  el.style.background = "rgba(255,255,255,0.08)";
+                  el.style.color = colors.footerSocialIconHover;
+                  el.style.background = colors.footerSocialBgHover;
                 }}
                 onMouseLeave={(e) => {
                   const el = e.currentTarget as HTMLButtonElement;
-                  el.style.color = "rgba(255,255,255,0.4)";
+                  el.style.color = colors.footerSocialIcon;
                   el.style.background = "transparent";
                 }}
               />
@@ -410,3 +442,4 @@ export const Footer: React.FC = () => {
     </footer>
   );
 };
+

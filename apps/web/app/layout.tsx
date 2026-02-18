@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
-import { ConfigProvider } from "antd";
-import { themeConfig } from "./themeConfig";
+import { ThemeProvider } from "./ThemeContext";
 import { Layout } from "antd";
 import { Content } from "antd/lib/layout/layout";
 import "antd/dist/reset.css";
@@ -20,9 +19,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body>
-        <ConfigProvider theme={themeConfig}>
+        <ThemeProvider>
           <Layout
             style={{
               minHeight: "100vh",
@@ -43,8 +42,9 @@ export default function RootLayout({
 
             <Footer />
           </Layout>
-        </ConfigProvider>
+        </ThemeProvider>
       </body>
     </html>
   );
 }
+

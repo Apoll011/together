@@ -10,6 +10,7 @@ import {
   Grid,
   Tag,
   Divider,
+  Switch,
 } from "antd";
 import type { MenuProps } from "antd";
 import {
@@ -17,12 +18,13 @@ import {
   MenuOutlined,
   CloseOutlined,
   ArrowRightOutlined,
+  SunOutlined,
+  MoonOutlined,
 } from "@ant-design/icons";
+import { useTheme } from "../ThemeContext";
 
 const { useBreakpoint } = Grid;
 const { Text, Title } = Typography;
-
-// ─── Types ───────────────────────────────────────────────────────────────────
 
 interface AppItem {
   key: string;
@@ -92,223 +94,252 @@ const communityItems: MenuProps["items"] = [
   { key: "blog", label: <a href="#">Blog</a> },
 ];
 
-const MegaMenuOverlay: React.FC = () => (
-  <div
-    style={{
-      width: 680,
-      background: "#fff",
-      borderRadius: 12,
-      boxShadow:
-        "0 8px 24px rgba(0,0,0,0.08), 0 1px 3px rgba(0,0,0,0.06)",
-      padding: "24px 24px 16px",
-      border: "1px solid rgba(0,0,0,0.06)",
-    }}
-  >
-    <Text
-      style={{
-        fontSize: 11,
-        fontWeight: 700,
-        letterSpacing: "0.1em",
-        textTransform: "uppercase",
-        color: "#8c8c8c",
-        display: "block",
-        marginBottom: 16,
-      }}
-    >
-      Together Ecosystem
-    </Text>
+// ─── MegaMenuOverlay ────────────────────────────────────────────────────────
 
+const MegaMenuOverlay: React.FC = () => {
+  const { colors } = useTheme();
+  
+  return (
     <div
       style={{
-        display: "grid",
-        gridTemplateColumns: "1fr 1fr",
-        gap: 8,
+        width: 680,
+        background: colors.footerBg === '#0A0F1E' ? '#fff' : '#1b1b1b',
+        borderRadius: 12,
+        boxShadow:
+          "0 8px 24px rgba(0,0,0,0.08), 0 1px 3px rgba(0,0,0,0.06)",
+        padding: "24px 24px 16px",
+        border: colors.footerBg === '#0A0F1E' 
+          ? "1px solid rgba(0,0,0,0.06)" 
+          : "1px solid rgba(255,255,255,0.06)",
       }}
     >
-      {apps.map((app) => (
-        <button
-          key={app.key}
-          onClick={() => {}}
-          style={{
-            display: "flex",
-            alignItems: "center",
-            gap: 12,
-            padding: "10px 12px",
-            borderRadius: 8,
-            border: "none",
-            background: "transparent",
-            cursor: "pointer",
-            textAlign: "left",
-            transition: "background 0.15s",
-            width: "100%",
-          }}
-          onMouseEnter={(e) =>
-            ((e.currentTarget as HTMLButtonElement).style.background =
-              "#f5f5f5")
-          }
-          onMouseLeave={(e) =>
-            ((e.currentTarget as HTMLButtonElement).style.background =
-              "transparent")
-          }
-        >
-          <div
-            style={{
-              width: 40,
-              height: 40,
-              borderRadius: 10,
-              background: `${app.color}18`,
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              fontSize: 20,
-              flexShrink: 0,
-            }}
-          >
-            {app.icon}
-          </div>
-          <div style={{ flex: 1, minWidth: 0 }}>
-            <div
-              style={{
-                display: "flex",
-                alignItems: "center",
-                gap: 6,
-                marginBottom: 2,
-              }}
-            >
-              <Text strong style={{ fontSize: 14, color: "#1F1F1F" }}>
-                Together {app.label}
-              </Text>
-              {app.tag && (
-                <Tag
-                  color="blue"
-                  style={{ fontSize: 10, lineHeight: "16px", padding: "0 5px" }}
-                >
-                  {app.tag}
-                </Tag>
-              )}
-            </div>
-            <Text
-              style={{ fontSize: 12, color: "#8c8c8c", display: "block" }}
-            >
-              {app.description}
-            </Text>
-          </div>
-        </button>
-      ))}
-    </div>
-
-    <Divider style={{ margin: "16px 0 12px" }} />
-
-    <div style={{ textAlign: "right" }}>
-      <Button type="link" style={{ padding: 0, fontWeight: 600 }}>
-        View all apps <ArrowRightOutlined />
-      </Button>
-    </div>
-  </div>
-);
-
-// ─── Mobile Drawer Content ────────────────────────────────────────────────────
-
-const MobileNav: React.FC<{ onClose: () => void }> = ({ onClose }) => (
-  <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
-    <Button type="text" block style={{ textAlign: "left", height: 44, fontWeight: 500 }}>
-      Home
-    </Button>
-
-    {/* Apps section */}
-    <div>
       <Text
         style={{
           fontSize: 11,
           fontWeight: 700,
-          letterSpacing: "0.08em",
+          letterSpacing: "0.1em",
           textTransform: "uppercase",
           color: "#8c8c8c",
           display: "block",
-          padding: "12px 12px 8px",
+          marginBottom: 16,
         }}
       >
-        Our Apps
+        Together Ecosystem
       </Text>
-      {apps.map((app) => (
-        <Button
-          key={app.key}
-          type="text"
-          block
-          style={{
-            textAlign: "left",
-            height: 44,
-            display: "flex",
-            alignItems: "center",
-            gap: 10,
-          }}
-          icon={
-            <span
+
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns: "1fr 1fr",
+          gap: 8,
+        }}
+      >
+        {apps.map((app) => (
+          <button
+            key={app.key}
+            onClick={() => {}}
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: 12,
+              padding: "10px 12px",
+              borderRadius: 8,
+              border: "none",
+              background: "transparent",
+              cursor: "pointer",
+              textAlign: "left",
+              transition: "background 0.15s",
+              width: "100%",
+            }}
+            onMouseEnter={(e) => {
+              const bg = colors.footerBg === '#0A0F1E' ? '#f5f5f5' : 'rgba(255,255,255,0.08)';
+              (e.currentTarget as HTMLButtonElement).style.background = bg;
+            }}
+            onMouseLeave={(e) =>
+              ((e.currentTarget as HTMLButtonElement).style.background =
+                "transparent")
+            }
+          >
+            <div
               style={{
-                width: 28,
-                height: 28,
-                borderRadius: 7,
+                width: 40,
+                height: 40,
+                borderRadius: 10,
                 background: `${app.color}18`,
-                display: "inline-flex",
+                display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
-                fontSize: 16,
+                fontSize: 20,
+                flexShrink: 0,
               }}
             >
               {app.icon}
-            </span>
-          }
-        >
-          Together {app.label}
+            </div>
+            <div style={{ flex: 1, minWidth: 0 }}>
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 6,
+                  marginBottom: 2,
+                }}
+              >
+                <Text strong style={{ fontSize: 14, color: colors.navText }}>
+                  Together {app.label}
+                </Text>
+                {app.tag && (
+                  <Tag
+                    color="blue"
+                    style={{ fontSize: 10, lineHeight: "16px", padding: "0 5px" }}
+                  >
+                    {app.tag}
+                  </Tag>
+                )}
+              </div>
+              <Text
+                style={{ fontSize: 12, color: colors.navSubText, display: "block" }}
+              >
+                {app.description}
+              </Text>
+            </div>
+          </button>
+        ))}
+      </div>
+
+      <Divider style={{ margin: "16px 0 12px" }} />
+
+      <div style={{ textAlign: "right" }}>
+        <Button type="link" style={{ padding: 0, fontWeight: 600 }}>
+          View all apps <ArrowRightOutlined />
         </Button>
-      ))}
+      </div>
     </div>
+  );
+};
 
-    {/* Community */}
-    <div>
-      <Text
-        style={{
-          fontSize: 11,
-          fontWeight: 700,
-          letterSpacing: "0.08em",
-          textTransform: "uppercase",
-          color: "#8c8c8c",
-          display: "block",
-          padding: "12px 12px 8px",
-        }}
-      >
-        Community
-      </Text>
-      {["Forum", "Events", "Blog"].map((label) => (
-        <Button
-          key={label}
-          type="text"
-          block
-          style={{ textAlign: "left", height: 44 }}
-        >
-          {label}
-        </Button>
-      ))}
-    </div>
-
-    <Button
-      type="text"
-      block
-      style={{ textAlign: "left", height: 44, fontWeight: 500 }}
-    >
-      About
-    </Button>
-
-    <Divider style={{ margin: "8px 0" }} />
-
-    <Space direction="vertical" style={{ width: "100%" }}>
-      <Button block>Sign In</Button>
-      <Button type="primary" block icon={<ArrowRightOutlined />}>
-        Get Started
+const MobileNav: React.FC<{ onClose: () => void }> = ({ onClose }) => {
+  const { colors } = useTheme();
+  
+  return (
+    <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
+      <Button type="text" block style={{ textAlign: "left", height: 44, fontWeight: 500 }}>
+        Home
       </Button>
-    </Space>
-  </div>
-);
+
+      {/* Apps section */}
+      <div>
+        <Text
+          style={{
+            fontSize: 11,
+            fontWeight: 700,
+            letterSpacing: "0.08em",
+            textTransform: "uppercase",
+            color: "#8c8c8c",
+            display: "block",
+            padding: "12px 12px 8px",
+          }}
+        >
+          Our Apps
+        </Text>
+        {apps.map((app) => (
+          <Button
+            key={app.key}
+            type="text"
+            block
+            style={{
+              textAlign: "left",
+              height: 44,
+              display: "flex",
+              alignItems: "center",
+              gap: 10,
+            }}
+            icon={
+              <span
+                style={{
+                  width: 28,
+                  height: 28,
+                  borderRadius: 7,
+                  background: `${app.color}18`,
+                  display: "inline-flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  fontSize: 16,
+                }}
+              >
+                {app.icon}
+              </span>
+            }
+          >
+            Together {app.label}
+          </Button>
+        ))}
+      </div>
+
+      {/* Community */}
+      <div>
+        <Text
+          style={{
+            fontSize: 11,
+            fontWeight: 700,
+            letterSpacing: "0.08em",
+            textTransform: "uppercase",
+            color: "#8c8c8c",
+            display: "block",
+            padding: "12px 12px 8px",
+          }}
+        >
+          Community
+        </Text>
+        {["Forum", "Events", "Blog"].map((label) => (
+          <Button
+            key={label}
+            type="text"
+            block
+            style={{ textAlign: "left", height: 44 }}
+          >
+            {label}
+          </Button>
+        ))}
+      </div>
+
+      <Button
+        type="text"
+        block
+        style={{ textAlign: "left", height: 44, fontWeight: 500 }}
+      >
+        About
+      </Button>
+
+      <Divider style={{ margin: "8px 0" }} />
+
+      <Space direction="vertical" style={{ width: "100%" }}>
+        <Button block>Sign In</Button>
+        <Button type="primary" block icon={<ArrowRightOutlined />}>
+          Get Started
+        </Button>
+      </Space>
+    </div>
+  );
+};
+
+// ─── Theme Toggle Component ─────────────────────────────────────────────────
+
+const ThemeToggle: React.FC = () => {
+  const { mode, toggleTheme } = useTheme();
+  const isDark = mode === "dark";
+
+  return (
+    <Switch
+      checked={isDark}
+      onChange={toggleTheme}
+      checkedChildren={<MoonOutlined />}
+      unCheckedChildren={<SunOutlined />}
+      style={{ 
+        background: isDark ? "rgba(255,255,255,0.2)" : "rgba(0,0,0,0.1)" 
+      }}
+    />
+  );
+};
 
 // ─── Navbar ───────────────────────────────────────────────────────────────────
 
@@ -317,8 +348,10 @@ export const Navbar: React.FC<NavbarProps> = ({ variant = "default" }) => {
   const [drawerOpen, setDrawerOpen] = useState(false);
   const screens = useBreakpoint();
   const isMobile = !screens.lg;
+  const { colors, mode } = useTheme();
 
   const isTransparent = variant === "transparent" && !scrolled;
+  const isDark = mode === "dark";
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
@@ -330,21 +363,21 @@ export const Navbar: React.FC<NavbarProps> = ({ variant = "default" }) => {
   const navBg = isTransparent
     ? "transparent"
     : scrolled
-    ? "rgba(255,255,255,0.95)"
-    : "#ffffff";
+    ? colors.navBg
+    : colors.navBg;
 
   const navBorderBottom = isTransparent
     ? "1px solid rgba(255,255,255,0.12)"
     : scrolled
-    ? "1px solid rgba(0,0,0,0.06)"
-    : "1px solid rgba(0,0,0,0.08)";
+    ? colors.navBorderScrolled
+    : colors.navBorder;
 
   const navBoxShadow = scrolled && !isTransparent
-    ? "0 2px 16px rgba(0,0,0,0.06)"
+    ? colors.navShadow
     : "none";
 
-  const textColor = isTransparent ? "rgba(255,255,255,0.9)" : "#1F1F1F";
-  const subTextColor = isTransparent ? "rgba(255,255,255,0.65)" : "#595959";
+  const textColor = isTransparent ? "rgba(255,255,255,0.9)" : colors.navText;
+  const subTextColor = isTransparent ? "rgba(255,255,255,0.65)" : colors.navSubText;
 
   return (
     <>
@@ -393,14 +426,16 @@ export const Navbar: React.FC<NavbarProps> = ({ variant = "default" }) => {
                 borderRadius: 8,
                 background: isTransparent
                   ? "rgba(255,255,255,0.2)"
-                  : "#0050B3",
+                  : colors.logoBg,
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
                 fontSize: 16,
-                color: "#fff",
+                color: colors.logoText,
                 fontWeight: 700,
-                border: isTransparent ? "1px solid rgba(255,255,255,0.3)" : "none",
+                border: isTransparent 
+                  ? "1px solid rgba(255,255,255,0.3)" 
+                  : colors.logoBorder,
                 transition: "background 0.3s",
               }}
             >
@@ -416,7 +451,7 @@ export const Navbar: React.FC<NavbarProps> = ({ variant = "default" }) => {
               }}
             >
               Together
-              <span style={{ color: isTransparent ? "rgba(255,255,255,0.5)" : "#0050B3" }}>
+              <span style={{ color: isTransparent ? "rgba(255,255,255,0.5)" : colors.accentText }}>
                 .
               </span>
             </span>
@@ -481,13 +516,16 @@ export const Navbar: React.FC<NavbarProps> = ({ variant = "default" }) => {
           {/* ── Desktop actions ── */}
           {!isMobile && (
             <Space size={8} style={{ flexShrink: 0 }}>
+              {/* Theme Toggle */}
+              <ThemeToggle />
+              
               <Button
-                ghost={isTransparent}
+                ghost={isTransparent || isDark}
                 style={
-                  isTransparent
+                  isTransparent || isDark
                     ? {
-                        borderColor: "rgba(255,255,255,0.4)",
-                        color: "rgba(255,255,255,0.9)",
+                        borderColor: isTransparent ? "rgba(255,255,255,0.4)" : "rgba(255,255,255,0.2)",
+                        color: isTransparent ? "rgba(255,255,255,0.9)" : colors.navText,
                       }
                     : {}
                 }
@@ -510,33 +548,39 @@ export const Navbar: React.FC<NavbarProps> = ({ variant = "default" }) => {
 
           {/* ── Mobile burger ── */}
           {isMobile && (
-            <Button
-              type="text"
-              icon={drawerOpen ? <CloseOutlined /> : <MenuOutlined />}
-              onClick={() => setDrawerOpen(true)}
-              style={{ color: textColor }}
-            />
+            <Space>
+              <ThemeToggle />
+              <Button
+                type="text"
+                icon={drawerOpen ? <CloseOutlined /> : <MenuOutlined />}
+                onClick={() => setDrawerOpen(true)}
+                style={{ color: textColor }}
+              />
+            </Space>
           )}
         </div>
       </nav>
 
-      {/* ── Mobile Drawer ── */}
       <Drawer
         title={
           <span
             style={{ fontWeight: 700, fontSize: 16, letterSpacing: "-0.01em" }}
           >
-            Together<span style={{ color: "#0050B3" }}>.</span>
+            Together<span style={{ color: colors.accentText }}>.</span>
           </span>
         }
         placement="right"
         onClose={() => setDrawerOpen(false)}
         open={drawerOpen}
-        width={320}
-        styles={{ body: { padding: "16px" } }}
+        size={320}
+        styles={{ 
+          body: { padding: "16px" },
+          header: { background: colors.navBg }
+        }}
       >
         <MobileNav onClose={() => setDrawerOpen(false)} />
       </Drawer>
     </>
   );
 };
+
