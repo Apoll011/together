@@ -95,7 +95,7 @@ const MegaMenuOverlay: React.FC = () => {
         }}
       >
         {apps.map((app) => (
-          <button
+          <Button
             key={app.key}
             onClick={() => {}}
             style={{
@@ -119,6 +119,7 @@ const MegaMenuOverlay: React.FC = () => {
               ((e.currentTarget as HTMLButtonElement).style.background =
                 "transparent")
             }
+            href={`/apps/${app.key}`}
           >
             <div
               style={{
@@ -162,7 +163,7 @@ const MegaMenuOverlay: React.FC = () => {
                 {app.description}
               </Text>
             </div>
-          </button>
+          </Button>
         ))}
       </div>
 
@@ -433,6 +434,7 @@ export const Navbar: React.FC<NavbarProps> = ({ variant = "default" }) => {
 
               {/* About */}
               <Button
+              href="/about"
                 type="text"
                 style={{ color: textColor, fontWeight: 500, height: 40 }}
               >

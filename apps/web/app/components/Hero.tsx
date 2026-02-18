@@ -129,7 +129,7 @@ export const Hero = () => {
                 <Text type="secondary" style={{ fontSize: 13, display: "block", marginBottom: 12 }}>
                   Trusted by forward-thinking teams
                 </Text>
-                <Avatar.Group maxCount={4}>
+                <Avatar.Group max={{count: 4}}>
                   <Avatar src="https://api.dicebear.com/7.x/avataaars/svg?seed=1" />
                   <Avatar src="https://api.dicebear.com/7.x/avataaars/svg?seed=2" />
                   <Avatar src="https://api.dicebear.com/7.x/avataaars/svg?seed=3" />

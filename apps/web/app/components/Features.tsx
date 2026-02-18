@@ -72,7 +72,7 @@ export const Features = () => {
             <Row gutter={[24, 24]} style={{ height: "100%" }}>
               <Col span={24}>
                 <motion.div whileHover={{ y: -5 }} style={{ height: "100%" }}>
-                  <Card style={{ ...cardStyle, background: "#fa8c16", color: "white" }} bodyStyle={{ padding: 32 }}>
+                  <Card style={{ ...cardStyle, background: "#fa8c16", color: "white" }} styles={{body: { padding: 32 }}}>
                     <TeamOutlined style={{ fontSize: 32, marginBottom: 16, opacity: 0.9 }} />
                     <Title level={3} style={{ color: "white", marginTop: 0 }}>We Learn</Title>
                     <Paragraph style={{ color: "rgba(255,255,255,0.8)" }}>Collaborative courses and wikis for community knowledge sharing.</Paragraph>
@@ -81,7 +81,7 @@ export const Features = () => {
               </Col>
               <Col span={24}>
                 <motion.div whileHover={{ y: -5 }} style={{ height: "100%" }}>
-                  <Card style={{ ...cardStyle, background: isDark ? "#003a8c" : "#e6f7ff" }} bodyStyle={{ padding: 32 }}>
+                  <Card style={{ ...cardStyle, background: isDark ? "#003a8c" : "#e6f7ff" }} styles={{body: { padding: 32 }}}>
                     <div style={{ display: "flex", justifyContent: "space-between", alignItems: "start" }}>
                       <div>
                         <Title level={3} style={{ color: isDark ? "#fff" : "#0050B3", marginTop: 0 }}>We Work</Title>
