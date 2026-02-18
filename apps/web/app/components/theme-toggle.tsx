@@ -13,8 +13,6 @@ export const ToggleTheme: React.FC = () => {
   const handleToggle = useCallback(() => {
     if (!buttonRef.current) return;
 
-    toggleTheme();
-
     const { top, left, width, height } =
       buttonRef.current.getBoundingClientRect();
     const x = left + width / 2;
@@ -24,18 +22,28 @@ export const ToggleTheme: React.FC = () => {
       Math.max(y, window.innerHeight - y),
     );
 
-    document.documentElement.animate(
-      {
-        clipPath: [
-          `circle(0px at ${x}px ${y}px)`,
-          `circle(${maxRadius}px at ${x}px ${y}px)`,
-        ],
-      },
-      {
-        duration: 400,
-        easing: "ease-in-out",
-      },
-    );
+    const clipPath = [
+      `circle(0px at ${x}px ${y}px)`,
+      `circle(${maxRadius}px at ${x}px ${y}px)`,
+    ];
+
+    if (!document.startViewTransition) {
+      toggleTheme();
+      return;
+    }
+
+    const transition = document.startViewTransition(() => toggleTheme());
+
+    transition.ready.then(() => {
+      document.documentElement.animate(
+        { clipPath },
+        {
+          duration: 400,
+          easing: "ease-in-out",
+          pseudoElement: "::view-transition-new(root)",
+        },
+      );
+    });
   }, [toggleTheme]);
 
   return (
@@ -43,11 +51,11 @@ export const ToggleTheme: React.FC = () => {
       ref={buttonRef}
       onClick={handleToggle}
       ghost={isDark}
-      style={isDark       ? {     borderColor: "rgba(255,255,255,0.2)",
-                        color: colors.navText,
-                      }
-                    : {}
-                }
+      style={
+        isDark
+          ? { borderColor: "rgba(255,255,255,0.2)", color: colors.navText }
+          : {}
+      }
     >
       {isDark ? <Sun className="h-6 w-6" /> : <Moon className="h-6 w-6" />}
     </Button>
