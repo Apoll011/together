@@ -148,27 +148,6 @@ const FooterLink: React.FC<{ href?: string; children: React.ReactNode }> = ({
   );
 };
 
-// ─── Theme Toggle Component ─────────────────────────────────────────────────
-
-const ThemeToggle: React.FC = () => {
-  const { mode, toggleTheme } = useTheme();
-  const isDark = mode === "dark";
-
-  return (
-    <Switch
-      checked={isDark}
-      onChange={toggleTheme}
-      checkedChildren={<MoonOutlined />}
-      unCheckedChildren={<SunOutlined />}
-      style={{ 
-        background: isDark ? "rgba(255,255,255,0.2)" : "rgba(0,0,0,0.1)" 
-      }}
-    />
-  );
-};
-
-// ─── Footer ───────────────────────────────────────────────────────────────────
-
 export const Footer: React.FC = () => {
   const screens = useBreakpoint();
   const { colors } = useTheme();
@@ -404,8 +383,6 @@ export const Footer: React.FC = () => {
           </Text>
 
           <Space size={4}>
-            {/* Theme Toggle in Footer */}
-            <ThemeToggle />
             
             {socialLinks.map((s) => (
               <Button

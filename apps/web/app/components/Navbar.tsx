@@ -22,6 +22,7 @@ import {
   MoonOutlined,
 } from "@ant-design/icons";
 import { useTheme } from "../ThemeContext";
+import { ToggleTheme } from "./theme-toggle";
 
 const { useBreakpoint } = Grid;
 const { Text, Title } = Typography;
@@ -93,8 +94,6 @@ const communityItems: MenuProps["items"] = [
   { key: "events", label: <a href="#">Events</a> },
   { key: "blog", label: <a href="#">Blog</a> },
 ];
-
-// ─── MegaMenuOverlay ────────────────────────────────────────────────────────
 
 const MegaMenuOverlay: React.FC = () => {
   const { colors } = useTheme();
@@ -312,7 +311,7 @@ const MobileNav: React.FC<{ onClose: () => void }> = ({ onClose }) => {
 
       <Divider style={{ margin: "8px 0" }} />
 
-      <Space direction="vertical" style={{ width: "100%" }}>
+      <Space orientation="vertical" style={{ width: "100%" }}>
         <Button block>Sign In</Button>
         <Button type="primary" block icon={<ArrowRightOutlined />}>
           Get Started
@@ -321,27 +320,6 @@ const MobileNav: React.FC<{ onClose: () => void }> = ({ onClose }) => {
     </div>
   );
 };
-
-// ─── Theme Toggle Component ─────────────────────────────────────────────────
-
-const ThemeToggle: React.FC = () => {
-  const { mode, toggleTheme } = useTheme();
-  const isDark = mode === "dark";
-
-  return (
-    <Switch
-      checked={isDark}
-      onChange={toggleTheme}
-      checkedChildren={<MoonOutlined />}
-      unCheckedChildren={<SunOutlined />}
-      style={{ 
-        background: isDark ? "rgba(255,255,255,0.2)" : "rgba(0,0,0,0.1)" 
-      }}
-    />
-  );
-};
-
-// ─── Navbar ───────────────────────────────────────────────────────────────────
 
 export const Navbar: React.FC<NavbarProps> = ({ variant = "default" }) => {
   const [scrolled, setScrolled] = useState(false);
@@ -359,7 +337,6 @@ export const Navbar: React.FC<NavbarProps> = ({ variant = "default" }) => {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  // ── Style tokens derived from theme & variant ──────────────────────────────
   const navBg = isTransparent
     ? "transparent"
     : scrolled
@@ -470,7 +447,7 @@ export const Navbar: React.FC<NavbarProps> = ({ variant = "default" }) => {
 
               {/* Our Apps — mega dropdown */}
               <Dropdown
-                dropdownRender={() => <MegaMenuOverlay />}
+                popupRender={() => <MegaMenuOverlay />}
                 placement="bottomCenter"
                 arrow={false}
                 trigger={["hover"]}
@@ -489,7 +466,7 @@ export const Navbar: React.FC<NavbarProps> = ({ variant = "default" }) => {
               {/* Community — simple dropdown */}
               <Dropdown
                 menu={{ items: communityItems }}
-                placement="bottomCenter"
+                placement="bottom"
                 trigger={["hover"]}
               >
                 <Button
@@ -517,7 +494,7 @@ export const Navbar: React.FC<NavbarProps> = ({ variant = "default" }) => {
           {!isMobile && (
             <Space size={8} style={{ flexShrink: 0 }}>
               {/* Theme Toggle */}
-              <ThemeToggle />
+              <ToggleTheme />
               
               <Button
                 ghost={isTransparent || isDark}
@@ -549,7 +526,7 @@ export const Navbar: React.FC<NavbarProps> = ({ variant = "default" }) => {
           {/* ── Mobile burger ── */}
           {isMobile && (
             <Space>
-              <ThemeToggle />
+              <ToggleTheme />
               <Button
                 type="text"
                 icon={drawerOpen ? <CloseOutlined /> : <MenuOutlined />}
