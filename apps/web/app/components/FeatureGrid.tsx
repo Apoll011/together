@@ -2,7 +2,7 @@
 import React from "react";
 import { Row, Col, Typography, Card } from "antd";
 import { CheckCircleFilled } from "@ant-design/icons";
-import { useTheme } from "../ThemeContext";
+import { useTheme } from "@repo/ui/ThemeContext";
 
 const { Title, Paragraph } = Typography;
 

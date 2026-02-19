@@ -2,8 +2,8 @@
 import React from "react";
 import { Row, Col, Typography, Button } from "antd";
 import { ArrowRightOutlined } from "@ant-design/icons";
-import { useTheme } from "../ThemeContext";
 import { motion } from "framer-motion";
+import { useTheme } from "@repo/ui/ThemeContext";
 
 const { Title, Paragraph } = Typography;
 

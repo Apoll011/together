@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
-import { ThemeProvider } from "./ThemeContext";
 import { App, Layout } from "antd";
 import { Content } from "antd/lib/layout/layout";
 import "antd/dist/reset.css";
 import "./globals.css";
 import { Navbar } from "./components/Navbar";
 import { Footer } from "./components/Footer";
+import { ThemeProvider } from "@repo/ui/ThemeContext";
 
 export const metadata: Metadata = {
   title: "Together",

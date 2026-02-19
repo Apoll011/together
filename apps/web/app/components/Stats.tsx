@@ -2,7 +2,7 @@
 
 import React from "react";
 import { Row, Col, Typography, Divider } from "antd";
-import { useTheme } from "../ThemeContext";
+import { useTheme } from "@repo/ui/ThemeContext";
 import { motion } from "framer-motion";
 
 const { Title, Text } = Typography;

@@ -3,7 +3,7 @@
 import React from "react";
 import { Typography, Button, Tag } from "antd";
 import { ArrowLeftOutlined, CloudDownloadOutlined } from "@ant-design/icons";
-import { useTheme } from "../../ThemeContext"; 
+import { useTheme } from "@repo/ui/ThemeContext";
 import { AppData, appsData } from "../../data/apps"; // Import our data
 import { ContentSection } from "../../components/ContentSection";
 import { FeatureGrid } from "../../components/FeatureGrid";

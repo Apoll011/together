@@ -24,7 +24,7 @@ import {
   SunOutlined,
   MoonOutlined,
 } from "@ant-design/icons";
-import { useTheme } from "../ThemeContext";
+import { useTheme } from "@repo/ui/ThemeContext";
 
 const { Text, Title, Link } = Typography;
 const { useBreakpoint } = Grid;

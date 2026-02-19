@@ -2,7 +2,7 @@
 
 import React from "react";
 import { Button, Typography } from "antd";
-import { useTheme } from "../ThemeContext";
+import { useTheme } from "@repo/ui/ThemeContext";
 import { motion } from "framer-motion";
 import { ArrowRightOutlined } from "@ant-design/icons";
 

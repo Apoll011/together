@@ -2,7 +2,7 @@
 
 import React from "react";
 import { Typography, Row, Col, Timeline } from "antd";
-import { useTheme } from "../ThemeContext";
+import { useTheme } from "@repo/ui/ThemeContext";
 import { ContentSection } from "../components/ContentSection";
 import { CTA } from "../components/CTA";
 

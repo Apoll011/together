@@ -10,7 +10,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body>
+      <body style={{
+        margin: 0
+      }}>
         <AntdRegistry>
           <ConfigProvider>
             {children}

@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 import { Collapse, Typography } from "antd";
-import { useTheme } from "../ThemeContext";
+import { useTheme } from "@repo/ui/ThemeContext";
 
 const { Title } = Typography;
 

@@ -6,7 +6,7 @@ import {
   ArrowRightOutlined,
   PlayCircleOutlined,
 } from "@ant-design/icons";
-import { useTheme } from "../ThemeContext";
+import { useTheme } from "@repo/ui/ThemeContext";
 import { motion } from "framer-motion";
 import { appsData } from "../data/apps";
 

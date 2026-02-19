@@ -18,7 +18,7 @@ import {
   CloseOutlined,
   ArrowRightOutlined,
 } from "@ant-design/icons";
-import { useTheme } from "../ThemeContext";
+import { useTheme } from "@repo/ui/ThemeContext";
 import { ToggleTheme } from "./theme-toggle";
 
 import Image from "next/image";

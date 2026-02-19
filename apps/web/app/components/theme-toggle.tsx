@@ -2,7 +2,7 @@
 
 import { useCallback, useRef } from "react";
 import { Moon, Sun } from "lucide-react";
-import { useTheme } from "../ThemeContext";
+import { useTheme } from "@repo/ui/ThemeContext";
 import { Button } from "antd";
 
 export const ToggleTheme: React.FC = () => {

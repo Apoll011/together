@@ -48,30 +48,7 @@ const Page = () => {
           backdropFilter: 'blur(4px)',
         }}
         subTitle="全球最大的代码托管平台"
-        activityConfig={{
-          style: {
-            boxShadow: '0px 0px 8px rgba(0, 0, 0, 0.2)',
-            color: token.colorTextHeading,
-            borderRadius: 8,
-            backgroundColor: 'rgba(255,255,255,0.25)',
-            backdropFilter: 'blur(4px)',
-          },
-          title: '活动标题，可配置图片',
-          subTitle: '活动介绍说明文字',
-          action: (
-            <Button
-              size="large"
-              style={{
-                borderRadius: 20,
-                background: token.colorBgElevated,
-                color: token.colorPrimary,
-                width: 120,
-              }}
-            >
-              去看看
-            </Button>
-          ),
-        }}
+        activityConfig={{}}
         actions={
           <div
             style={{

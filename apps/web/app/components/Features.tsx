@@ -2,7 +2,7 @@
 
 import React from "react";
 import { Row, Col, Typography, Card, theme } from "antd";
-import { useTheme } from "../ThemeContext";
+import { useTheme } from "@repo/ui/ThemeContext";
 import { motion } from "framer-motion";
 import { GlobalOutlined, TeamOutlined, RocketOutlined } from "@ant-design/icons";
 
