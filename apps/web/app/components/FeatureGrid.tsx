@@ -25,7 +25,7 @@ export const FeatureGrid: React.FC<{ features: FeatureItem[]; accentColor: strin
           {features.map((f, i) => (
             <Col xs={24} sm={12} md={8} key={i}>
               <Card 
-                bordered={false}
+                variant={"borderless"}
                 style={{ 
                   height: "100%", 
                   background: isDark ? "rgba(255,255,255,0.03)" : "#fff",

@@ -22,8 +22,10 @@ import { useTheme } from "../ThemeContext";
 import { ToggleTheme } from "./theme-toggle";
 
 import Image from "next/image";
-import logo from "../static/logo.png"
+import logo from "../static/logo.png";
 import { appsData } from "../data/apps";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 const { useBreakpoint } = Grid;
 const { Text } = Typography;
@@ -41,36 +43,39 @@ interface NavbarProps {
   variant?: "default" | "transparent";
 }
 
-const apps: AppItem[] = appsData.map(app => ({
-  key: app.key,
-  label: app.label,
-  description: app.tagline,
-  color: app.color,
-  icon: app.icon, 
-  tag: app.isNew ? "New" : undefined
-} as AppItem));
+const apps: AppItem[] = appsData.map(
+  (app) =>
+    ({
+      key: app.key,
+      label: app.label,
+      description: app.tagline,
+      color: app.color,
+      icon: app.icon,
+      tag: app.isNew ? "New" : undefined,
+    }) as AppItem,
+);
 
 const communityItems: MenuProps["items"] = [
-  { key: "forum", label: <a href="#">Forum</a> },
-  { key: "events", label: <a href="#">Events</a> },
-  { key: "blog", label: <a href="#">Blog</a> },
+  { key: "forum", label: <Link href="#">Forum</Link> },
+  { key: "events", label: <Link href="#">Events</Link> },
+  { key: "blog", label: <Link href="#">Blog</Link> },
 ];
 
 const MegaMenuOverlay: React.FC = () => {
   const { colors } = useTheme();
-  
+
   return (
     <div
       style={{
         width: 680,
-        background: colors.footerBg === '#0A0F1E' ? '#fff' : '#1b1b1b',
+        background: colors.footerBg === "#0A0F1E" ? "#fff" : "#1b1b1b",
         borderRadius: 12,
-        boxShadow:
-          "0 8px 24px rgba(0,0,0,0.08), 0 1px 3px rgba(0,0,0,0.06)",
+        boxShadow: "0 8px 24px rgba(0,0,0,0.08), 0 1px 3px rgba(0,0,0,0.06)",
         padding: "24px 24px 16px",
-        border: colors.footerBg === '#0A0F1E' 
-          ? "1px solid rgba(0,0,0,0.06)" 
-          : "1px solid rgba(255,255,255,0.06)",
+        border:
+          colors.footerBg === "#0A0F1E"
+            ? "1px solid rgba(0,0,0,0.06)"
+            : "1px solid rgba(255,255,255,0.06)",
       }}
     >
       <Text
@@ -95,7 +100,7 @@ const MegaMenuOverlay: React.FC = () => {
         }}
       >
         {apps.map((app) => (
-          <Button
+          <Link
             key={app.key}
             onClick={() => {}}
             style={{
@@ -112,12 +117,14 @@ const MegaMenuOverlay: React.FC = () => {
               width: "100%",
             }}
             onMouseEnter={(e) => {
-              const bg = colors.footerBg === '#0A0F1E' ? '#f5f5f5' : 'rgba(255,255,255,0.08)';
-              (e.currentTarget as HTMLButtonElement).style.background = bg;
+              const bg =
+                colors.footerBg === "#0A0F1E"
+                  ? "#f5f5f5"
+                  : "rgba(255,255,255,0.08)";
+              e.currentTarget.style.background = bg;
             }}
             onMouseLeave={(e) =>
-              ((e.currentTarget as HTMLButtonElement).style.background =
-                "transparent")
+              (e.currentTarget.style.background = "transparent")
             }
             href={`/apps/${app.key}`}
           >
@@ -132,6 +139,7 @@ const MegaMenuOverlay: React.FC = () => {
                 justifyContent: "center",
                 fontSize: 20,
                 flexShrink: 0,
+                color: "#fff",
               }}
             >
               {app.icon}
@@ -151,19 +159,27 @@ const MegaMenuOverlay: React.FC = () => {
                 {app.tag && (
                   <Tag
                     color="blue"
-                    style={{ fontSize: 10, lineHeight: "16px", padding: "0 5px" }}
+                    style={{
+                      fontSize: 10,
+                      lineHeight: "16px",
+                      padding: "0 5px",
+                    }}
                   >
                     {app.tag}
                   </Tag>
                 )}
               </div>
               <Text
-                style={{ fontSize: 12, color: colors.navSubText, display: "block" }}
+                style={{
+                  fontSize: 12,
+                  color: colors.navSubText,
+                  display: "block",
+                }}
               >
                 {app.description}
               </Text>
             </div>
-          </Button>
+          </Link>
         ))}
       </div>
 
@@ -179,11 +195,17 @@ const MegaMenuOverlay: React.FC = () => {
 };
 
 const MobileNav: React.FC<{ onClose: () => void }> = ({ onClose }) => {
-  const { colors } = useTheme();
-  
+  const { colors, mode } = useTheme();
+  const isDark = mode === "dark";
+  const router = useRouter();
+
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
-      <Button type="text" block style={{ textAlign: "left", height: 44, fontWeight: 500 }}>
+      <Button
+        onClick={() => router.push("/")}
+        type="text"
+        style={{ textAlign: "left", height: 44, fontWeight: 500 }}
+      >
         Home
       </Button>
 
@@ -207,6 +229,7 @@ const MobileNav: React.FC<{ onClose: () => void }> = ({ onClose }) => {
             key={app.key}
             type="text"
             block
+            onClick={() => router.push(`/apps/${app.key}`)}
             style={{
               textAlign: "left",
               height: 44,
@@ -231,7 +254,7 @@ const MobileNav: React.FC<{ onClose: () => void }> = ({ onClose }) => {
               </span>
             }
           >
-            Together {app.label}
+            Together We {app.label}
           </Button>
         ))}
       </div>
@@ -266,6 +289,7 @@ const MobileNav: React.FC<{ onClose: () => void }> = ({ onClose }) => {
       <Button
         type="text"
         block
+        onClick={() => router.push("/about")}
         style={{ textAlign: "left", height: 44, fontWeight: 500 }}
       >
         About
@@ -274,7 +298,18 @@ const MobileNav: React.FC<{ onClose: () => void }> = ({ onClose }) => {
       <Divider style={{ margin: "8px 0" }} />
 
       <Space orientation="vertical" style={{ width: "100%" }}>
-        <Button block>Sign In</Button>
+        <Button
+          block
+          ghost={isDark}
+          style={{
+            borderColor: "rgba(255,255,255,0.2)",
+            height: 56,
+            padding: "0 40px",
+            fontSize: 16,
+          }}
+        >
+          Sign In
+        </Button>
         <Button type="primary" block icon={<ArrowRightOutlined />}>
           Get Started
         </Button>
@@ -289,6 +324,7 @@ export const Navbar: React.FC<NavbarProps> = ({ variant = "default" }) => {
   const screens = useBreakpoint();
   const isMobile = !screens.lg;
   const { colors, mode } = useTheme();
+  const router = useRouter();
 
   const isTransparent = variant === "transparent" && !scrolled;
   const isDark = mode === "dark";
@@ -302,21 +338,21 @@ export const Navbar: React.FC<NavbarProps> = ({ variant = "default" }) => {
   const navBg = isTransparent
     ? "transparent"
     : scrolled
-    ? colors.navBg
-    : colors.navBg;
+      ? colors.navBg
+      : colors.navBg;
 
   const navBorderBottom = isTransparent
     ? "1px solid rgba(255,255,255,0.12)"
     : scrolled
-    ? colors.navBorderScrolled
-    : colors.navBorder;
+      ? colors.navBorderScrolled
+      : colors.navBorder;
 
-  const navBoxShadow = scrolled && !isTransparent
-    ? colors.navShadow
-    : "none";
+  const navBoxShadow = scrolled && !isTransparent ? colors.navShadow : "none";
 
   const textColor = isTransparent ? "rgba(255,255,255,0.9)" : colors.navText;
-  const subTextColor = isTransparent ? "rgba(255,255,255,0.65)" : colors.navSubText;
+  const subTextColor = isTransparent
+    ? "rgba(255,255,255,0.65)"
+    : colors.navSubText;
 
   return (
     <>
@@ -347,7 +383,7 @@ export const Navbar: React.FC<NavbarProps> = ({ variant = "default" }) => {
             gap: 32,
           }}
         >
-          <a
+          <Link
             href="/"
             style={{
               display: "flex",
@@ -359,16 +395,21 @@ export const Navbar: React.FC<NavbarProps> = ({ variant = "default" }) => {
           >
             <div
               style={{
-                    position: "relative",
-                width: 42, height:42,
+                position: "relative",
+                width: 42,
+                height: 42,
                 padding: 10,
                 borderRadius: 8,
-                border: isTransparent 
-                  ? "1px solid rgba(255,255,255,0.3)" 
+                border: isTransparent
+                  ? "1px solid rgba(255,255,255,0.3)"
                   : colors.logoBorder,
               }}
             >
-                <Image fill={true} alt={"Together Logo"} src={isDark ? "logo.svg" : logo} />
+              <Image
+                fill={true}
+                alt={"Together Logo"}
+                src={isDark ? "logo.svg" : logo}
+              />
             </div>
             <span
               style={{
@@ -380,17 +421,24 @@ export const Navbar: React.FC<NavbarProps> = ({ variant = "default" }) => {
               }}
             >
               Together
-              <span style={{ color: isTransparent ? "rgba(255,255,255,0.5)" : colors.accentText }}>
+              <span
+                style={{
+                  color: isTransparent
+                    ? "rgba(255,255,255,0.5)"
+                    : colors.accentText,
+                }}
+              >
                 .
               </span>
             </span>
-          </a>
+          </Link>
 
           {/* ── Desktop nav ── */}
           {!isMobile && (
             <Space size={4} style={{ flex: 1, justifyContent: "center" }}>
               {/* Home */}
               <Button
+                onClick={() => router.push("/")}
                 type="text"
                 style={{ color: textColor, fontWeight: 500, height: 40 }}
               >
@@ -434,7 +482,7 @@ export const Navbar: React.FC<NavbarProps> = ({ variant = "default" }) => {
 
               {/* About */}
               <Button
-              href="/about"
+                onClick={() => router.push("/about")}
                 type="text"
                 style={{ color: textColor, fontWeight: 500, height: 40 }}
               >
@@ -448,14 +496,18 @@ export const Navbar: React.FC<NavbarProps> = ({ variant = "default" }) => {
             <Space size={8} style={{ flexShrink: 0 }}>
               {/* Theme Toggle */}
               <ToggleTheme />
-              
+
               <Button
                 ghost={isTransparent || isDark}
                 style={
                   isTransparent || isDark
                     ? {
-                        borderColor: isTransparent ? "rgba(255,255,255,0.4)" : "rgba(255,255,255,0.2)",
-                        color: isTransparent ? "rgba(255,255,255,0.9)" : colors.navText,
+                        borderColor: isTransparent
+                          ? "rgba(255,255,255,0.4)"
+                          : "rgba(255,255,255,0.2)",
+                        color: isTransparent
+                          ? "rgba(255,255,255,0.9)"
+                          : colors.navText,
                       }
                     : {}
                 }
@@ -466,7 +518,10 @@ export const Navbar: React.FC<NavbarProps> = ({ variant = "default" }) => {
                 type="primary"
                 style={
                   isTransparent
-                    ? { background: "rgba(255,255,255,0.15)", borderColor: "rgba(255,255,255,0.3)" }
+                    ? {
+                        background: "rgba(255,255,255,0.15)",
+                        borderColor: "rgba(255,255,255,0.3)",
+                      }
                     : {}
                 }
                 icon={<ArrowRightOutlined />}
@@ -503,9 +558,9 @@ export const Navbar: React.FC<NavbarProps> = ({ variant = "default" }) => {
         onClose={() => setDrawerOpen(false)}
         open={drawerOpen}
         size={320}
-        styles={{ 
+        styles={{
           body: { padding: "16px" },
-          header: { background: colors.navBg }
+          header: { background: colors.navBg },
         }}
       >
         <MobileNav onClose={() => setDrawerOpen(false)} />
@@ -513,4 +568,3 @@ export const Navbar: React.FC<NavbarProps> = ({ variant = "default" }) => {
     </>
   );
 };
-
