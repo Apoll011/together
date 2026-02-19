@@ -165,7 +165,7 @@ export default function SetupPage() {
           />
 
           {/* Card */}
-          <Card style={styles.card} bordered={false}>
+          <Card style={styles.card} variant={"borderless"}>
             {renderStep()}
 
             {/* Navigation buttons */}

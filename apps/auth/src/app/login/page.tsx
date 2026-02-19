@@ -98,7 +98,7 @@ export default function LoginPage({
             <Text style={styles.brandTagline}>One account. Every community.</Text>
           </div>
 
-          <Card style={styles.card} bordered={false}>
+          <Card style={styles.card} variant={"borderless"}>
             <Title level={4} style={styles.cardTitle}>
               Welcome back
             </Title>

@@ -182,11 +182,11 @@ export default function OAuthAuthorizePage() {
 
         <div style={styles.container}>
           {loading ? (
-            <Card style={styles.card} bordered={false}>
+            <Card style={styles.card} variant={"borderless"}>
               <Skeleton active avatar paragraph={{ rows: 6 }} />
             </Card>
           ) : error ? (
-            <Card style={styles.card} bordered={false}>
+            <Card style={styles.card} variant={"borderless"}>
               <div style={{ textAlign: "center", padding: "20px 0" }}>
                 <CloseCircleOutlined style={{ fontSize: 48, color: "#E76F51", marginBottom: 16 }} />
                 <Title level={4}>Invalid Request</Title>
@@ -195,7 +195,7 @@ export default function OAuthAuthorizePage() {
               </div>
             </Card>
           ) : authRequest ? (
-            <Card style={styles.card} bordered={false}>
+            <Card style={styles.card} variant={"borderless"}>
               {/* App identity */}
               <div style={styles.identityRow}>
                 <Avatar

@@ -100,7 +100,7 @@ export default function SignupPage() {
             <Text style={styles.brandTagline}>Join a world of communities</Text>
           </div>
 
-          <Card style={styles.card} bordered={false}>
+          <Card style={styles.card} variant={"borderless"}>
             <Title level={4} style={styles.cardTitle}>Create your account</Title>
             <Text type="secondary" style={{ display: "block", marginBottom: 24 }}>
               Access every Together app with one account

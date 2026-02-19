@@ -27,7 +27,7 @@ import {
   UserOutlined,
 } from "@ant-design/icons";
 import Link from "next/link";
-import { TOGETHER_APPS, togetherTheme } from "@/lib/together/theme";
+import { appsData } from "@repo/together-apps/data";
 
 const { Header, Sider, Content } = Layout;
 const { Title, Text, Paragraph } = Typography;
@@ -49,10 +49,7 @@ interface UserSession {
   };
 }
 
-// ─── Component ───────────────────────────────────────────────────────────────
-
 export default function DashboardPage() {
-  // Replace with real session data
   const session: UserSession = {
     user: {
       id: "usr_01",
@@ -70,64 +67,10 @@ export default function DashboardPage() {
   const { user } = session;
 
   const connectedSet = new Set(user.connectedApps);
-  const connectedAppDefs = TOGETHER_APPS.filter((a) => connectedSet.has(a.key));
-  const suggestedApps = TOGETHER_APPS.filter((a) => !connectedSet.has(a.key)).slice(0, 4);
+  const connectedAppDefs = appsData.filter((a) => connectedSet.has(a.key));
+  const suggestedApps = appsData.filter((a) => !connectedSet.has(a.key)).slice(0, 4);
 
   return (
-    <ConfigProvider theme={togetherTheme}>
-      <Layout style={styles.layout}>
-        {/* Sidebar */}
-        <Sider
-          width={240}
-          style={styles.sider}
-          breakpoint="lg"
-          collapsedWidth={0}
-        >
-          <div style={styles.siderBrand}>
-            <div style={styles.siderLogo}>T</div>
-            <Text strong style={{ color: "#fff", fontSize: 16 }}>Together</Text>
-          </div>
-
-          <Menu
-            mode="inline"
-            defaultSelectedKeys={["dashboard"]}
-            style={{ background: "transparent", border: "none", color: "#D8F3DC" }}
-            theme="dark"
-            items={[
-              { key: "dashboard", icon: <AppstoreOutlined />, label: <Link href="/dashboard">Dashboard</Link> },
-              { key: "profile",   icon: <UserOutlined />,       label: <Link href="/profile">Profile</Link> },
-              { key: "apps",      icon: <TeamOutlined />,        label: <Link href="/connected-apps">Connected Apps</Link> },
-              { key: "security",  icon: <SafetyOutlined />,      label: <Link href="/security">Security</Link> },
-              { key: "settings",  icon: <SettingOutlined />,     label: <Link href="/settings">Settings</Link> },
-            ]}
-          />
-
-          <div style={styles.siderFooter}>
-            <Link href="/api/auth/logout" style={styles.logoutBtn}>
-              <LogoutOutlined style={{ marginRight: 8 }} />
-              Sign out
-            </Link>
-          </div>
-        </Sider>
-
-        {/* Main */}
-        <Layout>
-          <Header style={styles.header}>
-            <div />
-            <div style={styles.headerRight}>
-              <Tooltip title="Notifications">
-                <Badge count={3} size="small">
-                  <Button type="text" icon={<BellOutlined />} style={styles.headerBtn} />
-                </Badge>
-              </Tooltip>
-              <Avatar
-                size={36}
-                src={user.avatarUrl}
-                icon={<UserOutlined />}
-                style={{ cursor: "pointer", background: "#B7E4C7" }}
-              />
-            </div>
-          </Header>
 
           <Content style={styles.content}>
             {/* Welcome banner */}
@@ -151,12 +94,12 @@ export default function DashboardPage() {
             {/* Stats */}
             <Row gutter={[16, 16]} style={{ marginBottom: 28 }}>
               {[
-                { title: "Connected Apps", value: user.connectedApps.length, suffix: `/ ${TOGETHER_APPS.length}`, color: "#2D6A4F" },
+                { title: "Connected Apps", value: user.connectedApps.length, suffix: `/ ${appsData.length}`, color: "#2D6A4F" },
                 { title: "Active Sessions", value: user.activeSessions, color: "#457B9D" },
-                { title: "2FA", value: user.twoFactorEnabled ? "Enabled" : "Disabled", color: user.twoFactorEnabled ? "#52B788" : "#E76F51", isString: true },
+                { title: "2FA", twoFactorEnabled: user.twoFactorEnabled, value: user.twoFactorEnabled ? "Enabled" : "Disabled", color: user.twoFactorEnabled ? "#52B788" : "#E76F51", isString: true },
               ].map((stat) => (
                 <Col xs={24} sm={8} key={stat.title}>
-                  <Card style={styles.statCard} bordered={false}>
+                  <Card style={styles.statCard} variant={"borderless"}>
                     <Statistic
                       title={stat.title}
                       value={stat.value}
@@ -175,7 +118,7 @@ export default function DashboardPage() {
 
             {/* Security alert if 2FA off */}
             {!user.twoFactorEnabled && (
-              <Card style={styles.alertCard} bordered={false}>
+              <Card style={styles.alertCard} variant={"borderless"}>
                 <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
                   <LockOutlined style={{ fontSize: 22, color: "#E76F51" }} />
                   <div style={{ flex: 1 }}>
@@ -206,13 +149,27 @@ export default function DashboardPage() {
                     <Card
                       hoverable
                       style={{ ...styles.appCard, borderColor: `${app.color}33` }}
-                      bordered
+                      variant="outlined"
                     >
-                      <div style={{ fontSize: 28, marginBottom: 6 }}>{app.emoji}</div>
-                      <Text strong style={{ fontSize: 13, display: "block" }}>
+            <div
+              style={{
+                width: 40,
+                height: 40,
+                borderRadius: 10,
+                background: `${app.color}`,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                fontSize: 20,
+                flexShrink: 0,
+                color: "#fff",
+              }}
+            >
+              {app.icon}
+            </div>                              <Text strong style={{ fontSize: 13, display: "block" }}>
                         {app.label.replace("Together We ", "")}
                       </Text>
-                      <Text type="secondary" style={{ fontSize: 11 }}>{app.desc}</Text>
+                      <Text type="secondary" style={{ fontSize: 11 }}>{app.description}</Text>
                     </Card>
                   </Col>
                 ))}
@@ -227,31 +184,42 @@ export default function DashboardPage() {
                   <Card
                     hoverable
                     style={{ ...styles.appCard, opacity: 0.8 }}
-                    bordered={false}
+                    variant={"borderless"}
                     extra={
                       <Tag color={app.color} style={{ fontSize: 11 }}>
                         Join
                       </Tag>
                     }
                   >
-                    <div style={{ fontSize: 28, marginBottom: 6 }}>{app.emoji}</div>
-                    <Text strong style={{ fontSize: 13, display: "block" }}>
+            <div
+              style={{
+                width: 40,
+                height: 40,
+                borderRadius: 10,
+                background: `${app.color}`,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                fontSize: 20,
+                flexShrink: 0,
+                color: "#fff",
+              }}
+            >
+              {app.icon}
+            </div>                            <Text strong style={{ fontSize: 13, display: "block" }}>
                       {app.label.replace("Together We ", "")}
                     </Text>
-                    <Text type="secondary" style={{ fontSize: 11 }}>{app.desc}</Text>
+                    <Text type="secondary" style={{ fontSize: 11 }}>{app.description}</Text>
                   </Card>
                 </Col>
               ))}
             </Row>
           </Content>
-        </Layout>
-      </Layout>
-    </ConfigProvider>
   );
 }
 
 const styles: Record<string, React.CSSProperties> = {
-  layout: { minHeight: "100vh", fontFamily: "'DM Sans', sans-serif" },
+  layout: { fontFamily: "'DM Sans', sans-serif" },
   sider: {
     background: "linear-gradient(180deg, #1B4332 0%, #2D6A4F 100%)",
     position: "sticky",
