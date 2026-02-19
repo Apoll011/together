@@ -22,7 +22,7 @@ import { useTheme } from "../ThemeContext";
 import { ToggleTheme } from "./theme-toggle";
 
 import Image from "next/image";
-import logo from "../static/logo.png";
+import logo from "../static/logov2.png";
 import { appsData } from "../data/apps";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -396,21 +396,29 @@ export const Navbar: React.FC<NavbarProps> = ({ variant = "default" }) => {
             <div
               style={{
                 position: "relative",
-                width: 42,
-                height: 42,
-                padding: 10,
-                borderRadius: 8,
-                border: isTransparent
-                  ? "1px solid rgba(255,255,255,0.3)"
-                  : colors.logoBorder,
+                width: 44,
+                height: 44,
+                borderRadius: 12,
+                overflow: "hidden",
+                background: isTransparent
+                  ? "rgba(255,255,255,0.05)"
+                  : "rgba(0,0,0,0.04)",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
               }}
             >
               <Image
+                src={logo}
+                alt="Together Logo"
                 fill={true}
-                alt={"Together Logo"}
-                src={isDark ? "logo.svg" : logo}
+                style={{
+                  objectFit: "contain",
+                }}
+                priority
               />
             </div>
+
             <span
               style={{
                 fontWeight: 700,

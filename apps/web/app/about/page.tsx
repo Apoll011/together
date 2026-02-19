@@ -36,11 +36,11 @@ export default function AboutPage() {
             <Timeline
                 mode="alternate"
                 items={[
-                    { children: '2023: Project Inception & Alpha Release' },
-                    { children: '2024: "Preserve" and "Work" modules launched' },
-                    { children: '2025: Community Governance DAO activated', color: 'green' },
-                    { children: '2026: "Learn" module global rollout', color: 'blue' },
-                    { children: 'Future: AI-assisted community management' },
+                    { content: '2023: Project Inception & Alpha Release' },
+                    { content: '2024: "Preserve" and "Work" modules launched' },
+                    { content: '2025: Community Governance DAO activated', color: 'green' },
+                    { content: '2026: "Learn" module global rollout', color: 'blue' },
+                    { content: 'Future: AI-assisted community management' },
                 ]}
             />
         </div>
