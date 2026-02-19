@@ -118,3 +118,5 @@ export const appsData: AppData[] = [
     faqs: []
   },
 ];
+
+export type AppKey = (typeof appsData)[number]["key"];

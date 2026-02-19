@@ -19,11 +19,11 @@ import {
   ArrowRightOutlined,
 } from "@ant-design/icons";
 import { useTheme } from "@repo/ui/ThemeContext";
+import { appsData } from "@repo/together-apps/data";
 import { ToggleTheme } from "./theme-toggle";
 
 import Image from "next/image";
 import logo from "../static/logov2.png";
-import { appsData } from "../data/apps";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 

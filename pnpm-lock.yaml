@@ -33,6 +33,12 @@ importers:
       '@ant-design/pro-components':
         specifier: ^2.8.10
         version: 2.8.10(antd@5.29.3(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(rc-field-form@2.7.1(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
+      '@repo/together-apps':
+        specifier: workspace:*
+        version: link:../../packages/together-apps
+      '@repo/ui':
+        specifier: workspace:*
+        version: link:../../packages/ui
       antd:
         specifier: ^5.29.3
         version: 5.29.3(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
@@ -91,6 +97,9 @@ importers:
       '@ant-design/icons':
         specifier: ^6.1.0
         version: 6.1.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      '@repo/together-apps':
+        specifier: workspace:*
+        version: link:../../packages/together-apps
       '@repo/ui':
         specifier: workspace:*
         version: link:../../packages/ui
@@ -170,6 +179,43 @@ importers:
       typescript-eslint:
         specifier: ^8.50.0
         version: 8.56.0(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.2)
+
+  packages/together-apps:
+    dependencies:
+      '@ant-design/icons':
+        specifier: ^6.1.0
+        version: 6.1.0(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
+      antd:
+        specifier: ^6.3.0
+        version: 6.3.0(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
+      react:
+        specifier: ^19.2.0
+        version: 19.2.3
+      react-dom:
+        specifier: ^19.2.0
+        version: 19.2.3(react@19.2.3)
+    devDependencies:
+      '@repo/eslint-config':
+        specifier: workspace:*
+        version: link:../eslint-config
+      '@repo/typescript-config':
+        specifier: workspace:*
+        version: link:../typescript-config
+      '@types/node':
+        specifier: ^22.15.3
+        version: 22.19.11
+      '@types/react':
+        specifier: 19.2.2
+        version: 19.2.2
+      '@types/react-dom':
+        specifier: 19.2.2
+        version: 19.2.2(@types/react@19.2.2)
+      eslint:
+        specifier: ^9.39.1
+        version: 9.39.2(jiti@2.6.1)
+      typescript:
+        specifier: 5.9.2
+        version: 5.9.2
 
   packages/typescript-config: {}
 
