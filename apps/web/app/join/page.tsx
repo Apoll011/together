@@ -764,21 +764,25 @@ export default function JoinPage() {
                     borderRadius: 100,
                     fontSize: 13,
                     color: muted,
+                    display: "flex",
+                    gap: 2,
+                    alignItems: 'center',
                     fontFamily: "'Inter', sans-serif",
                     background: cardBg,
                   }}
                 >
                   <div
                     style={{
-                      width: 12,
-                      height: 12,
-                      borderRadius: 10,
+                      width: 32,
+                      height: 32,
+                      borderRadius: 16,
                       background: `${app.color}`,
                       display: "flex",
                       alignItems: "center",
                       justifyContent: "center",
-                      fontSize: 12,
+                      fontSize: 24,
                       flexShrink: 0,
+                      marginRight: 5,
                       color: "#fff",
                     }}
                   >
