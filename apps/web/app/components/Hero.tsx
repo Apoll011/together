@@ -8,18 +8,9 @@ import {
 } from "@ant-design/icons";
 import { useTheme } from "@repo/ui/ThemeContext";
 import { motion } from "framer-motion";
-import { appsData } from "@repo/together-apps/data";
+import { AppData, appsData } from "@repo/together-apps/data";
 
 const { Title, Paragraph, Text } = Typography;
-
-const ecosystemNodes = appsData.map(app => ({
-  key: app.key,
-  icon: app.icon,
-  label: app.label,
-  color: app.color,
-  x: app.heroConfig.x,
-  y: app.heroConfig.y,
-}));
 
 export const Hero = () => {
   const { colors, mode } = useTheme();
@@ -181,8 +172,8 @@ export const Hero = () => {
               }} />
 
               {/* Floating Cards */}
-              {ecosystemNodes.map((node, i) => (
-                <FloatingCard key={node.key} node={node} isDark={isDark} colors={colors} delay={i} />
+              {appsData.map((node, i) => (
+                <FloatingCard key={node.key} node={node} isDark={isDark} delay={i} />
               ))}
             </div>
           </Col>
@@ -193,13 +184,14 @@ export const Hero = () => {
 };
 
 // Fixed Floating Card using Framer Motion
-const FloatingCard = ({ node, isDark, colors, delay }: any) => {
+const FloatingCard = ({ node, isDark, delay }: {node: AppData, isDark: boolean, delay: number}) => {
+  const { colors } = useTheme();
   return (
     <motion.div
-      initial={{ x: node.x, y: node.y, opacity: 0 }}
+      initial={{ x: node.heroConfig.x, y: node.heroConfig.y, opacity: 0 }}
       animate={{ 
         opacity: 1,
-        y: [node.y, node.y - 15, node.y], // Bobbing effect relative to initial Y
+        y: [node.heroConfig.y, node.heroConfig.y - 15, node.heroConfig.y], // Bobbing effect relative to initial Y
       }}
       transition={{ 
         opacity: { duration: 0.5, delay: delay * 0.1 },
@@ -243,7 +235,7 @@ const FloatingCard = ({ node, isDark, colors, delay }: any) => {
           {node.icon}
         </div>
         <div>
-          <Text strong style={{ display: 'block', fontSize: 13, lineHeight: 1, marginBottom: 4, color: colors.navText }}>
+          <Text strong style={{ textTransform: "capitalize", display: 'block', fontSize: 11, lineHeight: 1, marginBottom: -2, color: colors.navText }}>
             {node.label}
           </Text>
           <Text style={{ fontSize: 10, color: colors.navSubText }}>Module</Text>

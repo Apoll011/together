@@ -102,7 +102,7 @@ export const appsData: AppData[] = [
   {
     key: "preserve",
     slug: "preserve",
-    label: "Preserve",
+    label: "Together We Preserve",
     tagline: "Environmental Data & Conservation",
     description:
       "Map environmental data and track conservation efforts globally.",
@@ -301,7 +301,7 @@ export const appsData: AppData[] = [
   {
     key: "learn",
     slug: "learn",
-    label: "Learn",
+    label: "Together We Learn",
     tagline: "Collaborative Knowledge for Everyone",
     description:
       "Collaborative courses and wikis for community knowledge sharing.",
@@ -474,7 +474,7 @@ export const appsData: AppData[] = [
   {
     key: "work",
     slug: "work",
-    label: "Work",
+    label: "Together We Work",
     tagline: "Async Collaboration for Distributed Teams",
     description: "Async tools for distributed teams to build faster.",
     longDescription:
@@ -640,7 +640,7 @@ export const appsData: AppData[] = [
   {
     key: "help",
     slug: "help",
-    label: "Help",
+    label: "Together We Help",
     tagline: "A Mesh Network for Human Kindness",
     description: "Community aid, crisis response, and mutual support.",
     longDescription:
@@ -806,7 +806,7 @@ export const appsData: AppData[] = [
   {
     key: "code",
     slug: "code",
-    label: "Code",
+    label: "Together We Code",
     tagline: "Open Source Foundry",
     description: "Open-source contribution platform and bounty network.",
     longDescription:
@@ -965,7 +965,7 @@ export const appsData: AppData[] = [
   {
     key: "eat",
     slug: "eat",
-    label: "Eat",
+    label: "Together We Eat",
     tagline: "End Food Waste. Fight Hunger.",
     description:
       "Connect food donors with nonprofits to fight waste and hunger.",
@@ -1132,7 +1132,7 @@ export const appsData: AppData[] = [
   {
     key: "support",
     slug: "support",
-    label: "Support",
+    label: "Together We Support",
     tagline: "Mental Health Without Stigma",
     description:
       "Comprehensive mental health and addiction support for everyone.",
@@ -1299,7 +1299,7 @@ export const appsData: AppData[] = [
   {
     key: "transform",
     slug: "transform",
-    label: "Transform",
+    label: "Together We Transform",
     tagline: "Habits That Actually Stick",
     description:
       "Personal transformation through community-driven fitness and habits.",
@@ -1466,7 +1466,7 @@ export const appsData: AppData[] = [
   {
     key: "explore",
     slug: "explore",
-    label: "Explore",
+    label: "Together We Explore",
     tagline: "Travel the World, Together",
     description:
       "Connect travel enthusiasts for shared adventures and authentic experiences.",
@@ -1633,7 +1633,7 @@ export const appsData: AppData[] = [
   {
     key: "innovate",
     slug: "innovate",
-    label: "Innovate",
+    label: "Together We Innovate",
     tagline: "Where Ideas Become Reality",
     description:
       "Entrepreneurship, innovation, and startup collaboration platform.",

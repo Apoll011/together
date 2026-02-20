@@ -13,15 +13,15 @@
   "dependencies": {
     "@ant-design/cssinjs": "^2.1.0",
     "@ant-design/icons": "^6.1.0",
-    "@repo/ui": "workspace:*",
+    "@clerk/nextjs": "^6.38.0",
     "@repo/together-apps": "workspace:*",
+    "@repo/ui": "workspace:*",
     "antd": "^6.3.0",
     "framer-motion": "^12.34.2",
     "lucide-react": "^0.574.0",
     "next": "16.1.5",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "@clerk/nextjs": "^6.38.0"
+    "react-dom": "^18.2.0"
   },
   "devDependencies": {
     "@repo/eslint-config": "workspace:*",

@@ -129,10 +129,10 @@ const AppItem: React.FC<AppItemProps> = ({
         {/* App Name */}
         <Text
           style={{
-            fontSize: 12,
+            fontSize: 11,
             color: textColor,
             textAlign: "center",
-            lineHeight: "1.3",
+            lineHeight: "1.1",
             wordBreak: "break-word",
             maxWidth: 80,
           }}

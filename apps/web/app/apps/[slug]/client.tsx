@@ -1,39 +1,29 @@
 "use client";
 
 import React, { useState } from "react";
-import {
-  Typography,
-  Button,
-  Tag,
-  Collapse,
-  Steps,
-  Row,
-  Col,
-  Divider,
-  Badge,
-} from "antd";
+import { Typography, Button, Collapse, Row, Col } from "antd";
 import {
   ArrowLeftOutlined,
-  CloudDownloadOutlined,
-  AppleOutlined,
-  AndroidOutlined,
   GlobalOutlined,
   CheckCircleFilled,
   ClockCircleOutlined,
   CalendarOutlined,
-  TeamOutlined,
-  UserOutlined,
   ArrowRightOutlined,
 } from "@ant-design/icons";
 import { useTheme } from "@repo/ui/ThemeContext";
 import { AppData } from "@repo/together-apps/data";
 import Link from "next/link";
+import { DownloadButton } from "../../components/DownloadButton";
 
 const { Title, Paragraph, Text } = Typography;
 
-// ─── Sub-components ────────────────────────────────────────────────────────────
-
-function StatusBadge({ status, color }: { status: AppData["status"]; color: string }) {
+function StatusBadge({
+  status,
+  color,
+}: {
+  status: AppData["status"];
+  color: string;
+}) {
   const configs = {
     launched: { label: "Live", bg: color, text: "#fff" },
     beta: { label: "Beta", bg: "#fa8c16", text: "#fff" },
@@ -121,7 +111,9 @@ function StatCard({
       >
         {value}
       </div>
-      <div style={{ fontSize: 13, opacity: 0.55, fontWeight: 500 }}>{label}</div>
+      <div style={{ fontSize: 13, opacity: 0.55, fontWeight: 500 }}>
+        {label}
+      </div>
     </div>
   );
 }
@@ -150,8 +142,10 @@ function MockupCard({
         cursor: "default",
       }}
       onMouseEnter={(e) => {
-        (e.currentTarget as HTMLDivElement).style.transform = "translateY(-4px)";
-        (e.currentTarget as HTMLDivElement).style.boxShadow = `0 20px 40px ${color}20`;
+        (e.currentTarget as HTMLDivElement).style.transform =
+          "translateY(-4px)";
+        (e.currentTarget as HTMLDivElement).style.boxShadow =
+          `0 20px 40px ${color}20`;
       }}
       onMouseLeave={(e) => {
         (e.currentTarget as HTMLDivElement).style.transform = "translateY(0)";
@@ -188,7 +182,9 @@ function MockupCard({
             width: 120,
             height: 140,
             borderRadius: 12,
-            background: isDark ? "rgba(255,255,255,0.08)" : "rgba(255,255,255,0.9)",
+            background: isDark
+              ? "rgba(255,255,255,0.08)"
+              : "rgba(255,255,255,0.9)",
             border: `1.5px solid ${color}40`,
             display: "flex",
             flexDirection: "column",
@@ -249,8 +245,12 @@ function MockupCard({
       </div>
       {/* Caption */}
       <div style={{ padding: "16px 20px 20px" }}>
-        <div style={{ fontWeight: 700, fontSize: 14, marginBottom: 4 }}>{title}</div>
-        <div style={{ fontSize: 13, opacity: 0.55, lineHeight: 1.5 }}>{description}</div>
+        <div style={{ fontWeight: 700, fontSize: 14, marginBottom: 4 }}>
+          {title}
+        </div>
+        <div style={{ fontSize: 13, opacity: 0.55, lineHeight: 1.5 }}>
+          {description}
+        </div>
       </div>
     </div>
   );
@@ -279,7 +279,15 @@ function TestimonialCard({
       }}
     >
       {/* Quote mark */}
-      <div style={{ fontSize: 48, color: color, lineHeight: 1, opacity: 0.3, fontFamily: "Georgia, serif" }}>
+      <div
+        style={{
+          fontSize: 48,
+          color: color,
+          lineHeight: 1,
+          opacity: 0.3,
+          fontFamily: "Georgia, serif",
+        }}
+      >
         "
       </div>
       <Paragraph
@@ -313,7 +321,9 @@ function TestimonialCard({
           {testimonial.initials}
         </div>
         <div>
-          <div style={{ fontWeight: 700, fontSize: 14 }}>{testimonial.name}</div>
+          <div style={{ fontWeight: 700, fontSize: 14 }}>
+            {testimonial.name}
+          </div>
           <div style={{ fontSize: 12, opacity: 0.5 }}>
             {testimonial.role} · {testimonial.location}
           </div>
@@ -333,9 +343,22 @@ function RoadmapItem({
   isDark: boolean;
 }) {
   const statusConfig = {
-    done: { icon: <CheckCircleFilled style={{ color: "#52c41a", fontSize: 16 }} />, label: "Completed" },
-    "in-progress": { icon: <ClockCircleOutlined style={{ color: color, fontSize: 16 }} />, label: "In Progress" },
-    planned: { icon: <CalendarOutlined style={{ color: "rgba(128,128,128,0.5)", fontSize: 16 }} />, label: "Planned" },
+    done: {
+      icon: <CheckCircleFilled style={{ color: "#52c41a", fontSize: 16 }} />,
+      label: "Completed",
+    },
+    "in-progress": {
+      icon: <ClockCircleOutlined style={{ color: color, fontSize: 16 }} />,
+      label: "In Progress",
+    },
+    planned: {
+      icon: (
+        <CalendarOutlined
+          style={{ color: "rgba(128,128,128,0.5)", fontSize: 16 }}
+        />
+      ),
+      label: "Planned",
+    },
   };
   const cfg = statusConfig[item.status];
 
@@ -371,7 +394,9 @@ function RoadmapItem({
             {item.quarter}
           </Text>
         </div>
-        <Paragraph style={{ margin: 0, opacity: 0.55, fontSize: 14 }}>{item.desc}</Paragraph>
+        <Paragraph style={{ margin: 0, opacity: 0.55, fontSize: 14 }}>
+          {item.desc}
+        </Paragraph>
       </div>
       <div style={{ flexShrink: 0, paddingTop: 2 }}>
         <span
@@ -383,16 +408,16 @@ function RoadmapItem({
               item.status === "done"
                 ? "rgba(82,196,26,0.1)"
                 : item.status === "in-progress"
-                ? `${color}15`
-                : isDark
-                ? "rgba(255,255,255,0.05)"
-                : "rgba(0,0,0,0.04)",
+                  ? `${color}15`
+                  : isDark
+                    ? "rgba(255,255,255,0.05)"
+                    : "rgba(0,0,0,0.04)",
             color:
               item.status === "done"
                 ? "#52c41a"
                 : item.status === "in-progress"
-                ? color
-                : "rgba(128,128,128,0.6)",
+                  ? color
+                  : "rgba(128,128,128,0.6)",
             fontWeight: 600,
           }}
         >
@@ -402,8 +427,6 @@ function RoadmapItem({
     </div>
   );
 }
-
-// ─── Section Wrapper ───────────────────────────────────────────────────────────
 
 function Section({
   children,
@@ -444,43 +467,56 @@ function PlatformButtons({
   app: AppData;
   size?: "large" | "middle";
 }) {
+  const { mode } = useTheme();
+
   if (app.status === "launched") {
     return (
-      <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
+      <div
+        style={{
+          display: "flex",
+          gap: 12,
+          flexWrap: "wrap",
+          alignItems: "center",
+        }}
+      >
         {app.platforms.web && (
-          <Button
-            type="primary"
-            size={size}
-            icon={<GlobalOutlined />}
-            style={{ background: app.color, borderColor: app.color, borderRadius: 8 }}
-          >
-            Open Web App
-          </Button>
+          <DownloadButton
+            platform="web"
+            url={app.platforms.urls?.web ?? ""}
+            theme={mode}
+            accentColor={app.color}
+            size="md"
+          />
         )}
         {app.platforms.ios && (
-          <Button
-            size={size}
-            icon={<AppleOutlined />}
-            style={{ borderRadius: 8 }}
-          >
-            App Store
-          </Button>
+          <DownloadButton
+            platform="ios"
+            url={app.platforms.urls?.ios ?? ""}
+            theme={mode}
+            size="md"
+          />
         )}
         {app.platforms.android && (
-          <Button
-            size={size}
-            icon={<AndroidOutlined />}
-            style={{ borderRadius: 8 }}
-          >
-            Google Play
-          </Button>
+          <DownloadButton
+            platform="android"
+            url={app.platforms.urls?.android ?? ""}
+            theme={mode}
+            size="md"
+          />
         )}
       </div>
     );
   }
 
   return (
-    <div style={{ display: "flex", gap: 12, alignItems: "center", flexWrap: "wrap" }}>
+    <div
+      style={{
+        display: "flex",
+        gap: 12,
+        alignItems: "center",
+        flexWrap: "wrap",
+      }}
+    >
       <Button
         type="primary"
         size={size}
@@ -517,9 +553,32 @@ export default function AppPageClient({ app }: { app: AppData }) {
   const hasMockups = app.mockups && app.mockups.length > 0;
   const hasHowItWorks = app.howItWorks && app.howItWorks.length > 0;
 
-  return (
-    <main style={{ background: colors.navBg, minHeight: "100vh", color: colors.navText }}>
+  const highlightMatch = (label: string, slug: string, color: string) => {
+    if (!slug) return label;
 
+    const regex = new RegExp(`(${slug})`, "i");
+
+    const parts = label.split(regex);
+
+    return parts.map((part, index) =>
+      part.toLowerCase() === slug.toLowerCase() ? (
+        <span key={index} style={{ color }}>
+          {part}
+        </span>
+      ) : (
+        part
+      ),
+    );
+  };
+
+  return (
+    <main
+      style={{
+        background: colors.navBg,
+        minHeight: "100vh",
+        color: colors.navText,
+      }}
+    >
       {/* ── HERO ─────────────────────────────────────────────────────────────── */}
       <section
         style={{
@@ -581,8 +640,7 @@ export default function AppPageClient({ app }: { app: AppData }) {
               color: colors.navText,
             }}
           >
-            Together{" "}
-            <span style={{ color: app.color }}>{app.label}</span>
+              {highlightMatch(app.label, app.slug, app.color)}
           </h1>
 
           {/* Tagline */}
@@ -640,7 +698,7 @@ export default function AppPageClient({ app }: { app: AppData }) {
                 color: colors.navText,
               }}
             >
-              What is Together {app.label}?
+              What is {app.label}?
             </Title>
             <Paragraph
               style={{
@@ -741,7 +799,12 @@ export default function AppPageClient({ app }: { app: AppData }) {
                     {step.title}
                   </Text>
                   <Paragraph
-                    style={{ margin: 0, opacity: 0.55, fontSize: 14, lineHeight: 1.6 }}
+                    style={{
+                      margin: 0,
+                      opacity: 0.55,
+                      fontSize: 14,
+                      lineHeight: 1.6,
+                    }}
                   >
                     {step.desc}
                   </Paragraph>
@@ -781,12 +844,12 @@ export default function AppPageClient({ app }: { app: AppData }) {
                     transition: "border-color 0.2s",
                   }}
                   onMouseEnter={(e) => {
-                    (e.currentTarget as HTMLDivElement).style.borderColor = `${app.color}50`;
+                    (e.currentTarget as HTMLDivElement).style.borderColor =
+                      `${app.color}50`;
                   }}
                   onMouseLeave={(e) => {
-                    (e.currentTarget as HTMLDivElement).style.borderColor = isDark
-                      ? "rgba(255,255,255,0.07)"
-                      : "rgba(0,0,0,0.06)";
+                    (e.currentTarget as HTMLDivElement).style.borderColor =
+                      isDark ? "rgba(255,255,255,0.07)" : "rgba(0,0,0,0.06)";
                   }}
                 >
                   {/* Feature accent line */}
@@ -812,7 +875,12 @@ export default function AppPageClient({ app }: { app: AppData }) {
                     {feature.title}
                   </Text>
                   <Paragraph
-                    style={{ margin: 0, opacity: 0.55, fontSize: 14, lineHeight: 1.6 }}
+                    style={{
+                      margin: 0,
+                      opacity: 0.55,
+                      fontSize: 14,
+                      lineHeight: 1.6,
+                    }}
                   >
                     {feature.desc}
                   </Paragraph>
@@ -902,8 +970,11 @@ export default function AppPageClient({ app }: { app: AppData }) {
               >
                 What we're building
               </Title>
-              <Paragraph style={{ opacity: 0.5, fontSize: 15, lineHeight: 1.7 }}>
-                Our public roadmap. We build in the open and welcome community feedback at every stage.
+              <Paragraph
+                style={{ opacity: 0.5, fontSize: 15, lineHeight: 1.7 }}
+              >
+                Our public roadmap. We build in the open and welcome community
+                feedback at every stage.
               </Paragraph>
               {app.status !== "launched" && (
                 <div style={{ marginTop: 24 }}>
@@ -920,9 +991,17 @@ export default function AppPageClient({ app }: { app: AppData }) {
                   >
                     <span style={{ fontSize: 20 }}>{app.icon}</span>
                     <div>
-                      <div style={{ fontSize: 12, opacity: 0.5 }}>In planning</div>
-                      <div style={{ fontWeight: 700, fontSize: 13, color: app.color }}>
-                        Together {app.label}
+                      <div style={{ fontSize: 12, opacity: 0.5 }}>
+                        In planning
+                      </div>
+                      <div
+                        style={{
+                          fontWeight: 700,
+                          fontSize: 13,
+                          color: app.color,
+                        }}
+                      >
+                        {app.label}
                       </div>
                     </div>
                   </div>
@@ -931,7 +1010,12 @@ export default function AppPageClient({ app }: { app: AppData }) {
             </Col>
             <Col xs={24} md={16}>
               {app.roadmap.map((item, i) => (
-                <RoadmapItem key={i} item={item} color={app.color} isDark={isDark} />
+                <RoadmapItem
+                  key={i}
+                  item={item}
+                  color={app.color}
+                  isDark={isDark}
+                />
               ))}
             </Col>
           </Row>
@@ -984,10 +1068,14 @@ export default function AppPageClient({ app }: { app: AppData }) {
                   >
                     {member.initials}
                   </div>
-                  <div style={{ fontWeight: 700, fontSize: 13, marginBottom: 2 }}>
+                  <div
+                    style={{ fontWeight: 700, fontSize: 13, marginBottom: 2 }}
+                  >
                     {member.name}
                   </div>
-                  <div style={{ fontSize: 12, opacity: 0.45 }}>{member.role}</div>
+                  <div style={{ fontSize: 12, opacity: 0.45 }}>
+                    {member.role}
+                  </div>
                 </div>
               </Col>
             ))}
@@ -1044,17 +1132,21 @@ export default function AppPageClient({ app }: { app: AppData }) {
             </Col>
             <Col xs={24} md={16}>
               <Collapse
-                variant={"borderless"}
+                bordered={false}
                 activeKey={faqOpen}
                 onChange={(keys) => setFaqOpen(keys as string[])}
                 style={{ background: "transparent" }}
                 items={app.faqs.map((faq, i) => ({
                   key: String(i),
                   label: (
-                    <Text style={{ fontWeight: 600, fontSize: 15 }}>{faq.question}</Text>
+                    <Text style={{ fontWeight: 600, fontSize: 15 }}>
+                      {faq.question}
+                    </Text>
                   ),
                   children: (
-                    <Paragraph style={{ opacity: 0.6, margin: 0, lineHeight: 1.7 }}>
+                    <Paragraph
+                      style={{ opacity: 0.6, margin: 0, lineHeight: 1.7 }}
+                    >
                       {faq.answer}
                     </Paragraph>
                   ),
@@ -1111,8 +1203,8 @@ export default function AppPageClient({ app }: { app: AppData }) {
             }}
           >
             {app.status === "launched"
-              ? `Start using Together ${app.label}`
-              : `Be the first to experience Together ${app.label}`}
+              ? `Start using ${app.label}`
+              : `Be the first to experience ${app.label}`}
           </h2>
 
           <p

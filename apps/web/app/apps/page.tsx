@@ -153,7 +153,7 @@ function AppCard({
                 lineHeight: 1.2,
               }}
             >
-              Together {app.label}
+              {app.label}
             </Text>
             <Text
               style={{
@@ -759,7 +759,7 @@ function FeaturedCard({
             color: colors.navText,
           }}
         >
-          Together {app.label}
+          {app.label}
         </h3>
         <p
           style={{

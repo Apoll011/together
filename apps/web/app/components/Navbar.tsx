@@ -53,25 +53,17 @@ interface NavbarProps {
   variant?: "default" | "transparent";
 }
 
-const apps: AppItem[] = appsData.map(
-  (app) =>
-    ({
-      key: app.key,
-      label: app.label,
-      description: app.tagline,
-      color: app.color,
-      icon: app.icon,
-      tag: app.isNew ? "New" : undefined,
-    }) as AppItem,
-);
-
 const communityItems: MenuProps["items"] = [
   { key: "forum", label: <Link href="#">Forum</Link> },
   { key: "events", label: <Link href="#">Events</Link> },
   { key: "blog", label: <Link href="#">Blog</Link> },
 ];
 
-const MegaMenuOverlay: React.FC = () => {
+type Props = {
+  onNavigate: () => void;
+};
+
+export default function MegaMenuOverlay({ onNavigate }: Props) {
   const { colors } = useTheme();
 
   return (
@@ -109,10 +101,10 @@ const MegaMenuOverlay: React.FC = () => {
           gap: 8,
         }}
       >
-        {apps.map((app) => (
+        {appsData.map((app) => (
           <Link
             key={app.key}
-            onClick={() => {}}
+            onClick={onNavigate}
             style={{
               display: "flex",
               alignItems: "center",
@@ -164,9 +156,9 @@ const MegaMenuOverlay: React.FC = () => {
                 }}
               >
                 <Text strong style={{ fontSize: 14, color: colors.navText }}>
-                  Together We {app.label}
+                  {app.label}
                 </Text>
-                {app.tag && (
+                {app.isNew && (
                   <Tag
                     color="blue"
                     style={{
@@ -175,7 +167,7 @@ const MegaMenuOverlay: React.FC = () => {
                       padding: "0 5px",
                     }}
                   >
-                    {app.tag}
+                    New
                   </Tag>
                 )}
               </div>
@@ -196,13 +188,17 @@ const MegaMenuOverlay: React.FC = () => {
       <Divider style={{ margin: "16px 0 12px" }} />
 
       <div style={{ textAlign: "right" }}>
-        <Link href="/apps" style={{ padding: 0, fontWeight: 600 }}>
+        <Link
+          href="/apps"
+          onClick={onNavigate}
+          style={{ padding: 0, fontWeight: 600 }}
+        >
           View all apps <ArrowRightOutlined />
         </Link>
       </div>
     </div>
   );
-};
+}
 
 const MobileNav: React.FC<{ onClose: () => void }> = ({ onClose }) => {
   const { colors, mode } = useTheme();
@@ -234,7 +230,7 @@ const MobileNav: React.FC<{ onClose: () => void }> = ({ onClose }) => {
         >
           Our Apps
         </Text>
-        {apps.map((app) => (
+        {appsData.map((app) => (
           <Button
             key={app.key}
             type="text"
@@ -264,7 +260,7 @@ const MobileNav: React.FC<{ onClose: () => void }> = ({ onClose }) => {
               </span>
             }
           >
-            Together We {app.label}
+            {app.label}
           </Button>
         ))}
       </div>
@@ -347,6 +343,8 @@ export const Navbar: React.FC<NavbarProps> = ({ variant = "default" }) => {
 
   const isTransparent = variant === "transparent" && !scrolled;
   const isDark = mode === "dark";
+
+  const [open, setOpen] = useState(false);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
@@ -457,10 +455,8 @@ export const Navbar: React.FC<NavbarProps> = ({ variant = "default" }) => {
             </span>
           </Link>
 
-          {/* ── Desktop nav ── */}
           {!isMobile && (
             <Space size={4} style={{ flex: 1, justifyContent: "center" }}>
-              {/* Home */}
               <Button
                 onClick={() => router.push("/")}
                 type="text"
@@ -469,9 +465,12 @@ export const Navbar: React.FC<NavbarProps> = ({ variant = "default" }) => {
                 Home
               </Button>
 
-              {/* Our Apps — mega dropdown */}
               <Dropdown
-                popupRender={() => <MegaMenuOverlay />}
+                open={open}
+                onOpenChange={setOpen}
+                popupRender={() => (
+                  <MegaMenuOverlay onNavigate={() => setOpen(false)} />
+                )}
                 placement="bottom"
                 arrow={false}
                 trigger={["hover"]}
@@ -515,7 +514,6 @@ export const Navbar: React.FC<NavbarProps> = ({ variant = "default" }) => {
             </Space>
           )}
 
-          {/* ── Desktop actions ── */}
           {!isMobile && (
             <Space
               size={80}
@@ -556,7 +554,6 @@ export const Navbar: React.FC<NavbarProps> = ({ variant = "default" }) => {
             </Space>
           )}
 
-          {/* ── Mobile burger ── */}
           {isMobile && (
             <Space>
               <ToggleTheme />
