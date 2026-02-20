@@ -30,7 +30,7 @@ const { Title, Text, Paragraph } = Typography;
 const IMG_LIGHT = "https://images.unsplash.com/photo-1579546929518-9e396f3cc809?q=80&w=2070&auto=format&fit=crop"; 
 const IMG_DARK = "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=1964&auto=format&fit=crop";
 
-export default function LoginPage({
+export default function SignIn({
   searchParams,
 }: {
   searchParams?: { callbackUrl?: string; error?: string };
@@ -43,8 +43,8 @@ export default function LoginPage({
   const currentImage = isDark ? IMG_DARK : IMG_LIGHT;
 
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(searchParams?.error ?? "");
-  const callbackUrl = searchParams?.callbackUrl ?? "/dashboard";
+  const [error, setError] = useState("");
+  const callbackUrl = (searchParams ?? {}).callbackUrl ?? "/dashboard";
 
   const handleSubmit = async (values: any) => {
     setLoading(true);

@@ -58,7 +58,7 @@ function passwordStrength(pw: string): { score: number; label: string; color: st
   return { score, ...map[Math.min(score, 5)] };
 }
 
-export default function SignupPage() {
+export default function SignUp() {
   const router = useRouter();
   const { colors, mode } = useTheme();
   const { token } = theme.useToken();
