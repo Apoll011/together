@@ -31,7 +31,6 @@ import Image from "next/image";
 
 const { Title, Text, Paragraph } = Typography;
 
-// --- Types ---
 interface OAuthClient {
   clientId: string;
   name: string;
@@ -40,7 +39,7 @@ interface OAuthClient {
   privacyUrl: string;
   tosUrl: string;
   verified: boolean;
-  usersCount?: number; // Added feature: Social proof
+  usersCount?: number;
 }
 
 interface OAuthScope {
@@ -60,8 +59,6 @@ interface AuthRequest {
   };
 }
 
-// --- Mock Data Generator ---
-// This runs if real API fails or parameters are missing
 const getMockData = (): AuthRequest => ({
   client: {
     clientId: "demo-app",
@@ -107,27 +104,22 @@ export default function OAuthAuthorizePage() {
   const { token } = theme.useToken();
   const isDark = mode === "dark";
 
-  // State
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [authRequest, setAuthRequest] = useState<AuthRequest | null>(null);
   const [approving, setApproving] = useState(false);
   const [denying, setDenying] = useState(false);
 
-  // Params
   const clientId = params.get("client_id");
   const redirectUri = params.get("redirect_uri");
-  const isDemo = params.get("demo") === "true"; // Add ?demo=true to force mock
+  const isDemo = params.get("demo")  === "true"; 
 
-  // --- Effect: Load Data ---
   useEffect(() => {
     async function loadData() {
       setLoading(true);
       
-      // Artificial delay for realism
       await new Promise((r) => setTimeout(r, 800));
 
-      // 1. Check if we should run in "Demo/Test" mode
       if (isDemo || !clientId) {
         console.log("⚠️ OAuth: Running in Mock Mode (No client_id or ?demo=true)");
         setAuthRequest(getMockData());
@@ -135,14 +127,14 @@ export default function OAuthAuthorizePage() {
         return;
       }
 
-      // 2. Real API Attempt (Simulated for now, replace with your fetch)
       try {
         // const res = await fetch(`/api/oauth/validate?...`);
         // if (!res.ok) throw new Error("API Error");
         // const data = await res.json();
         
         // Fallback to mock for this example even if ID exists
-        setAuthRequest(getMockData());
+        //setAuthRequest(getMockData());
+        throw Error("Not Implemented");
       } catch (err) {
         setError("Invalid authorization request. Please try again.");
       } finally {
@@ -226,7 +218,7 @@ export default function OAuthAuthorizePage() {
         {/* Success / Loaded State */}
         {!loading && authRequest && !error && (
           <Card
-            bordered={isDark}
+            variant={"borderless"}
             style={{
               background: isDark ? colors.navBg : "#fff",
               borderRadius: 16,
@@ -311,7 +303,7 @@ export default function OAuthAuthorizePage() {
                         title={
                             <Space>
                                 <Text style={{ fontSize: 15, color: colors.navText, fontWeight: 500 }}>{scope.label}</Text>
-                                {scope.sensitive && <Tag color="warning" variant={"borderless"} style={{ fontSize: 10 }}>SENSITIVE</Tag>}
+                                {scope.sensitive && <Tag color="warning" bordered={false} style={{ fontSize: 10 }}>SENSITIVE</Tag>}
                             </Space>
                         }
                         description={<Text style={{ color: colors.navSubText, fontSize: 13 }}>{scope.description}</Text>}
@@ -356,10 +348,16 @@ export default function OAuthAuthorizePage() {
                     Authorize
                  </Button>
                </div>
+               {(() => {
+                  if (!(authRequest.client.privacyUrl === "#" && authRequest.client.tosUrl === "#")) { 
+                    return (
+                    <div style={{ marginTop: 20, textAlign: "center", fontSize: 12, color: colors.navSubText, lineHeight: 1.6 }}>
+                      By authorizing, you agree to the App's <a href="#" style={{ color: token.colorPrimary }}>Terms of Service</a> and <a href="#" style={{ color: token.colorPrimary }}>Privacy Policy</a>.
+                    </div>
+                  );}
+                  return (<></>);
+                })()}
                
-               <div style={{ marginTop: 20, textAlign: "center", fontSize: 12, color: colors.navSubText, lineHeight: 1.6 }}>
-                  By authorizing, you agree to the App's <a href="#" style={{ color: token.colorPrimary }}>Terms of Service</a> and <a href="#" style={{ color: token.colorPrimary }}>Privacy Policy</a>.
-               </div>
             </div>
           </Card>
         )}
