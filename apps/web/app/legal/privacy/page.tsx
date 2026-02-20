@@ -61,7 +61,7 @@ export default function PrivacyPolicyPage() {
               <section id="location" style={{ marginBottom: 48 }}>
                 <Title level={3} style={{ color: colors.navText }}>2. Location Data (Together Help)</Title>
                 <Alert 
-                  message="Location Privacy" 
+                  title="Location Privacy" 
                   description="We never track your location without your explicit permission. You are in control." 
                   type="success" 
                   showIcon 

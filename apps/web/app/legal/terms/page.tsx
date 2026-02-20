@@ -53,7 +53,7 @@ export default function TermsOfServicePage() {
                   Welcome to Together. These Terms of Service ("Terms") constitute a binding legal agreement between you and <strong>Embrace Inc.</strong> ("we," "us," or "our"). By accessing or using our platform, website, or mobile applications (collectively, the "Services"), you agree to be bound by these Terms.
                 </Paragraph>
                 <Alert 
-                  message="TL;DR" 
+                  title="TL;DR" 
                   description="By using Together, you agree to these rules. If you don't agree, please don't use our services." 
                   type="info" 
                   showIcon 
