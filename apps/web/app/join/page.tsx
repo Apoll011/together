@@ -241,6 +241,9 @@ export default function JoinPage() {
               </div>
             </div>
             <Err msg={error} />
+            
+            <div id="clerk-captcha" />
+            
             <button type="submit" style={primaryBtn} disabled={loading}>{loading ? "Creating account…" : "Continue"}</button>
           </form>
           <p style={{ marginTop: 20, fontSize: 14, color: muted, textAlign: "center" }}>

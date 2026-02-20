@@ -108,7 +108,7 @@ export default function SignInPage() {
     if (!isLoaded) return;
     try {
       await signIn.create({ strategy: "reset_password_email_code", identifier: email });
-      router.push(`/reset-password?email=${encodeURIComponent(email)}`);
+      router.push(`/forgot-password?email=${encodeURIComponent(email)}`);
     } catch (err: any) { setError(err.errors?.[0]?.message || "Couldn't send reset email."); }
   };
 

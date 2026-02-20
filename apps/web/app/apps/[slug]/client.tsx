@@ -1044,7 +1044,7 @@ export default function AppPageClient({ app }: { app: AppData }) {
             </Col>
             <Col xs={24} md={16}>
               <Collapse
-                bordered={false}
+                variant={"borderless"}
                 activeKey={faqOpen}
                 onChange={(keys) => setFaqOpen(keys as string[])}
                 style={{ background: "transparent" }}
