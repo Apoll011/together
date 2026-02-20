@@ -27,6 +27,14 @@ import logo from "../static/logov2.png";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
+import {
+  SignInButton,
+  SignUpButton,
+  SignedIn,
+  SignedOut,
+  UserButton,
+} from '@clerk/nextjs'
+
 const { useBreakpoint } = Grid;
 const { Text } = Typography;
 
@@ -298,18 +306,26 @@ const MobileNav: React.FC<{ onClose: () => void }> = ({ onClose }) => {
       <Divider style={{ margin: "8px 0" }} />
 
       <Space orientation="vertical" style={{ width: "100%" }}>
-        <Button
-          block
-          ghost={isDark}
-          style={{
-            borderColor: "rgba(255,255,255,0.2)",
-            height: 56,
-            padding: "0 40px",
-            fontSize: 16,
-          }}
-        >
-          Sign In
-        </Button>
+         <SignedOut>
+              <SignInButton />
+              <SignUpButton>
+                <Button
+                  block
+                  ghost={isDark}
+                  style={{
+                    borderColor: "rgba(255,255,255,0.2)",
+                    height: 56,
+                    padding: "0 40px",
+                    fontSize: 16,
+                  }}
+                >
+                  Sign Up
+                </Button>
+              </SignUpButton>
+        </SignedOut>
+        <SignedIn>
+            <UserButton />
+        </SignedIn>
         <Button type="primary" block icon={<ArrowRightOutlined />}>
           Get Started
         </Button>
@@ -505,7 +521,10 @@ export const Navbar: React.FC<NavbarProps> = ({ variant = "default" }) => {
               {/* Theme Toggle */}
               <ToggleTheme />
 
-              <Button
+              
+            <SignedOut>
+              <SignInButton>
+                <Button
                 ghost={isTransparent || isDark}
                 style={
                   isTransparent || isDark
@@ -522,6 +541,11 @@ export const Navbar: React.FC<NavbarProps> = ({ variant = "default" }) => {
               >
                 Sign In
               </Button>
+              </SignInButton>
+            </SignedOut>
+            <SignedIn>
+              <UserButton />
+            </SignedIn>
               <Button
                 type="primary"
                 style={
