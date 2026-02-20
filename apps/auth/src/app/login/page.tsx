@@ -26,12 +26,9 @@ import { useTheme } from "@repo/ui/ThemeContext";
 
 const { Title, Text, Paragraph } = Typography;
 
-// ------------------------------------------------------------------
-// REPLACE THESE WITH YOUR ACTUAL IMAGE PATHS
-// ------------------------------------------------------------------
+
 const IMG_LIGHT = "https://images.unsplash.com/photo-1579546929518-9e396f3cc809?q=80&w=2070&auto=format&fit=crop"; 
 const IMG_DARK = "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=1964&auto=format&fit=crop";
-// ------------------------------------------------------------------
 
 export default function LoginPage({
   searchParams,
@@ -53,7 +50,6 @@ export default function LoginPage({
     setLoading(true);
     setError("");
     try {
-      // Simulate API call
       const res = await fetch("/api/auth/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -78,10 +74,7 @@ export default function LoginPage({
     <main style={{ minHeight: "100vh", background: colors.navBg }}>
       <Row style={{ minHeight: "100vh" }}>
         
-        {/* =======================
-            LEFT SIDE - IMAGE 
-           ======================= */}
-        <Col
+      <Col
           xs={0}
           lg={12}
           style={{
@@ -111,7 +104,6 @@ export default function LoginPage({
             />
           </div>
 
-          {/* Overlay Content (Logo/Testimonial) */}
           <div
             style={{
               position: "relative",
@@ -121,7 +113,7 @@ export default function LoginPage({
               flexDirection: "column",
               justifyContent: "space-between",
               padding: "60px",
-              color: "#fff", // Always white text over the image
+              color: "#fff",
             }}
           >
             <div>
@@ -154,9 +146,6 @@ export default function LoginPage({
           </div>
         </Col>
 
-        {/* =======================
-            RIGHT SIDE - FORM 
-           ======================= */}
         <Col
           xs={24}
           lg={12}
@@ -165,7 +154,7 @@ export default function LoginPage({
             flexDirection: "column",
             justifyContent: "center",
             alignItems: "center",
-            background: colors.navBg, // Theme background
+            background: colors.navBg,
             padding: "40px",
           }}
         >
@@ -205,9 +194,10 @@ export default function LoginPage({
                 ]}
               >
                 <Input
-                  prefix={<MailOutlined style={{ color: token.colorTextDescription }} />}
+                  prefix={<MailOutlined style={{ color: colors.navText }} />}
                   placeholder="name@company.com"
                   style={{ 
+                    color: colors.navText,
                     background: isDark ? "rgba(255,255,255,0.04)" : "#fff",
                     borderColor: isDark ? "#444" : undefined
                   }}
@@ -220,9 +210,11 @@ export default function LoginPage({
                 rules={[{ required: true, message: "Please enter your password" }]}
               >
                 <Input.Password
-                  prefix={<LockOutlined style={{ color: token.colorTextDescription }} />}
+                color={colors.navText}
+                  prefix={<LockOutlined style={{ color: colors.navText }} />}
                   placeholder="••••••••"
                   style={{ 
+                    color: colors.navText,
                     background: isDark ? "rgba(255,255,255,0.04)" : "#fff",
                     borderColor: isDark ? "#444" : undefined
                   }}

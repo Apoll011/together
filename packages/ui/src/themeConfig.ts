@@ -23,6 +23,9 @@ export const lightTheme: ThemeConfig = {
     fontSize: 16,            // Larger base text for readability
   },
   components: {
+    Input: {
+      colorIcon: '#1F1F1F',
+    },
     Button: {
       controlHeight: 44,     // Taller buttons (easier to click)
       algorithm: true,       // Use AntD algorithms to calculate hover states
@@ -64,6 +67,9 @@ export const darkTheme: ThemeConfig = {
     fontSize: 16,
   },
   components: {
+    Input: {
+      colorIcon: '#ffffff'
+    },
     Button: {
       controlHeight: 44,
       algorithm: true,
