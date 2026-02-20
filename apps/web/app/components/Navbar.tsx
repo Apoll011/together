@@ -525,19 +525,9 @@ export const Navbar: React.FC<NavbarProps> = ({ variant = "default" }) => {
             <SignedOut>
               <SignInButton>
                 <Button
+                type="primary"
                 ghost={isTransparent || isDark}
-                style={
-                  isTransparent || isDark
-                    ? {
-                        borderColor: isTransparent
-                          ? "rgba(255,255,255,0.4)"
-                          : "rgba(255,255,255,0.2)",
-                        color: isTransparent
-                          ? "rgba(255,255,255,0.9)"
-                          : colors.navText,
-                      }
-                    : {}
-                }
+               
               >
                 Sign In
               </Button>
@@ -546,20 +536,7 @@ export const Navbar: React.FC<NavbarProps> = ({ variant = "default" }) => {
             <SignedIn>
               <UserButton />
             </SignedIn>
-              <Button
-                type="primary"
-                style={
-                  isTransparent
-                    ? {
-                        background: "rgba(255,255,255,0.15)",
-                        borderColor: "rgba(255,255,255,0.3)",
-                      }
-                    : {}
-                }
-                icon={<ArrowRightOutlined />}
-              >
-                Get Started
-              </Button>
+              
             </Space>
           )}
 
