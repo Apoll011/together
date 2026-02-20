@@ -51,11 +51,13 @@ export const ToggleTheme: React.FC = () => {
       ref={buttonRef}
       onClick={handleToggle}
       ghost={isDark}
-      style={
-        isDark
-          ? { borderColor: "rgba(255,255,255,0.2)", color: colors.navText }
-          : {}
-      }
+      style={{
+         display: "flex",
+        alignItems: "center",
+        borderColor: colors.navText, 
+        color: colors.navText
+      }}  
+     
     >
       {isDark ? <Sun className="h-6 w-6" /> : <Moon className="h-6 w-6" />}
     </Button>

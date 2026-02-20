@@ -34,7 +34,7 @@ import {
   SignedOut,
   UserButton,
   useUser,
-} from '@clerk/nextjs'
+} from "@clerk/nextjs";
 import AppLauncher from "./applancher";
 
 const { useBreakpoint } = Grid;
@@ -308,25 +308,25 @@ const MobileNav: React.FC<{ onClose: () => void }> = ({ onClose }) => {
       <Divider style={{ margin: "8px 0" }} />
 
       <Space orientation="vertical" style={{ width: "100%" }}>
-         <SignedOut>
-              <SignInButton />
-              <SignUpButton>
-                <Button
-                  block
-                  ghost={isDark}
-                  style={{
-                    borderColor: "rgba(255,255,255,0.2)",
-                    height: 56,
-                    padding: "0 40px",
-                    fontSize: 16,
-                  }}
-                >
-                  Sign Up
-                </Button>
-              </SignUpButton>
+        <SignedOut>
+          <SignInButton />
+          <SignUpButton>
+            <Button
+              block
+              ghost={isDark}
+              style={{
+                borderColor: "rgba(255,255,255,0.2)",
+                height: 56,
+                padding: "0 40px",
+                fontSize: 16,
+              }}
+            >
+              Sign Up
+            </Button>
+          </SignUpButton>
         </SignedOut>
         <SignedIn>
-            <UserButton />
+          <UserButton />
         </SignedIn>
         <Button type="primary" block icon={<ArrowRightOutlined />}>
           Get Started
@@ -343,7 +343,7 @@ export const Navbar: React.FC<NavbarProps> = ({ variant = "default" }) => {
   const isMobile = !screens.lg;
   const { colors, mode } = useTheme();
   const router = useRouter();
-  const { user } = useUser()
+  const { user } = useUser();
 
   const isTransparent = variant === "transparent" && !scrolled;
   const isDark = mode === "dark";
@@ -369,9 +369,6 @@ export const Navbar: React.FC<NavbarProps> = ({ variant = "default" }) => {
   const navBoxShadow = scrolled && !isTransparent ? colors.navShadow : "none";
 
   const textColor = isTransparent ? "rgba(255,255,255,0.9)" : colors.navText;
-  const subTextColor = isTransparent
-    ? "rgba(255,255,255,0.65)"
-    : colors.navSubText;
 
   return (
     <>
@@ -520,26 +517,42 @@ export const Navbar: React.FC<NavbarProps> = ({ variant = "default" }) => {
 
           {/* ── Desktop actions ── */}
           {!isMobile && (
-            <Space size={8} style={{ flexShrink: 0 }}>
+            <Space
+              size={80}
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+                gap: 10,
+              }}
+            >
               <ToggleTheme />
               <SignedOut>
                 <SignInButton>
-                  <Button
-                  type="primary"
-                  ghost={isTransparent || isDark}
-                
-                >
-                  Sign In
-                </Button>
+                  <Button type="primary" ghost={isTransparent || isDark}>
+                    Sign In
+                  </Button>
                 </SignInButton>
               </SignedOut>
               <SignedIn>
-                <AppLauncher usedAppKeys={(user?.publicMetadata.togetherInterests as string[]|null) ?? []}/>
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                    gap: 10,
+                  }}
+                >
+                  <AppLauncher
+                    usedAppKeys={
+                      (user?.publicMetadata.togetherInterests as
+                        | string[]
+                        | null) ?? []
+                    }
+                  />
+                  <UserButton />
+                </div>
               </SignedIn>
-              <SignedIn>
-                <UserButton />
-              </SignedIn>
-
             </Space>
           )}
 

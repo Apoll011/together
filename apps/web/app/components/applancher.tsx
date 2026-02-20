@@ -361,7 +361,6 @@ const AppLauncher: React.FC<AppLauncherProps> = ({ usedAppKeys }) => {
   const [open, setOpen] = useState(false);
 
   const isDark = mode === "dark";
-  const iconColor = isDark ? "rgba(255,255,255,0.75)" : "rgba(0,0,0,0.55)";
   const hoverBg = isDark ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.06)";
 
   return (
@@ -396,6 +395,7 @@ const AppLauncher: React.FC<AppLauncherProps> = ({ usedAppKeys }) => {
           cursor: "pointer",
           transition: "background 0.15s",
           padding: 0,
+          color: colors.navText
         }}
         onMouseEnter={(e) => {
           if (!open) e.currentTarget.style.background = hoverBg;
