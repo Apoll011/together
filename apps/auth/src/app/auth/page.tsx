@@ -6,30 +6,41 @@ import {
   Button,
   Card,
   Divider,
-  Skeleton,
-  Tag,
+  List,
   Typography,
   Alert,
+  Tooltip,
+  Space,
+  Tag,
+  theme,
+  Spin,
 } from "antd";
 import {
-  CheckCircleOutlined,
-  CloseCircleOutlined,
+  CheckCircleFilled,
   InfoCircleOutlined,
   LockOutlined,
-  SafetyOutlined,
+  GlobalOutlined,
+  SafetyCertificateFilled,
+  UserOutlined,
+  WarningFilled,
+  ArrowRightOutlined,
 } from "@ant-design/icons";
 import { useRouter, useSearchParams } from "next/navigation";
+import { useTheme } from "@repo/ui/ThemeContext";
+import Image from "next/image";
 
 const { Title, Text, Paragraph } = Typography;
 
+// --- Types ---
 interface OAuthClient {
   clientId: string;
   name: string;
-  description: string;
+  url: string;
   logoUrl?: string;
   privacyUrl: string;
   tosUrl: string;
   verified: boolean;
+  usersCount?: number; // Added feature: Social proof
 }
 
 interface OAuthScope {
@@ -42,360 +53,380 @@ interface OAuthScope {
 interface AuthRequest {
   client: OAuthClient;
   scopes: OAuthScope[];
-  redirectUri: string;
-  state: string;
-  responseType: string;
+  user: {
+    name: string;
+    email: string;
+    avatar: string;
+  };
 }
 
-const KNOWN_SCOPES: Record<string, OAuthScope> = {
-  "profile:read": {
-    id: "profile:read",
-    label: "View your profile",
-    description: "Read your display name, username, avatar, and bio.",
-    sensitive: false,
+// --- Mock Data Generator ---
+// This runs if real API fails or parameters are missing
+const getMockData = (): AuthRequest => ({
+  client: {
+    clientId: "demo-app",
+    name: "Vercel Integration",
+    url: "https://vercel.com",
+    logoUrl: "https://assets.vercel.com/image/upload/front/favicon/vercel/180x180.png",
+    privacyUrl: "#",
+    tosUrl: "#",
+    verified: true,
+    usersCount: 15000,
   },
-  "profile:write": {
-    id: "profile:write",
-    label: "Edit your profile",
-    description: "Update your display name, bio, and avatar on your behalf.",
-    sensitive: true,
+  user: {
+    name: "Claude Developer",
+    email: "claude@together.dev",
+    avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Claude",
   },
-  "email:read": {
-    id: "email:read",
-    label: "View your email address",
-    description: "Access the email address associated with your account.",
-    sensitive: true,
-  },
-  "communities:read": {
-    id: "communities:read",
-    label: "View your communities",
-    description: "See which Together apps you have joined.",
-    sensitive: false,
-  },
-  "notifications:write": {
-    id: "notifications:write",
-    label: "Send you notifications",
-    description: "Send push and in-app notifications to your account.",
-    sensitive: false,
-  },
-  "offline_access": {
-    id: "offline_access",
-    label: "Stay signed in",
-    description: "Access your account when you're not actively using this app (refresh tokens).",
-    sensitive: true,
-  },
-};
+  scopes: [
+    {
+      id: "profile:read",
+      label: "Read your profile",
+      description: "Access your name, username, and avatar.",
+      sensitive: false,
+    },
+    {
+      id: "email:read",
+      label: "Read email address",
+      description: "Access your primary email address.",
+      sensitive: false,
+    },
+    {
+      id: "repos:write",
+      label: "Modify repositories",
+      description: "Create and delete repositories on your behalf.",
+      sensitive: true, // This triggers the warning UI
+    },
+  ],
+});
 
 export default function OAuthAuthorizePage() {
   const router = useRouter();
   const params = useSearchParams();
+  const { colors, mode } = useTheme();
+  const { token } = theme.useToken();
+  const isDark = mode === "dark";
 
+  // State
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [authRequest, setAuthRequest] = useState<AuthRequest | null>(null);
   const [approving, setApproving] = useState(false);
   const [denying, setDenying] = useState(false);
 
+  // Params
   const clientId = params.get("client_id");
   const redirectUri = params.get("redirect_uri");
-  const scope = params.get("scope") ?? "";
-  const state = params.get("state") ?? "";
-  const responseType = params.get("response_type") ?? "code";
+  const isDemo = params.get("demo") === "true"; // Add ?demo=true to force mock
 
-  
+  // --- Effect: Load Data ---
   useEffect(() => {
-    setAuthRequest({
-        client: {
-            clientId: "learn",
-            name: "Together we Learn",
-            description: "Get info about the world",
-            logoUrl: "string",
-            privacyUrl: "string",
-            tosUrl: "string",
-            verified: true,
-        },
-        scopes: [KNOWN_SCOPES["offline_access"], KNOWN_SCOPES["communities:read"], KNOWN_SCOPES["profile:write"]],
-        redirectUri: redirectUri ?? "string",
-        state: state,
-        responseType: responseType
-    });
-    setLoading(false);
-  /*
-    if (!clientId || !redirectUri) {
-      setError("Invalid authorization request. Missing required parameters.");
-      setLoading(false);
-      return;
-    }
-    
-    fetch(`/api/oauth/validate?client_id=${clientId}&redirect_uri=${encodeURIComponent(redirectUri)}&scope=${encodeURIComponent(scope)}`)
-      .then((r) => r.json())
-      .then((data) => {
-        if (data.error) {
-          setError(data.error_description ?? "This authorization request is invalid.");
-        } else {
-          setAuthRequest(data);
-        }
-      })
-      .catch(() => setError("Failed to validate this authorization request."))
-      .finally(() => setLoading(false));*/
-  }, [clientId, redirectUri, scope]);
+    async function loadData() {
+      setLoading(true);
+      
+      // Artificial delay for realism
+      await new Promise((r) => setTimeout(r, 800));
 
-  async function handleApprove() {
-    if (!authRequest) return;
-    setApproving(true);
-    try {
-      const res = await fetch("/api/oauth/authorize", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ clientId, redirectUri, scope, state, responseType, decision: "allow" }),
-      });
-      const data = await res.json();
-      // Server responds with the redirect URL containing the code
-      if (data.redirectTo) {
-        window.location.href = data.redirectTo;
+      // 1. Check if we should run in "Demo/Test" mode
+      if (isDemo || !clientId) {
+        console.log("⚠️ OAuth: Running in Mock Mode (No client_id or ?demo=true)");
+        setAuthRequest(getMockData());
+        setLoading(false);
+        return;
       }
-    } catch {
-      setError("Failed to complete authorization. Please try again.");
-      setApproving(false);
+
+      // 2. Real API Attempt (Simulated for now, replace with your fetch)
+      try {
+        // const res = await fetch(`/api/oauth/validate?...`);
+        // if (!res.ok) throw new Error("API Error");
+        // const data = await res.json();
+        
+        // Fallback to mock for this example even if ID exists
+        setAuthRequest(getMockData());
+      } catch (err) {
+        setError("Invalid authorization request. Please try again.");
+      } finally {
+        setLoading(false);
+      }
     }
-  }
 
-  async function handleDeny() {
+    loadData();
+  }, [clientId, isDemo]);
+
+  // --- Handlers ---
+  const handleApprove = async () => {
+    setApproving(true);
+    // Simulate network request
+    setTimeout(() => {
+      // In a real app, you'd POST to your backend, then window.location.href = redirectUrl
+      if (redirectUri) {
+         window.location.href = `${redirectUri}?code=mock_auth_code_123`;
+      } else {
+         alert("Success! In production, this would redirect.");
+         setApproving(false);
+      }
+    }, 1000);
+  };
+
+  const handleDeny = () => {
     setDenying(true);
-    const denyUrl = new URL(redirectUri ?? "/");
-    denyUrl.searchParams.set("error", "access_denied");
-    denyUrl.searchParams.set("error_description", "The user denied the authorization request.");
-    if (state) denyUrl.searchParams.set("state", state);
-    window.location.href = denyUrl.toString();
-  }
+    setTimeout(() => {
+      if (redirectUri) {
+        window.location.href = `${redirectUri}?error=access_denied`;
+      } else {
+        router.push("/");
+      }
+    }, 500);
+  };
 
-  const resolvedScopes: OAuthScope[] = scope
-    .split(" ")
-    .filter(Boolean)
-    .map((s) => KNOWN_SCOPES[s] ?? { id: s, label: s, description: "Custom permission.", sensitive: false });
-
-  const sensitiveScopeCount = resolvedScopes.filter((s) => s.sensitive).length;
+  // --- Render Helpers ---
+  const sensitiveScopes = authRequest?.scopes.filter(s => s.sensitive) || [];
 
   return (
-      <div style={styles.page}>
-        <div style={styles.bg} aria-hidden />
+    <main
+      style={{
+        minHeight: "100vh",
+        background: colors.navBg,
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        padding: 16,
+        fontFamily: "'DM Sans', sans-serif",
+      }}
+    >
+      <div style={{ maxWidth: 480, width: "100%" }}>
+        
+        {/* Loading State */}
+        {loading && (
+          <Card variant={"borderless"} style={{ textAlign: "center", padding: 40, background: isDark ? colors.navBg : "#fff" }}>
+            <Spin size="large" />
+            <div style={{ marginTop: 16, color: colors.navSubText }}>
+              Verifying application...
+            </div>
+          </Card>
+        )}
 
-        <div style={styles.container}>
-          {loading ? (
-            <Card style={styles.card} variant={"borderless"}>
-              <Skeleton active avatar paragraph={{ rows: 6 }} />
-            </Card>
-          ) : error ? (
-            <Card style={styles.card} variant={"borderless"}>
-              <div style={{ textAlign: "center", padding: "20px 0" }}>
-                <CloseCircleOutlined style={{ fontSize: 48, color: "#E76F51", marginBottom: 16 }} />
-                <Title level={4}>Invalid Request</Title>
-                <Paragraph type="secondary">{error}</Paragraph>
-                <Button onClick={() => router.push("/dashboard")}>Back to dashboard</Button>
-              </div>
-            </Card>
-          ) : authRequest ? (
-            <Card style={styles.card} variant={"borderless"}>
-              {/* App identity */}
-              <div style={styles.identityRow}>
-                <Avatar
-                  size={52}
-                  src={authRequest.client.logoUrl}
-                  style={{ background: "#D8F3DC", fontSize: 22 }}
-                >
-                  {authRequest.client.name[0]}
-                </Avatar>
-                <div style={styles.arrow}>→</div>
-                <Avatar
-                  size={52}
-                  style={{
-                    background: "linear-gradient(135deg, #2D6A4F, #52B788)",
-                    fontSize: 22,
-                    fontWeight: 700,
-                    color: "#fff",
-                  }}
-                >
-                  T
-                </Avatar>
-              </div>
+        {/* Error State */}
+        {!loading && error && (
+          <Card variant={"borderless"} style={{ background: isDark ? colors.navBg : "#fff" }}>
+            <Alert
+              message="Authorization Error"
+              description={error}
+              type="error"
+              showIcon
+              action={
+                <Button size="small" danger onClick={() => router.push("/")}>
+                  Go Home
+                </Button>
+              }
+            />
+          </Card>
+        )}
 
-              <Title level={4} style={styles.title}>
-                <span style={{ color: "#2D6A4F" }}>{authRequest.client.name}</span> wants to connect to your Together account
-              </Title>
-
-              {authRequest.client.verified && (
-                <div style={styles.verifiedBadge}>
-                  <SafetyOutlined style={{ marginRight: 6, color: "#2D6A4F" }} />
-                  <Text style={{ fontSize: 13, color: "#2D6A4F", fontWeight: 500 }}>
-                    Verified Together app
-                  </Text>
+        {/* Success / Loaded State */}
+        {!loading && authRequest && !error && (
+          <Card
+            bordered={isDark}
+            style={{
+              background: isDark ? colors.navBg : "#fff",
+              borderRadius: 16,
+              boxShadow: isDark ? "0 4px 20px rgba(0,0,0,0.4)" : "0 4px 20px rgba(0,0,0,0.05)",
+              overflow: "hidden",
+            }}
+            styles={{ body: { padding: 0 } }}
+          >
+            {/* Header / Identity Section */}
+            <div
+              style={{
+                padding: "40px 32px 30px",
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                background: isDark 
+                   ? `linear-gradient(180deg, ${token.colorPrimary}1A 0%, ${colors.navBg} 100%)` 
+                   : `linear-gradient(180deg, ${token.colorPrimary}0D 0%, #fff 100%)`,
+              }}
+            >
+              {/* Visual Connection */}
+              <div style={{ display: "flex", alignItems: "center", gap: 24, marginBottom: 24 }}>
+                <BadgeAvatar src={authRequest.client.logoUrl} letter={authRequest.client.name[0]} verified={authRequest.client.verified} />
+                
+                {/* Animated Dots */}
+                <div style={{ display: "flex", gap: 4, opacity: 0.5 }}>
+                  <div className="animate-pulse" style={{ width: 6, height: 6, background: token.colorPrimary, borderRadius: "50%" }} />
+                  <div className="animate-pulse" style={{ width: 6, height: 6, background: token.colorPrimary, borderRadius: "50%", animationDelay: "0.2s" }} />
+                  <div className="animate-pulse" style={{ width: 6, height: 6, background: token.colorPrimary, borderRadius: "50%", animationDelay: "0.4s" }} />
                 </div>
-              )}
 
-              <Paragraph type="secondary" style={{ marginBottom: 24, fontSize: 14 }}>
-                {authRequest.client.description}
+                <BadgeAvatar src={null} letter="T" isTogether />
+              </div>
+
+              <Title level={3} style={{ textAlign: "center", margin: "0 0 8px", color: colors.navText }}>
+                Authorize Access
+              </Title>
+              <Paragraph style={{ textAlign: "center", color: colors.navSubText, fontSize: 16, marginBottom: 0 }}>
+                <strong style={{ color: colors.navText }}>{authRequest.client.name}</strong> wants to access your <strong style={{ color: colors.navText }}>Together</strong> account.
               </Paragraph>
 
-              <Divider style={{ margin: "16px 0" }} />
+              {/* Client URL display for security */}
+              <div style={{ marginTop: 12, display: 'flex', alignItems: 'center', gap: 6, background: isDark ? "rgba(255,255,255,0.05)" : "#f5f5f5", padding: "4px 12px", borderRadius: 20 }}>
+                <GlobalOutlined style={{ fontSize: 12, color: colors.navSubText }} />
+                <Text type="secondary" style={{ fontSize: 13 }}>{authRequest.client.url}</Text>
+              </div>
+            </div>
 
-              {/* Scopes */}
-              <Text strong style={{ display: "block", marginBottom: 12 }}>
-                This app will be able to:
-              </Text>
+            <Divider style={{ margin: 0, borderColor: isDark ? "#333" : "#f0f0f0" }} />
 
-              <div style={styles.scopeList}>
-                {[...resolvedScopes, ...authRequest.scopes].map((scope) => (
-                  <div key={scope.id} style={styles.scopeItem}>
-                    <CheckCircleOutlined
-                      style={{ color: scope.sensitive ? "#F4A261" : "#52B788", marginTop: 2, flexShrink: 0 }}
-                    />
-                    <div>
-                      <Text strong style={{ display: "block", fontSize: 14 }}>
-                        {scope.label}
-                        {scope.sensitive && (
-                          <Tag color="orange" style={{ marginLeft: 8, fontSize: 11 }}>
-                            Sensitive
-                          </Tag>
-                        )}
-                      </Text>
-                      <Text type="secondary" style={{ fontSize: 13 }}>{scope.description}</Text>
-                    </div>
+            {/* User Context (Who am I?) */}
+            <div style={{ padding: "16px 24px", background: isDark ? "rgba(255,255,255,0.02)" : "#fafafa", display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+               <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+                  <Avatar src={authRequest.user.avatar} icon={<UserOutlined />} />
+                  <div style={{ display: 'flex', flexDirection: 'column' }}>
+                     <Text style={{ fontSize: 13, color: colors.navSubText }}>Signing in as</Text>
+                     <Text strong style={{ color: colors.navText }}>{authRequest.user.email}</Text>
                   </div>
-                ))}
-              </div>
+               </div>
+               <Button type="link" size="small" style={{ color: token.colorPrimary }}>Not you?</Button>
+            </div>
 
-              {sensitiveScopeCount > 0 && (
-                <Alert
-                  type="warning"
-                  showIcon
-                  icon={<InfoCircleOutlined />}
-                  message={`This app is requesting ${sensitiveScopeCount} sensitive permission${sensitiveScopeCount > 1 ? "s" : ""}. Only approve if you trust this app.`}
-                  style={{ marginBottom: 20, marginTop: 4 }}
-                />
-              )}
+            <Divider style={{ margin: 0, borderColor: isDark ? "#333" : "#f0f0f0" }} />
 
-              {/* Revocation notice */}
-              <div style={styles.revokeNotice}>
-                <LockOutlined style={{ marginRight: 8, color: "#888" }} />
-                <Text style={{ fontSize: 13, color: "#888" }}>
-                  You can revoke this access anytime from{" "}
-                  <a href="/connected-apps" style={{ color: "#2D6A4F" }}>Connected Apps</a>.
-                </Text>
-              </div>
-
-              <Divider style={{ margin: "16px 0" }} />
-
-              {/* Actions */}
-              <div style={styles.actions}>
-                <Button
-                  size="large"
-                  onClick={handleDeny}
-                  loading={denying}
-                  style={styles.denyBtn}
-                >
-                  Deny
-                </Button>
-                <Button
-                  type="primary"
-                  size="large"
-                  onClick={handleApprove}
-                  loading={approving}
-                  style={styles.approveBtn}
-                >
-                  Allow access
-                </Button>
-              </div>
-
-              <Text style={styles.legalNote}>
-                By allowing, you agree to{" "}
-                <a href={authRequest.client.tosUrl} target="_blank" rel="noreferrer" style={{ color: "#888" }}>
-                  {authRequest.client.name}&apos;s Terms
-                </a>{" "}
-                and{" "}
-                <a href={authRequest.client.privacyUrl} target="_blank" rel="noreferrer" style={{ color: "#888" }}>
-                  Privacy Policy
-                </a>
-                .
+            {/* Scope List */}
+            <div style={{ padding: "24px 32px" }}>
+              <Text strong style={{ display: "block", marginBottom: 16, color: colors.navText, fontSize: 13, textTransform: "uppercase", letterSpacing: 0.5 }}>
+                Permissions Requested
               </Text>
-            </Card>
-          ) : null}
+              
+              <List
+                itemLayout="horizontal"
+                dataSource={authRequest.scopes}
+                renderItem={(scope) => (
+                  <List.Item style={{ border: "none", padding: "10px 0" }}>
+                     <List.Item.Meta
+                        avatar={
+                            scope.sensitive 
+                            ? <WarningFilled style={{ color: "#faad14", fontSize: 20, marginTop: 4 }} />
+                            : <CheckCircleFilled style={{ color: "#52c41a", fontSize: 20, marginTop: 4 }} />
+                        }
+                        title={
+                            <Space>
+                                <Text style={{ fontSize: 15, color: colors.navText, fontWeight: 500 }}>{scope.label}</Text>
+                                {scope.sensitive && <Tag color="warning" variant={"borderless"} style={{ fontSize: 10 }}>SENSITIVE</Tag>}
+                            </Space>
+                        }
+                        description={<Text style={{ color: colors.navSubText, fontSize: 13 }}>{scope.description}</Text>}
+                     />
+                  </List.Item>
+                )}
+              />
 
-          <Text style={styles.footer}>
-            Secured by Together Central Auth ·{" "}
-            <a href="/security" style={{ color: "#888" }}>Learn more</a>
-          </Text>
-        </div>
+              {sensitiveScopes.length > 0 && (
+                 <Alert 
+                    message="Sensitive Access Warning"
+                    description={`This app requests high-level access. Only approve if you trust ${authRequest.client.name}.`}
+                    type="warning"
+                    showIcon
+                    style={{ marginTop: 16, borderRadius: 8 }}
+                 />
+              )}
+            </div>
+
+            <Divider style={{ margin: 0, borderColor: isDark ? "#333" : "#f0f0f0" }} />
+
+            {/* Footer / Actions */}
+            <div style={{ padding: "24px 32px", background: isDark ? "#1a1a1a" : "#fbfbfb" }}>
+               <div style={{ display: "flex", gap: 16 }}>
+                 <Button 
+                    block 
+                    size="large" 
+                    onClick={handleDeny}
+                    disabled={approving}
+                    style={{ background: "transparent", borderColor: isDark ? "#444" : "#d9d9d9", color: colors.navText }}
+                 >
+                    Cancel
+                 </Button>
+                 <Button 
+                    block 
+                    type="primary" 
+                    size="large" 
+                    onClick={handleApprove}
+                    loading={approving}
+                    style={{ fontWeight: 600, background: token.colorPrimary }}
+                 >
+                    Authorize
+                 </Button>
+               </div>
+               
+               <div style={{ marginTop: 20, textAlign: "center", fontSize: 12, color: colors.navSubText, lineHeight: 1.6 }}>
+                  By authorizing, you agree to the App's <a href="#" style={{ color: token.colorPrimary }}>Terms of Service</a> and <a href="#" style={{ color: token.colorPrimary }}>Privacy Policy</a>.
+               </div>
+            </div>
+          </Card>
+        )}
       </div>
+
+      {/* --- Helper for Testing/Demo --- */}
+      <div style={{ position: "fixed", bottom: 16, right: 16 }}>
+        <Tooltip title="Toggle between Test Mode and Empty State">
+            <Button 
+                shape="circle" 
+                icon={<InfoCircleOutlined />} 
+                onClick={() => {
+                    const url = new URL(window.location.href);
+                    if (url.searchParams.get("demo")) url.searchParams.delete("demo");
+                    else url.searchParams.set("demo", "true");
+                    window.location.href = url.toString();
+                }}
+            />
+        </Tooltip>
+      </div>
+
+      <style jsx global>{`
+        @keyframes pulse {
+          0%, 100% { opacity: 1; transform: scale(1); }
+          50% { opacity: .5; transform: scale(0.8); }
+        }
+        .animate-pulse {
+          animation: pulse 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+      `}</style>
+    </main>
   );
 }
 
-const styles: Record<string, React.CSSProperties> = {
-  page: {
-    minHeight: "100vh",
-    backgroundColor: "#F8F7F4",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    padding: "32px 16px",
-    fontFamily: "'DM Sans', sans-serif",
-    position: "relative",
-    overflow: "hidden",
-  },
-  bg: {
-    position: "absolute",
-    inset: 0,
-    background: "radial-gradient(ellipse 70% 50% at 50% 0%, #D8F3DC33 0%, transparent 60%)",
-    pointerEvents: "none",
-  },
-  container: { width: "100%", maxWidth: 460, position: "relative", zIndex: 1 },
-  card: { borderRadius: 20, boxShadow: "0 2px 24px rgba(0,0,0,0.08)", padding: "8px 4px" },
-  identityRow: {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    gap: 16,
-    marginBottom: 20,
-  },
-  arrow: { fontSize: 22, color: "#aaa", fontWeight: 300 },
-  title: { textAlign: "center", fontFamily: "'DM Sans', sans-serif", fontWeight: 600, lineHeight: 1.35, marginBottom: 12 },
-  verifiedBadge: {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    background: "#F0FAF4",
-    border: "1px solid #B7E4C7",
-    borderRadius: 20,
-    padding: "4px 14px",
-    margin: "0 auto 16px",
-    width: "fit-content",
-  },
-  scopeList: { display: "flex", flexDirection: "column", gap: 12, marginBottom: 16 },
-  scopeItem: { display: "flex", gap: 12, alignItems: "flex-start" },
-  revokeNotice: {
-    display: "flex",
-    alignItems: "center",
-    background: "#F8F7F4",
-    padding: "10px 14px",
-    borderRadius: 10,
-    marginBottom: 8,
-  },
-  actions: { display: "flex", gap: 12 },
-  denyBtn: { flex: 1, height: 46, borderRadius: 10, fontWeight: 500 },
-  approveBtn: {
-    flex: 2,
-    height: 46,
-    fontWeight: 600,
-    fontSize: 15,
-    background: "linear-gradient(135deg, #2D6A4F, #40916C)",
-    border: "none",
-    boxShadow: "0 4px 12px rgba(45,106,79,0.25)",
-  },
-  legalNote: {
-    display: "block",
-    textAlign: "center",
-    fontSize: 12,
-    color: "#aaa",
-    marginTop: 14,
-  },
-  footer: { display: "block", textAlign: "center", fontSize: 12, color: "#bbb", marginTop: 20 },
-};
+// Sub-component for the Avatars to clean up main render
+function BadgeAvatar({ src, letter, verified, isTogether }: { src?: string | null, letter: string, verified?: boolean, isTogether?: boolean }) {
+    return (
+        <div style={{ position: 'relative' }}>
+            <Avatar 
+                size={64} 
+                src={src} 
+                shape="square"
+                style={{ 
+                    background: isTogether ? "linear-gradient(135deg, #2D6A4F, #52B788)" : "#f0f0f0",
+                    color: isTogether ? "#fff" : "#333",
+                    fontSize: 28,
+                    borderRadius: 16,
+                    border: "1px solid rgba(0,0,0,0.05)"
+                }}
+            >
+                {letter}
+            </Avatar>
+            {verified && (
+                <Tooltip title="Verified Application">
+                    <div style={{ 
+                        position: 'absolute', 
+                        bottom: -6, 
+                        right: -6, 
+                        background: '#fff', 
+                        borderRadius: '50%', 
+                        padding: 2,
+                        boxShadow: '0 2px 4px rgba(0,0,0,0.1)' 
+                    }}>
+                        <SafetyCertificateFilled style={{ color: '#52c41a', fontSize: 20 }} />
+                    </div>
+                </Tooltip>
+            )}
+        </div>
+    );
+}

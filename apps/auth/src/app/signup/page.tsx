@@ -3,27 +3,36 @@
 import React, { useState } from "react";
 import {
   Button,
-  Card,
-  ConfigProvider,
   Divider,
   Form,
   Input,
   Typography,
   Alert,
   Progress,
-  Space,
+  Row,
+  Col,
+  theme,
 } from "antd";
 import {
   LockOutlined,
   MailOutlined,
   UserOutlined,
   GoogleOutlined,
-  GithubOutlined,
+  ArrowLeftOutlined,
 } from "@ant-design/icons";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import Image from "next/image";
+import { useTheme } from "@repo/ui/ThemeContext";
 
-const { Title, Text } = Typography;
+const { Title, Text, Paragraph } = Typography;
+
+// ------------------------------------------------------------------
+// IMAGES (Slightly different from Login to distinguish pages)
+// ------------------------------------------------------------------
+const IMG_LIGHT = "https://images.unsplash.com/photo-1522071820081-009f0129c71c?q=80&w=2070&auto=format&fit=crop";
+const IMG_DARK = "https://images.unsplash.com/photo-1556761175-5973dc0f32e7?q=80&w=1932&auto=format&fit=crop";
+// ------------------------------------------------------------------
 
 interface SignupFormValues {
   name: string;
@@ -32,8 +41,10 @@ interface SignupFormValues {
   confirmPassword: string;
 }
 
+// Logic to calculate password strength color/score
 function passwordStrength(pw: string): { score: number; label: string; color: string } {
   let score = 0;
+  if (!pw) return { score: 0, label: "", color: "" };
   if (pw.length >= 8) score++;
   if (pw.length >= 12) score++;
   if (/[A-Z]/.test(pw)) score++;
@@ -41,22 +52,27 @@ function passwordStrength(pw: string): { score: number; label: string; color: st
   if (/[^A-Za-z0-9]/.test(pw)) score++;
 
   const map = [
-    { label: "Too short", color: "#E76F51" },
-    { label: "Weak", color: "#E76F51" },
-    { label: "Fair", color: "#F4A261" },
-    { label: "Good", color: "#52B788" },
-    { label: "Strong", color: "#2D6A4F" },
-    { label: "Very strong", color: "#1B4332" },
+    { label: "Too short", color: "#ff4d4f" }, // Antd Error Red
+    { label: "Weak", color: "#ff4d4f" },
+    { label: "Fair", color: "#faad14" },      // Antd Warning Yellow
+    { label: "Good", color: "#52c41a" },      // Antd Success Green
+    { label: "Strong", color: "#52c41a" },
+    { label: "Very strong", color: "#135200" },
   ];
   return { score, ...map[Math.min(score, 5)] };
 }
 
 export default function SignupPage() {
   const router = useRouter();
+  const { colors, mode } = useTheme();
+  const { token } = theme.useToken();
+  const isDark = mode === "dark";
+  const currentImage = isDark ? IMG_DARK : IMG_LIGHT;
+
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [password, setPassword] = useState("");
-
+  
   const pwStrength = passwordStrength(password);
 
   async function handleSubmit(values: SignupFormValues) {
@@ -78,8 +94,8 @@ export default function SignupPage() {
         setError(data.message ?? "Registration failed. Please try again.");
         return;
       }
-
-      // Redirect to multi-step setup
+      
+      // Redirect to onboarding/setup
       router.push("/setup");
     } catch {
       setError("Something went wrong. Please try again.");
@@ -88,116 +104,199 @@ export default function SignupPage() {
     }
   }
 
-  return (
-      <div style={styles.page}>
-        <div style={styles.bg} aria-hidden />
+  // Common input styles for dark/light mode
+  const inputStyle = {
+    background: isDark ? "rgba(255,255,255,0.04)" : "#fff",
+    borderColor: isDark ? "#444" : undefined,
+  };
 
-        <div style={styles.container}>
-          {/* Brand */}
-          <div style={styles.brand}>
-            <div style={styles.logo}>T</div>
-            <Title level={3} style={styles.brandName}>Together</Title>
-            <Text style={styles.brandTagline}>Join a world of communities</Text>
+  return (
+    <main style={{ minHeight: "100vh", background: colors.navBg }}>
+      <Row style={{ minHeight: "100vh" }}>
+        
+        {/* =======================
+            LEFT SIDE - IMAGE 
+           ======================= */}
+        <Col
+          xs={0}
+          lg={12}
+          style={{
+            position: "relative",
+            background: "#000",
+            overflow: "hidden",
+          }}
+        >
+          <div style={{ position: "absolute", inset: 0, zIndex: 0 }}>
+            <Image
+              src={currentImage}
+              alt="Signup Visual"
+              fill
+              priority
+              style={{ objectFit: "cover", opacity: 0.9 }}
+            />
+            <div
+              style={{
+                position: "absolute",
+                inset: 0,
+                background: isDark
+                  ? "linear-gradient(to bottom, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.9) 100%)"
+                  : "linear-gradient(to bottom, rgba(255,255,255,0.1) 0%, rgba(0,0,0,0.4) 100%)",
+              }}
+            />
           </div>
 
-          <Card style={styles.card} variant={"borderless"}>
-            <Title level={4} style={styles.cardTitle}>Create your account</Title>
-            <Text type="secondary" style={{ display: "block", marginBottom: 24 }}>
-              Access every Together app with one account
-            </Text>
+          <div
+            style={{
+              position: "relative",
+              zIndex: 1,
+              height: "100%",
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "space-between",
+              padding: "60px",
+              color: "#fff",
+            }}
+          >
+            <div>
+              <div
+                style={{
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: 12,
+                  background: "rgba(255,255,255,0.15)",
+                  backdropFilter: "blur(10px)",
+                  padding: "8px 16px",
+                  borderRadius: 30,
+                  border: "1px solid rgba(255,255,255,0.2)",
+                }}
+              >
+                <div style={{ fontWeight: 800, fontSize: 18 }}>T</div>
+                <span style={{ fontWeight: 500 }}>Together Ecosystem</span>
+              </div>
+            </div>
+
+            <div style={{ maxWidth: 480 }}>
+              <Title level={2} style={{ color: "#fff", marginBottom: 16 }}>
+                "Building communities has never been easier."
+              </Title>
+              <Paragraph style={{ color: "rgba(255,255,255,0.8)", fontSize: 16 }}>
+                Create your account today and start collaborating with your team in minutes.
+              </Paragraph>
+            </div>
+          </div>
+        </Col>
+
+        {/* =======================
+            RIGHT SIDE - FORM 
+           ======================= */}
+        <Col
+          xs={24}
+          lg={12}
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center",
+            background: colors.navBg,
+            padding: "40px",
+          }}
+        >
+          <div style={{ width: "100%", maxWidth: 420 }}>
+            
+            <div style={{ marginBottom: 32 }}>
+                <Link href="/">
+                    <Button type="text" icon={<ArrowLeftOutlined />} style={{ paddingLeft: 0, color: colors.navSubText }}>
+                        Back to Home
+                    </Button>
+                </Link>
+            </div>
+
+            <div style={{ marginBottom: 32 }}>
+                <Title level={2} style={{ margin: "0 0 8px", color: colors.navText }}>
+                    Create an account
+                </Title>
+                <Text style={{ color: colors.navSubText, fontSize: 16 }}>
+                    Join the ecosystem today.
+                </Text>
+            </div>
 
             {error && (
-              <Alert message={error} type="error" showIcon style={{ marginBottom: 20 }} />
+              <Alert message={error} type="error" showIcon style={{ marginBottom: 24 }} />
             )}
-
-            <Space direction="vertical" style={{ width: "100%" }} size={10}>
-              <Button
-                block
-                icon={<GoogleOutlined />}
-                onClick={() => (window.location.href = "/api/auth/oauth/google?callbackUrl=/setup")}
-                style={styles.socialBtn}
-              >
-                Sign up with Google
-              </Button>
-              <Button
-                block
-                icon={<GithubOutlined />}
-                onClick={() => (window.location.href = "/api/auth/oauth/github?callbackUrl=/setup")}
-                style={styles.socialBtn}
-              >
-                Sign up with GitHub
-              </Button>
-            </Space>
-
-            <Divider plain style={{ color: "#aaa", fontSize: 13 }}>
-              or create with email
-            </Divider>
 
             <Form<SignupFormValues>
               layout="vertical"
+              size="large"
               onFinish={handleSubmit}
               requiredMark={false}
             >
               <Form.Item
                 name="name"
-                rules={[{ required: true, message: "Full name is required" }]}
+                label={<span style={{ color: colors.navText }}>Full Name</span>}
+                rules={[{ required: true, message: "Please enter your name" }]}
               >
                 <Input
-                  prefix={<UserOutlined style={{ color: "#aaa" }} />}
-                  placeholder="Full name"
-                  size="large"
-                  autoComplete="name"
+                  prefix={<UserOutlined style={{ color: token.colorTextDescription }} />}
+                  placeholder="John Doe"
+                  style={inputStyle}
                 />
               </Form.Item>
 
               <Form.Item
                 name="email"
+                label={<span style={{ color: colors.navText }}>Email</span>}
                 rules={[
-                  { required: true, message: "Email is required" },
-                  { type: "email", message: "Enter a valid email" },
+                  { required: true, message: "Please enter your email" },
+                  { type: "email", message: "Invalid email format" },
                 ]}
               >
                 <Input
-                  prefix={<MailOutlined style={{ color: "#aaa" }} />}
-                  placeholder="you@example.com"
-                  size="large"
-                  autoComplete="email"
+                  prefix={<MailOutlined style={{ color: token.colorTextDescription }} />}
+                  placeholder="name@company.com"
+                  style={inputStyle}
                 />
               </Form.Item>
 
               <Form.Item
                 name="password"
+                label={<span style={{ color: colors.navText }}>Password</span>}
                 rules={[
-                  { required: true, message: "Password is required" },
-                  { min: 8, message: "At least 8 characters" },
+                  { required: true, message: "Please create a password" },
+                  { min: 8, message: "Must be at least 8 characters" },
                 ]}
+                style={{ marginBottom: password ? 12 : 24 }}
               >
                 <Input.Password
-                  prefix={<LockOutlined style={{ color: "#aaa" }} />}
+                  prefix={<LockOutlined style={{ color: token.colorTextDescription }} />}
                   placeholder="Create a password"
-                  size="large"
-                  autoComplete="new-password"
                   onChange={(e) => setPassword(e.target.value)}
+                  style={inputStyle}
                 />
               </Form.Item>
 
+              {/* Password Strength Meter */}
               {password.length > 0 && (
-                <div style={{ marginTop: -16, marginBottom: 16 }}>
+                <div style={{ marginBottom: 24 }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 4 }}>
+                    <Text style={{ fontSize: 12, color: colors.navSubText }}>Strength</Text>
+                    <Text style={{ fontSize: 12, color: pwStrength.color, fontWeight: 600 }}>
+                        {pwStrength.label}
+                    </Text>
+                  </div>
                   <Progress
                     percent={(pwStrength.score / 5) * 100}
                     showInfo={false}
                     strokeColor={pwStrength.color}
+                    trailColor={isDark ? "rgba(255,255,255,0.1)" : "#f0f0f0"}
                     size="small"
-                    style={{ marginBottom: 4 }}
+                    style={{ margin: 0 }}
                   />
-                  <Text style={{ fontSize: 12, color: pwStrength.color }}>
-                    {pwStrength.label}
-                  </Text>
                 </div>
               )}
 
               <Form.Item
                 name="confirmPassword"
+                label={<span style={{ color: colors.navText }}>Confirm Password</span>}
                 dependencies={["password"]}
                 rules={[
                   { required: true, message: "Please confirm your password" },
@@ -206,105 +305,66 @@ export default function SignupPage() {
                       if (!value || getFieldValue("password") === value) {
                         return Promise.resolve();
                       }
-                      return Promise.reject(new Error("Passwords don't match"));
+                      return Promise.reject(new Error("Passwords do not match"));
                     },
                   }),
                 ]}
               >
                 <Input.Password
-                  prefix={<LockOutlined style={{ color: "#aaa" }} />}
+                  prefix={<LockOutlined style={{ color: token.colorTextDescription }} />}
                   placeholder="Confirm password"
-                  size="large"
-                  autoComplete="new-password"
+                  style={inputStyle}
                 />
               </Form.Item>
 
-              <Form.Item style={{ marginTop: 4 }}>
+              <Form.Item style={{ marginTop: 8 }}>
                 <Button
                   type="primary"
                   htmlType="submit"
                   block
                   loading={loading}
                   size="large"
-                  style={styles.submitBtn}
+                  style={{ height: 48, fontSize: 16, fontWeight: 600 }}
                 >
-                  Create account
+                  Create Account
                 </Button>
               </Form.Item>
             </Form>
 
-            <Text style={styles.loginPrompt}>
-              Already have an account?{" "}
-              <Link href="/login" style={styles.loginLink}>Sign in</Link>
-            </Text>
-          </Card>
+            <div style={{ position: "relative", margin: "24px 0" }}>
+              <Divider style={{ borderColor: isDark ? "#333" : "#e5e7eb", color: colors.navSubText, fontSize: 13 }}>
+                OR REGISTER WITH
+              </Divider>
+            </div>
 
-          <Text style={styles.footer}>
-            By creating an account you agree to our{" "}
-            <Link href="/terms" style={styles.footerLink}>Terms</Link> and{" "}
-            <Link href="/privacy" style={styles.footerLink}>Privacy Policy</Link>.
-          </Text>
-        </div>
-      </div>
+            <Button
+              block
+              size="large"
+              icon={<GoogleOutlined />}
+              onClick={() => (window.location.href = "/api/auth/oauth/google")}
+              style={{
+                height: 48,
+                background: isDark ? "rgba(255,255,255,0.05)" : "#fff",
+                borderColor: isDark ? "#444" : "#d9d9d9",
+                color: colors.navText,
+                fontSize: 15,
+                fontWeight: 500
+              }}
+            >
+              Google
+            </Button>
+
+            <div style={{ marginTop: 32, textAlign: "center" }}>
+              <Text style={{ color: colors.navSubText }}>
+                Already have an account?{" "}
+                <Link href="/auth/login" style={{ color: token.colorPrimary, fontWeight: 600 }}>
+                  Sign in
+                </Link>
+              </Text>
+            </div>
+          </div>
+        </Col>
+      </Row>
+    </main>
   );
 }
-
-const styles: Record<string, React.CSSProperties> = {
-  page: {
-    minHeight: "100vh",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: "#F8F7F4",
-    padding: "24px 16px",
-    position: "relative",
-    overflow: "hidden",
-    fontFamily: "'DM Sans', sans-serif",
-  },
-  bg: {
-    position: "absolute",
-    inset: 0,
-    background:
-      "radial-gradient(ellipse 80% 60% at 80% 0%, #D8F3DC55 0%, transparent 60%)," +
-      "radial-gradient(ellipse 60% 50% at 10% 100%, #B7E4C755 0%, transparent 60%)",
-    pointerEvents: "none",
-  },
-  container: { width: "100%", maxWidth: 440, position: "relative", zIndex: 1 },
-  brand: { textAlign: "center", marginBottom: 32 },
-  logo: {
-    width: 52,
-    height: 52,
-    borderRadius: 16,
-    background: "linear-gradient(135deg, #2D6A4F, #52B788)",
-    color: "#fff",
-    fontSize: 26,
-    fontWeight: 700,
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    margin: "0 auto 12px",
-    boxShadow: "0 4px 20px rgba(45,106,79,0.35)",
-  },
-  brandName: {
-    margin: "0 0 4px",
-    color: "#1A2E1A",
-    fontWeight: 700,
-    fontFamily: "'DM Sans', sans-serif",
-  },
-  brandTagline: { color: "#6B8C6B", fontSize: 14 },
-  card: { borderRadius: 20, boxShadow: "0 2px 24px rgba(0,0,0,0.08)", padding: "8px 4px" },
-  cardTitle: { margin: "0 0 4px", fontFamily: "'DM Sans', sans-serif", fontWeight: 700 },
-  socialBtn: { height: 44, borderRadius: 10, fontWeight: 500, border: "1.5px solid #E8E4DC", background: "#FAFAF8" },
-  submitBtn: {
-    height: 46,
-    fontWeight: 600,
-    fontSize: 15,
-    background: "linear-gradient(135deg, #2D6A4F, #40916C)",
-    border: "none",
-    boxShadow: "0 4px 16px rgba(45,106,79,0.30)",
-  },
-  loginPrompt: { display: "block", textAlign: "center", fontSize: 14 },
-  loginLink: { color: "#2D6A4F", fontWeight: 600 },
-  footer: { display: "block", textAlign: "center", fontSize: 12, color: "#aaa", marginTop: 20 },
-  footerLink: { color: "#888" },
-};

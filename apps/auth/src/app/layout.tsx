@@ -23,16 +23,9 @@ export default function RootLayout({
             <Layout
               style={{
                 minHeight: "100vh",
-                display: "flex",
-                flexDirection: "column",
               }}
             >
-              <Content
-                style={{
-                  flex: 1,
-                  paddingTop: 64,
-                }}
-              >
+              <Content>
                 {children}
               </Content>
             </Layout>

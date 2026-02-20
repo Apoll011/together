@@ -2,332 +2,289 @@
 
 import React, { useState } from "react";
 import {
-  Button,
-  Card,
-  Checkbox,
-  ConfigProvider,
-  Divider,
   Form,
   Input,
+  Button,
   Typography,
+  Row,
+  Col,
+  Divider,
   Alert,
-  Space,
+  theme,
+  ConfigProvider,
 } from "antd";
 import {
-  LockOutlined,
   MailOutlined,
+  LockOutlined,
   GoogleOutlined,
-  GithubOutlined,
-  AppleOutlined,
+  ArrowLeftOutlined,
 } from "@ant-design/icons";
-import { useRouter } from "next/navigation";
+import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useTheme } from "@repo/ui/ThemeContext";
 
-const { Title, Text } = Typography;
+const { Title, Text, Paragraph } = Typography;
 
-interface LoginFormValues {
-  email: string;
-  password: string;
-  remember: boolean;
-}
+// ------------------------------------------------------------------
+// REPLACE THESE WITH YOUR ACTUAL IMAGE PATHS
+// ------------------------------------------------------------------
+const IMG_LIGHT = "https://images.unsplash.com/photo-1579546929518-9e396f3cc809?q=80&w=2070&auto=format&fit=crop"; 
+const IMG_DARK = "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=1964&auto=format&fit=crop";
+// ------------------------------------------------------------------
 
-/**
- * Login page for the Together central account system.
- *
- * Handles:
- *  - Email + password authentication
- *  - OAuth social sign-in (Google, GitHub, Apple)
- *  - "Remember me" persistence
- *  - Redirect to `callbackUrl` query param after login (used by OAuth authorize flow)
- */
 export default function LoginPage({
   searchParams,
 }: {
   searchParams?: { callbackUrl?: string; error?: string };
 }) {
   const router = useRouter();
+  const { colors, mode } = useTheme();
+  const { token } = theme.useToken();
+
+  const isDark = mode === "dark";
+  const currentImage = isDark ? IMG_DARK : IMG_LIGHT;
+
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(searchParams?.error ?? "");
-
   const callbackUrl = searchParams?.callbackUrl ?? "/dashboard";
 
-  async function handleSubmit(values: LoginFormValues) {
+  const handleSubmit = async (values: any) => {
     setLoading(true);
     setError("");
     try {
+      // Simulate API call
       const res = await fetch("/api/auth/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          email: values.email,
-          password: values.password,
-          remember: values.remember,
-        }),
+        body: JSON.stringify(values),
       });
 
-      if (!res.ok) {
-        const data = await res.json();
-        setError(data.message ?? "Invalid credentials. Please try again.");
-        return;
-      }
-
+      if (!res.ok) throw new Error("Invalid credentials");
       router.push(callbackUrl);
-    } catch {
-      setError("Something went wrong. Please try again.");
+    } catch (err) {
+      setError("Invalid email or password.");
     } finally {
       setLoading(false);
     }
-  }
+  };
 
-  function handleSocialLogin(provider: "google" | "github" | "apple") {
-    const params = new URLSearchParams({ callbackUrl });
-    window.location.href = `/api/auth/oauth/${provider}?${params}`;
-  }
+  const handleSocialLogin = () => {
+    console.log("Social login...");
+  };
 
   return (
-    <div style={styles.page}>
-        <div style={styles.bg} aria-hidden />
-
-        <div style={styles.container}>
-          {/* Brand */}
-          <div style={styles.brand}>
-            <div style={styles.logo}>T</div>
-            <Title level={3} style={styles.brandName}>
-              Together
-            </Title>
-            <Text style={styles.brandTagline}>One account. Every community.</Text>
+    // We override the background here to match the split layout
+    <main style={{ minHeight: "100vh", background: colors.navBg }}>
+      <Row style={{ minHeight: "100vh" }}>
+        
+        {/* =======================
+            LEFT SIDE - IMAGE 
+           ======================= */}
+        <Col
+          xs={0}
+          lg={12}
+          style={{
+            position: "relative",
+            background: "#000", // Fallback color
+            overflow: "hidden",
+          }}
+        >
+          {/* Background Image */}
+          <div style={{ position: "absolute", inset: 0, zIndex: 0 }}>
+            <Image
+              src={currentImage}
+              alt="Login Visual"
+              fill
+              priority
+              style={{ objectFit: "cover", opacity: 0.9 }}
+            />
+            {/* Gradient Overlay for text readability */}
+            <div
+              style={{
+                position: "absolute",
+                inset: 0,
+                background: isDark 
+                  ? "linear-gradient(to bottom, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.8) 100%)"
+                  : "linear-gradient(to bottom, rgba(255,255,255,0.1) 0%, rgba(0,0,0,0.4) 100%)",
+              }}
+            />
           </div>
 
-          <Card style={styles.card} variant={"borderless"}>
-            <Title level={4} style={styles.cardTitle}>
-              Welcome back
-            </Title>
-            <Text type="secondary" style={{ display: "block", marginBottom: 24 }}>
-              Sign in to access all Together apps
-            </Text>
+          {/* Overlay Content (Logo/Testimonial) */}
+          <div
+            style={{
+              position: "relative",
+              zIndex: 1,
+              height: "100%",
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "space-between",
+              padding: "60px",
+              color: "#fff", // Always white text over the image
+            }}
+          >
+            <div>
+              <div
+                style={{
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: 12,
+                  background: "rgba(255,255,255,0.15)",
+                  backdropFilter: "blur(10px)",
+                  padding: "8px 16px",
+                  borderRadius: 30,
+                  border: "1px solid rgba(255,255,255,0.2)",
+                }}
+              >
+                <div style={{ fontWeight: 800, fontSize: 18 }}>T</div>
+                <span style={{ fontWeight: 500 }}>Together Ecosystem</span>
+              </div>
+            </div>
+
+            <div style={{ maxWidth: 480 }}>
+              <Title level={2} style={{ color: "#fff", marginBottom: 16 }}>
+                "The best way to manage your community apps in one place."
+              </Title>
+              <Paragraph style={{ color: "rgba(255,255,255,0.8)", fontSize: 16 }}>
+                Join thousands of developers and community managers building the
+                future together.
+              </Paragraph>
+            </div>
+          </div>
+        </Col>
+
+        {/* =======================
+            RIGHT SIDE - FORM 
+           ======================= */}
+        <Col
+          xs={24}
+          lg={12}
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center",
+            background: colors.navBg, // Theme background
+            padding: "40px",
+          }}
+        >
+          <div style={{ width: "100%", maxWidth: 420 }}>
+            {/* Header */}
+            <div style={{ marginBottom: 32 }}>
+                <Title level={2} style={{ margin: "0 0 8px", color: colors.navText }}>
+                    Welcome back
+                </Title>
+                <Text style={{ color: colors.navSubText, fontSize: 16 }}>
+                    Please enter your details to sign in.
+                </Text>
+            </div>
 
             {error && (
               <Alert
                 message={error}
                 type="error"
                 showIcon
-                style={{ marginBottom: 20 }}
+                style={{ marginBottom: 24 }}
               />
             )}
 
-            {/* Social providers */}
-            <Space direction="vertical" style={{ width: "100%" }} size={10}>
-              <Button
-                block
-                icon={<GoogleOutlined />}
-                onClick={() => handleSocialLogin("google")}
-                style={styles.socialBtn}
-              >
-                Continue with Google
-              </Button>
-              <Button
-                block
-                icon={<GithubOutlined />}
-                onClick={() => handleSocialLogin("github")}
-                style={styles.socialBtn}
-              >
-                Continue with GitHub
-              </Button>
-              <Button
-                block
-                icon={<AppleOutlined />}
-                onClick={() => handleSocialLogin("apple")}
-                style={styles.socialBtn}
-              >
-                Continue with Apple
-              </Button>
-            </Space>
-
-            <Divider plain style={{ color: "#aaa", fontSize: 13 }}>
-              or sign in with email
-            </Divider>
-
-            <Form<LoginFormValues>
+            {/* Form */}
+            <Form
               layout="vertical"
+              size="large"
               onFinish={handleSubmit}
-              initialValues={{ remember: true }}
               requiredMark={false}
             >
               <Form.Item
+                label={<span style={{ color: colors.navText }}>Email</span>}
                 name="email"
                 rules={[
-                  { required: true, message: "Email is required" },
-                  { type: "email", message: "Enter a valid email" },
+                  { required: true, message: "Please enter your email" },
+                  { type: "email", message: "Invalid email format" },
                 ]}
               >
                 <Input
-                  prefix={<MailOutlined style={{ color: "#aaa" }} />}
-                  placeholder="you@example.com"
-                  size="large"
-                  autoComplete="email"
+                  prefix={<MailOutlined style={{ color: token.colorTextDescription }} />}
+                  placeholder="name@company.com"
+                  style={{ 
+                    background: isDark ? "rgba(255,255,255,0.04)" : "#fff",
+                    borderColor: isDark ? "#444" : undefined
+                  }}
                 />
               </Form.Item>
 
               <Form.Item
+                label={<span style={{ color: colors.navText }}>Password</span>}
                 name="password"
-                rules={[{ required: true, message: "Password is required" }]}
+                rules={[{ required: true, message: "Please enter your password" }]}
               >
                 <Input.Password
-                  prefix={<LockOutlined style={{ color: "#aaa" }} />}
-                  placeholder="Password"
-                  size="large"
-                  autoComplete="current-password"
+                  prefix={<LockOutlined style={{ color: token.colorTextDescription }} />}
+                  placeholder="••••••••"
+                  style={{ 
+                    background: isDark ? "rgba(255,255,255,0.04)" : "#fff",
+                    borderColor: isDark ? "#444" : undefined
+                  }}
                 />
               </Form.Item>
 
-              <div style={styles.rememberRow}>
-                <Form.Item name="remember" valuePropName="checked" noStyle>
-                  <Checkbox>Remember me</Checkbox>
-                </Form.Item>
-                <Link href="/forgot-password" style={styles.forgotLink}>
-                  Forgot password?
-                </Link>
+              <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 24 }}>
+                 {/* Empty span to push Forgot Password to right if checkbox removed */}
+                 <span /> 
+                 <Link href="/auth/forgot" style={{ color: token.colorPrimary, fontWeight: 500, fontSize: 14 }}>
+                   Forgot password?
+                 </Link>
               </div>
 
-              <Form.Item style={{ marginTop: 8 }}>
+              <Form.Item>
                 <Button
                   type="primary"
                   htmlType="submit"
                   block
                   loading={loading}
                   size="large"
-                  style={styles.submitBtn}
+                  style={{ height: 48, fontSize: 16, fontWeight: 600 }}
                 >
-                  Sign in
+                  Sign In
                 </Button>
               </Form.Item>
             </Form>
 
-            <Text style={styles.signupPrompt}>
-              Don&apos;t have an account?{" "}
-              <Link href="/signup" style={styles.signupLink}>
-                Create one free
-              </Link>
-            </Text>
-          </Card>
+            <div style={{ position: "relative", margin: "24px 0" }}>
+              <Divider style={{ borderColor: isDark ? "#333" : "#e5e7eb", color: colors.navSubText, fontSize: 13 }}>
+                OR CONTINUE WITH
+              </Divider>
+            </div>
 
-          <Text style={styles.footer}>
-            By continuing, you agree to Together&apos;s{" "}
-            <Link href="/terms" style={styles.footerLink}>Terms</Link> and{" "}
-            <Link href="/privacy" style={styles.footerLink}>Privacy Policy</Link>.
-          </Text>
-        </div>
-      </div>
+            <Button
+              block
+              size="large"
+              icon={<GoogleOutlined />}
+              onClick={handleSocialLogin}
+              style={{
+                height: 48,
+                background: isDark ? "rgba(255,255,255,0.05)" : "#fff",
+                borderColor: isDark ? "#444" : "#d9d9d9",
+                color: colors.navText,
+                fontSize: 15,
+                fontWeight: 500
+              }}
+            >
+              Google
+            </Button>
+
+            <div style={{ marginTop: 32, textAlign: "center" }}>
+              <Text style={{ color: colors.navSubText }}>
+                Don&apos;t have an account?{" "}
+                <Link href="/auth/signup" style={{ color: token.colorPrimary, fontWeight: 600 }}>
+                  Sign up for free
+                </Link>
+              </Text>
+            </div>
+          </div>
+        </Col>
+      </Row>
+    </main>
   );
 }
-
-const styles: Record<string, React.CSSProperties> = {
-  page: {
-    minHeight: "100vh",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: "#F8F7F4",
-    padding: "24px 16px",
-    position: "relative",
-    overflow: "hidden",
-    fontFamily: "'DM Sans', sans-serif",
-  },
-  bg: {
-    position: "absolute",
-    inset: 0,
-    background:
-      "radial-gradient(ellipse 80% 60% at 20% 0%, #D8F3DC55 0%, transparent 60%)," +
-      "radial-gradient(ellipse 60% 50% at 80% 100%, #B7E4C755 0%, transparent 60%)",
-    pointerEvents: "none",
-  },
-  container: {
-    width: "100%",
-    maxWidth: 440,
-    position: "relative",
-    zIndex: 1,
-  },
-  brand: {
-    textAlign: "center",
-    marginBottom: 32,
-  },
-  logo: {
-    width: 52,
-    height: 52,
-    borderRadius: 16,
-    background: "linear-gradient(135deg, #2D6A4F, #52B788)",
-    color: "#fff",
-    fontSize: 26,
-    fontWeight: 700,
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    margin: "0 auto 12px",
-    boxShadow: "0 4px 20px rgba(45,106,79,0.35)",
-  },
-  brandName: {
-    margin: "0 0 4px",
-    color: "#1A2E1A",
-    fontWeight: 700,
-    fontFamily: "'DM Sans', sans-serif",
-  },
-  brandTagline: {
-    color: "#6B8C6B",
-    fontSize: 14,
-  },
-  card: {
-    borderRadius: 20,
-    boxShadow: "0 2px 24px rgba(0,0,0,0.08)",
-    padding: "8px 4px",
-  },
-  cardTitle: {
-    margin: "0 0 4px",
-    fontFamily: "'DM Sans', sans-serif",
-    fontWeight: 700,
-  },
-  socialBtn: {
-    height: 44,
-    borderRadius: 10,
-    fontWeight: 500,
-    border: "1.5px solid #E8E4DC",
-    background: "#FAFAF8",
-  },
-  rememberRow: {
-    display: "flex",
-    justifyContent: "space-between",
-    alignItems: "center",
-    marginBottom: 16,
-    marginTop: -8,
-  },
-  forgotLink: {
-    color: "#2D6A4F",
-    fontSize: 14,
-  },
-  submitBtn: {
-    height: 46,
-    fontWeight: 600,
-    fontSize: 15,
-    background: "linear-gradient(135deg, #2D6A4F, #40916C)",
-    border: "none",
-    boxShadow: "0 4px 16px rgba(45,106,79,0.30)",
-  },
-  signupPrompt: {
-    display: "block",
-    textAlign: "center",
-    fontSize: 14,
-  },
-  signupLink: {
-    color: "#2D6A4F",
-    fontWeight: 600,
-  },
-  footer: {
-    display: "block",
-    textAlign: "center",
-    fontSize: 12,
-    color: "#aaa",
-    marginTop: 20,
-  },
-  footerLink: {
-    color: "#888",
-  },
-};

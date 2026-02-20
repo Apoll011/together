@@ -206,7 +206,7 @@ export default function SecurityPage() {
           </Text>
 
           {/* Security score */}
-          <Card style={styles.card} bordered={false}>
+          <Card style={styles.card} variant={"borderless"}>
             <div style={styles.scoreRow}>
               <div>
                 <Title level={5} style={{ margin: 0 }}>Security score</Title>
@@ -238,7 +238,7 @@ export default function SecurityPage() {
           </Card>
 
           {/* Change password */}
-          <Card style={styles.card} bordered={false}>
+          <Card style={styles.card} variant={"borderless"}>
             <Title level={5} style={styles.sectionTitle}>
               <LockOutlined style={{ marginRight: 8, color: "#2D6A4F" }} />
               Change password
@@ -291,7 +291,7 @@ export default function SecurityPage() {
           </Card>
 
           {/* 2FA */}
-          <Card style={styles.card} bordered={false}>
+          <Card style={styles.card} variant={"borderless"}>
             <div style={styles.twoFaRow}>
               <div style={{ display: "flex", alignItems: "flex-start", gap: 14 }}>
                 <SafetyCertificateOutlined style={{ fontSize: 24, color: twoFactorEnabled ? "#2D6A4F" : "#888", marginTop: 2 }} />
@@ -327,7 +327,7 @@ export default function SecurityPage() {
           </Card>
 
           {/* Active sessions */}
-          <Card style={styles.card} bordered={false}>
+          <Card style={styles.card} variant={"borderless"}>
             <div style={styles.sessionHeader}>
               <div>
                 <Title level={5} style={{ margin: "0 0 2px" }}>Active sessions</Title>
@@ -352,7 +352,7 @@ export default function SecurityPage() {
           </Card>
 
           {/* Security log */}
-          <Card style={styles.card} bordered={false}>
+          <Card style={styles.card} variant={"borderless"}>
             <Title level={5} style={styles.sectionTitle}>Recent security activity</Title>
             <Timeline
               items={MOCK_EVENTS.map((e) => ({

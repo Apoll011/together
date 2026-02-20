@@ -146,7 +146,7 @@ export default function ConnectedAppsPage() {
           </Paragraph>
 
           {togetherApps.length === 0 ? (
-            <Card style={styles.card} bordered={false}>
+            <Card style={styles.card} variant={"borderless"}>
               <Empty description="No Together apps connected yet." />
             </Card>
           ) : (
@@ -167,7 +167,7 @@ export default function ConnectedAppsPage() {
           </Paragraph>
 
           {thirdPartyApps.length === 0 ? (
-            <Card style={styles.card} bordered={false}>
+            <Card style={styles.card} variant={"borderless"}>
               <Empty description="No third-party apps connected." />
             </Card>
           ) : (
@@ -179,7 +179,7 @@ export default function ConnectedAppsPage() {
           )}
 
           {/* Info box */}
-          <Card style={{ ...styles.card, marginTop: 24, background: "#F0FAF4", border: "1px solid #B7E4C7" }} bordered={false}>
+          <Card style={{ ...styles.card, marginTop: 24, background: "#F0FAF4", border: "1px solid #B7E4C7" }} variant={"borderless"}>
             <div style={{ display: "flex", gap: 12, alignItems: "flex-start" }}>
               <SafetyOutlined style={{ color: "#2D6A4F", fontSize: 20, marginTop: 2 }} />
               <div>
@@ -208,7 +208,7 @@ function AppCard({
   const [expanded, setExpanded] = useState(false);
 
   return (
-    <Card style={cardStyles.card} bordered={false}>
+    <Card style={cardStyles.card} variant={"borderless"}>
       <div style={cardStyles.header}>
         {/* Identity */}
         <div style={cardStyles.identity}>
