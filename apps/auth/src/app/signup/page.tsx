@@ -27,12 +27,8 @@ import { useTheme } from "@repo/ui/ThemeContext";
 
 const { Title, Text, Paragraph } = Typography;
 
-// ------------------------------------------------------------------
-// IMAGES (Slightly different from Login to distinguish pages)
-// ------------------------------------------------------------------
 const IMG_LIGHT = "https://images.unsplash.com/photo-1522071820081-009f0129c71c?q=80&w=2070&auto=format&fit=crop";
 const IMG_DARK = "https://images.unsplash.com/photo-1556761175-5973dc0f32e7?q=80&w=1932&auto=format&fit=crop";
-// ------------------------------------------------------------------
 
 interface SignupFormValues {
   name: string;
@@ -108,15 +104,13 @@ export default function SignupPage() {
   const inputStyle = {
     background: isDark ? "rgba(255,255,255,0.04)" : "#fff",
     borderColor: isDark ? "#444" : undefined,
+    color: colors.navBg
   };
 
   return (
     <main style={{ minHeight: "100vh", background: colors.navBg }}>
       <Row style={{ minHeight: "100vh" }}>
         
-        {/* =======================
-            LEFT SIDE - IMAGE 
-           ======================= */}
         <Col
           xs={0}
           lg={12}
@@ -186,9 +180,6 @@ export default function SignupPage() {
           </div>
         </Col>
 
-        {/* =======================
-            RIGHT SIDE - FORM 
-           ======================= */}
         <Col
           xs={24}
           lg={12}
@@ -198,20 +189,11 @@ export default function SignupPage() {
             justifyContent: "center",
             alignItems: "center",
             background: colors.navBg,
-            padding: "40px",
+            padding: "10px",
           }}
         >
           <div style={{ width: "100%", maxWidth: 420 }}>
-            
-            <div style={{ marginBottom: 32 }}>
-                <Link href="/">
-                    <Button type="text" icon={<ArrowLeftOutlined />} style={{ paddingLeft: 0, color: colors.navSubText }}>
-                        Back to Home
-                    </Button>
-                </Link>
-            </div>
-
-            <div style={{ marginBottom: 32 }}>
+            <div style={{ marginBottom: 16 }}>
                 <Title level={2} style={{ margin: "0 0 8px", color: colors.navText }}>
                     Create an account
                 </Title>
@@ -231,18 +213,20 @@ export default function SignupPage() {
               requiredMark={false}
             >
               <Form.Item
+                style={{ marginBottom: 0 }}
                 name="name"
                 label={<span style={{ color: colors.navText }}>Full Name</span>}
                 rules={[{ required: true, message: "Please enter your name" }]}
               >
                 <Input
-                  prefix={<UserOutlined style={{ color: token.colorTextDescription }} />}
+                  prefix={<UserOutlined style={{ color: colors.navBg }} />}
                   placeholder="John Doe"
                   style={inputStyle}
                 />
               </Form.Item>
 
               <Form.Item
+              style={{ marginBottom: 0 }}
                 name="email"
                 label={<span style={{ color: colors.navText }}>Email</span>}
                 rules={[
@@ -251,23 +235,23 @@ export default function SignupPage() {
                 ]}
               >
                 <Input
-                  prefix={<MailOutlined style={{ color: token.colorTextDescription }} />}
+                  prefix={<MailOutlined style={{ color: colors.navBg }} />}
                   placeholder="name@company.com"
                   style={inputStyle}
                 />
               </Form.Item>
 
               <Form.Item
+                style={{ marginBottom: 0 }}
                 name="password"
                 label={<span style={{ color: colors.navText }}>Password</span>}
                 rules={[
                   { required: true, message: "Please create a password" },
                   { min: 8, message: "Must be at least 8 characters" },
                 ]}
-                style={{ marginBottom: password ? 12 : 24 }}
               >
                 <Input.Password
-                  prefix={<LockOutlined style={{ color: token.colorTextDescription }} />}
+                  prefix={<LockOutlined style={{ color: colors.navBg }} />}
                   placeholder="Create a password"
                   onChange={(e) => setPassword(e.target.value)}
                   style={inputStyle}
@@ -276,7 +260,7 @@ export default function SignupPage() {
 
               {/* Password Strength Meter */}
               {password.length > 0 && (
-                <div style={{ marginBottom: 24 }}>
+                <div style={{ marginBottom: 16 }}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 4 }}>
                     <Text style={{ fontSize: 12, color: colors.navSubText }}>Strength</Text>
                     <Text style={{ fontSize: 12, color: pwStrength.color, fontWeight: 600 }}>
@@ -311,7 +295,7 @@ export default function SignupPage() {
                 ]}
               >
                 <Input.Password
-                  prefix={<LockOutlined style={{ color: token.colorTextDescription }} />}
+                  prefix={<LockOutlined style={{ color: colors.navBg }} />}
                   placeholder="Confirm password"
                   style={inputStyle}
                 />
@@ -331,7 +315,7 @@ export default function SignupPage() {
               </Form.Item>
             </Form>
 
-            <div style={{ position: "relative", margin: "24px 0" }}>
+            <div style={{ position: "relative", margin: "12px 0" }}>
               <Divider style={{ borderColor: isDark ? "#333" : "#e5e7eb", color: colors.navSubText, fontSize: 13 }}>
                 OR REGISTER WITH
               </Divider>
@@ -354,7 +338,7 @@ export default function SignupPage() {
               Google
             </Button>
 
-            <div style={{ marginTop: 32, textAlign: "center" }}>
+            <div style={{ marginTop: 16, textAlign: "center" }}>
               <Text style={{ color: colors.navSubText }}>
                 Already have an account?{" "}
                 <Link href="/auth/login" style={{ color: token.colorPrimary, fontWeight: 600 }}>
