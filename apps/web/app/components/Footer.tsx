@@ -29,15 +29,6 @@ import { useTheme } from "@repo/ui/ThemeContext";
 const { Text, Title, Link } = Typography;
 const { useBreakpoint } = Grid;
 
-const apps = [
-  { key: "preserve", label: "We Preserve", icon: "🌿", color: "#52c41a" },
-  { key: "learn",    label: "We Learn",    icon: "📚", color: "#fa8c16", isNew: true },
-  { key: "work",     label: "We Work",     icon: "🚀", color: "#0050B3" },
-  { key: "help",     label: "We Help",     icon: "🤝", color: "#eb2f96" },
-  { key: "explore",  label: "We Explore",  icon: "🧭", color: "#722ed1" },
-  { key: "code",     label: "We Code",     icon: "⌨️", color: "#13c2c2" },
-];
-
 const resources = [
   { key: "docs",   label: "Documentation" },
   { key: "api",    label: "API Reference" },
@@ -47,11 +38,11 @@ const resources = [
 ];
 
 const company = [
-  { key: "about",     label: "About Us" },
-  { key: "careers",   label: "Careers" },
-  { key: "manifesto", label: "Manifesto" },
-  { key: "privacy",   label: "Privacy Policy" },
-  { key: "terms",     label: "Terms of Service" },
+  { key: "about",     label: "About Us", href: "/about" },
+  { key: "careers",   label: "Careers", href: "/carees" },
+  { key: "manifesto", label: "Manifesto", href: "/legal/manifesto" },
+  { key: "privacy",   label: "Privacy Policy", href: "/legal/privacy" },
+  { key: "terms",     label: "Terms of Service", href: "/legal/terms" },
 ];
 
 const socialLinks = [
@@ -119,8 +110,6 @@ const Newsletter: React.FC = () => {
     </Form>
   );
 };
-
-// ─── Footer link helper ───────────────────────────────────────────────────────
 
 const FooterLink: React.FC<{ href?: string; children: React.ReactNode }> = ({
   href = "#",
@@ -246,76 +235,6 @@ export const Footer: React.FC = () => {
           {/* Spacer on large screens */}
           <Col lg={1} xs={0} />
 
-          {/* Ecosystem */}
-          <Col xs={12} sm={8} md={5} lg={5}>
-            <Text
-              strong
-              style={{
-                color: colors.footerText,
-                fontSize: 13,
-                letterSpacing: "0.06em",
-                textTransform: "uppercase",
-                display: "block",
-                marginBottom: 16,
-              }}
-            >
-              Ecosystem
-            </Text>
-            {apps.map((app) => (
-              <Link
-                key={app.key}
-                href="#"
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: 8,
-                  color: colors.footerLink,
-                  marginBottom: 10,
-                  fontSize: 14,
-                  transition: "color 0.2s",
-                }}
-                onMouseEnter={(e) =>
-                  ((e.currentTarget as HTMLAnchorElement).style.color =
-                    colors.footerLinkHover)
-                }
-                onMouseLeave={(e) =>
-                  ((e.currentTarget as HTMLAnchorElement).style.color =
-                    colors.footerLink)
-                }
-              >
-                <span
-                  style={{
-                    width: 22,
-                    height: 22,
-                    borderRadius: 5,
-                    background: `${app.color}25`,
-                    display: "inline-flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    fontSize: 12,
-                    flexShrink: 0,
-                  }}
-                >
-                  {app.icon}
-                </span>
-                Together {app.label}
-                {app.isNew && (
-                  <Tag
-                    color="blue"
-                    style={{
-                      fontSize: 10,
-                      lineHeight: "16px",
-                      padding: "0 4px",
-                      marginLeft: 2,
-                    }}
-                  >
-                    New
-                  </Tag>
-                )}
-              </Link>
-            ))}
-          </Col>
-
           {/* Resources */}
           <Col xs={12} sm={8} md={5} lg={5}>
             <Text
@@ -352,7 +271,7 @@ export const Footer: React.FC = () => {
               Company
             </Text>
             {company.map((c) => (
-              <FooterLink key={c.key}>{c.label}</FooterLink>
+              <FooterLink key={c.key} href={c.href}>{c.label}</FooterLink>
             ))}
           </Col>
         </Row>
