@@ -50,10 +50,17 @@ export interface TeamMember {
   initials: string;
 }
 
+export interface AppPlatformsUrls {
+  web?: string,
+  ios?: string,
+  android?: string
+}
+
 export interface AppPlatforms {
   web: boolean;
   ios: boolean;
   android: boolean;
+  urls?: AppPlatformsUrls
 }
 
 export interface MockupSlide {
@@ -287,7 +294,7 @@ export const appsData: AppData[] = [
       },
     ],
 
-    platforms: { web: true, ios: true, android: true },
+    platforms: { web: true, ios: true, android: true, urls: {web: "http://localhost:3002"} },
   },
 
   // ── LEARN (Planning) ────────────────────────────────────────────────────────

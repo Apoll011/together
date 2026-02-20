@@ -34,6 +34,7 @@ import {
   SignedOut,
   UserButton,
 } from '@clerk/nextjs'
+import AppLauncher from "./applancher";
 
 const { useBreakpoint } = Grid;
 const { Text } = Typography;
@@ -518,25 +519,24 @@ export const Navbar: React.FC<NavbarProps> = ({ variant = "default" }) => {
           {/* ── Desktop actions ── */}
           {!isMobile && (
             <Space size={8} style={{ flexShrink: 0 }}>
-              {/* Theme Toggle */}
               <ToggleTheme />
-
-              
-            <SignedOut>
-              <SignInButton>
-                <Button
-                type="primary"
-                ghost={isTransparent || isDark}
-               
-              >
-                Sign In
-              </Button>
-              </SignInButton>
-            </SignedOut>
-            <SignedIn>
-              <UserButton />
-            </SignedIn>
-              
+              <SignedOut>
+                <SignInButton>
+                  <Button
+                  type="primary"
+                  ghost={isTransparent || isDark}
+                
+                >
+                  Sign In
+                </Button>
+                </SignInButton>
+              </SignedOut>
+              <SignedIn>
+                <AppLauncher usedAppKeys={["preserve"]}/>
+              </SignedIn>
+              <SignedIn>
+                <UserButton />
+              </SignedIn>
             </Space>
           )}
 
