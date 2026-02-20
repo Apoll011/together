@@ -534,7 +534,7 @@ export default function AppPageClient({ app }: { app: AppData }) {
       >
         {/* Back link */}
         <div style={{ position: "absolute", top: 24, left: 24 }}>
-          <Link href="/">
+          <Link href="/apps">
             <Button
               type="text"
               icon={<ArrowLeftOutlined />}

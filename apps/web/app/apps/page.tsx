@@ -111,15 +111,6 @@ function AppCard({
           position: "relative",
         }}
       >
-        {/* Top color strip */}
-        <div
-          style={{
-            height: featured ? 6 : 4,
-            background: `linear-gradient(90deg, ${app.color}, ${app.color}60)`,
-            flexShrink: 0,
-          }}
-        />
-
         {/* Card body */}
         <div style={{ padding: featured ? "28px 28px 24px" : "22px 22px 20px", flex: 1, display: "flex", flexDirection: "column" }}>
 

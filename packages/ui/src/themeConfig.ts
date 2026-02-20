@@ -13,7 +13,8 @@ export const lightTheme: ThemeConfig = {
     colorBgContainer: '#ffffff',
     colorBgElevated: '#ffffff',
     colorBgLayout: '#ffffff',
-    
+    colorText: '#1F1F1F',
+
     // 2. SHAPE & FORM (The Minimalist Tweaks)
     borderRadius: 12,         // Soft squares (Standard AntD is 6, Apple is 12+)
     wireframe: false,        // Use modern filled styles instead of outlines
@@ -57,7 +58,7 @@ export const darkTheme: ThemeConfig = {
     colorBgContainer: '#1b1b1b',
     colorBgElevated: '#262626',
     colorBgLayout: '#141414',
-    
+    colorText: '#ffffff',
     // 2. SHAPE & FORM
     borderRadius: 12,
     wireframe: false,

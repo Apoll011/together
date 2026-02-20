@@ -194,9 +194,9 @@ const MegaMenuOverlay: React.FC = () => {
       <Divider style={{ margin: "16px 0 12px" }} />
 
       <div style={{ textAlign: "right" }}>
-        <Button type="link" style={{ padding: 0, fontWeight: 600 }}>
+        <Link href="/apps" style={{ padding: 0, fontWeight: 600 }}>
           View all apps <ArrowRightOutlined />
-        </Button>
+        </Link>
       </div>
     </div>
   );
