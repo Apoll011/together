@@ -40,8 +40,8 @@ export default function ManifestoPage() {
 
   const bg = isDark ? "#0d0d0d" : "#faf8f4";
   const ink = isDark ? "#e8e4dc" : "#1a1814";
-  const sub = isDark ? "#7a7570" : "#8a857e";
-  const accent = isDark ? "#c9a96e" : "#a0622a";
+  const sub = colors.navSubText;
+  const accent = colors.accentText;
   const dividerColor = isDark ? "#2a2824" : "#e0dbd2";
 
   return (
@@ -140,7 +140,7 @@ export default function ManifestoPage() {
         className="manifesto-section"
         style={{
           ...sectionStyle,
-          width: 1,
+          width: 2,
           height: 80,
           background: `linear-gradient(to bottom, transparent, ${dividerColor}, transparent)`,
           marginBottom: 96,
@@ -210,7 +210,7 @@ export default function ManifestoPage() {
         className="manifesto-section"
         style={{
           ...sectionStyle,
-          width: 1,
+          width: 2,
           height: 80,
           background: `linear-gradient(to bottom, transparent, ${dividerColor}, transparent)`,
           marginBottom: 96,
@@ -298,7 +298,7 @@ export default function ManifestoPage() {
         className="manifesto-section"
         style={{
           ...sectionStyle,
-          width: 1,
+          width: 2,
           height: 80,
           background: `linear-gradient(to bottom, transparent, ${dividerColor}, transparent)`,
           marginBottom: 96,
