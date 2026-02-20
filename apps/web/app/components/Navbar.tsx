@@ -33,6 +33,7 @@ import {
   SignedIn,
   SignedOut,
   UserButton,
+  useUser,
 } from '@clerk/nextjs'
 import AppLauncher from "./applancher";
 
@@ -342,6 +343,7 @@ export const Navbar: React.FC<NavbarProps> = ({ variant = "default" }) => {
   const isMobile = !screens.lg;
   const { colors, mode } = useTheme();
   const router = useRouter();
+  const { user } = useUser()
 
   const isTransparent = variant === "transparent" && !scrolled;
   const isDark = mode === "dark";
@@ -532,11 +534,12 @@ export const Navbar: React.FC<NavbarProps> = ({ variant = "default" }) => {
                 </SignInButton>
               </SignedOut>
               <SignedIn>
-                <AppLauncher usedAppKeys={["preserve"]}/>
+                <AppLauncher usedAppKeys={(user?.publicMetadata.togetherInterests as string[]|null) ?? []}/>
               </SignedIn>
               <SignedIn>
                 <UserButton />
               </SignedIn>
+
             </Space>
           )}
 

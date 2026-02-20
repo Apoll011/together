@@ -72,7 +72,6 @@ interface AppItemProps {
 
 const AppItem: React.FC<AppItemProps> = ({
   app,
-  dimmed = false,
   textColor,
   subTextColor,
   hoverBg,
@@ -104,7 +103,7 @@ const AppItem: React.FC<AppItemProps> = ({
           background: hovered ? hoverBg : "transparent",
           cursor: "pointer",
           transition: "background 0.15s",
-          opacity: dimmed ? 0.45 : 1,
+          opacity: 1,
           width: "100%",
         }}
       >
@@ -121,7 +120,7 @@ const AppItem: React.FC<AppItemProps> = ({
             fontSize: 24,
             color: "#fff",
             flexShrink: 0,
-            boxShadow: dimmed ? "none" : `0 2px 8px ${app.color}55`,
+            boxShadow: `0 2px 8px ${app.color}55`,
           }}
         >
           {app.icon}
@@ -131,7 +130,7 @@ const AppItem: React.FC<AppItemProps> = ({
         <Text
           style={{
             fontSize: 12,
-            color: dimmed ? subTextColor : textColor,
+            color: textColor,
             textAlign: "center",
             lineHeight: "1.3",
             wordBreak: "break-word",
@@ -170,7 +169,6 @@ const SectionLabel: React.FC<{ children: React.ReactNode }> = ({
 
 interface AppGridProps {
   apps: AppData[];
-  dimmed?: boolean;
   textColor: string;
   subTextColor: string;
   hoverBg: string;
@@ -178,7 +176,6 @@ interface AppGridProps {
 
 const AppGrid: React.FC<AppGridProps> = ({
   apps,
-  dimmed,
   textColor,
   subTextColor,
   hoverBg,
@@ -194,7 +191,6 @@ const AppGrid: React.FC<AppGridProps> = ({
       <AppItem
         key={app.key}
         app={app}
-        dimmed={dimmed}
         textColor={textColor}
         subTextColor={subTextColor}
         hoverBg={hoverBg}
@@ -348,7 +344,6 @@ const LauncherOverlay: React.FC<LauncherOverlayProps> = ({
           </SectionLabel>
           <AppGrid
             apps={discoverApps}
-            dimmed={hasMyApps} // dim "discover" section if user already has active apps above
             textColor={textColor}
             subTextColor={subText}
             hoverBg={hoverBg}
@@ -362,10 +357,10 @@ const LauncherOverlay: React.FC<LauncherOverlayProps> = ({
 // ─── Main Export ───────────────────────────────────────────────────────────────
 
 const AppLauncher: React.FC<AppLauncherProps> = ({ usedAppKeys }) => {
-  const { colors } = useTheme();
+  const { colors, mode } = useTheme();
   const [open, setOpen] = useState(false);
 
-  const isDark = colors.footerBg === "#0A0F1E";
+  const isDark = mode === "dark";
   const iconColor = isDark ? "rgba(255,255,255,0.75)" : "rgba(0,0,0,0.55)";
   const hoverBg = isDark ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.06)";
 
