@@ -485,7 +485,7 @@ export default function AllAppsPage() {
               lineHeight: 1.7,
             }}
           >
-            Together is a suite of apps connecting people around shared challenges — from environmental action to mental health, food security, and lifelong learning.
+            Together is a suite of apps connecting people around shared challenges. From environmental action to mental health, food security, and lifelong learning.
           </Paragraph>
 
           {/* Ecosystem stats */}

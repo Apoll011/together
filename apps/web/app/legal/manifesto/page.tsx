@@ -126,7 +126,7 @@ export default function ManifestoPage() {
         >
           Your phone can reach a billion people right now. But when did you last
           have a real conversation with your neighbor? When did you last ask for
-          help — and actually mean it?
+          help, and actually mean it?
           <br />
           <br />
           We built roads between every corner of the earth.
@@ -195,7 +195,7 @@ export default function ManifestoPage() {
             margin: 0,
           }}
         >
-          Behind every person who made it — there were people who helped them
+          Behind every person who made it, there were people who helped them
           get there. A teacher who stayed late. A stranger who shared what they
           knew. A community that held someone up when they couldn't stand alone.
           <br />
@@ -320,7 +320,7 @@ export default function ManifestoPage() {
         >
           The world doesn't need more noise.
           <br />
-          It needs more of us — talking, building, showing up.
+          It needs more of us, talking, building, showing up.
         </p>
       </div>
 
@@ -392,7 +392,20 @@ export default function ManifestoPage() {
           opacity: 0.5,
         }}
       >
-        EST. 2026 — LISBON, PORTUGAL
+        2026 — THE WORLD
+      </div>
+      <div
+        className="manifesto-section"
+        style={{
+          ...sectionStyle,
+          fontFamily: "'Helvetica Neue', Arial, sans-serif",
+          fontSize: 11,
+          letterSpacing: "0.18em",
+          color: sub,
+          opacity: 0.5,
+        }}
+      >
+        From T&E S2
       </div>
     </main>
   );

@@ -656,7 +656,7 @@ export default function JoinPage() {
               ? "Saving…"
               : selected.length === 0
                 ? "Pick at least one"
-                : `I'm in — let's go`}
+                : `I'm in... Let's go`}
           </button>
           <p
             style={{

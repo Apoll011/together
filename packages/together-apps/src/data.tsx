@@ -98,7 +98,7 @@ export interface AppData {
 // ─── Data ─────────────────────────────────────────────────────────────────────
 
 export const appsData: AppData[] = [
-  // ── PRESERVE (Launched — full showcase) ────────────────────────────────────
+  // ── PRESERVE (Launched, full showcase) ────────────────────────────────────
   {
     key: "preserve",
     slug: "preserve",
@@ -107,7 +107,7 @@ export const appsData: AppData[] = [
     description:
       "Map environmental data and track conservation efforts globally.",
     longDescription:
-      "Together Preserve is a decentralized, community-powered database for environmental metrics. Activists, scientists, and citizens contribute to a living map of our planet's health — tracking deforestation rates, water quality, air pollution, and biodiversity in real-time. Every data point is verified by the community and permanently stored on an immutable ledger, creating the most trustworthy environmental record on the planet.",
+      "Together Preserve is a decentralized, community-powered database for environmental metrics. Activists, scientists, and citizens contribute to a living map of our planet's health, tracking deforestation rates, water quality, air pollution, and biodiversity in real-time. Every data point is verified by the community and permanently stored on an immutable ledger, creating the most trustworthy environmental record on the planet.",
     color: "#52c41a",
     icon: <GlobalOutlined />,
     status: "launched",
@@ -132,7 +132,7 @@ export const appsData: AppData[] = [
       },
       {
         title: "Open Data API",
-        desc: "Researchers, NGOs, and journalists access the full raw dataset for free via our RESTful API — no rate limits, ever.",
+        desc: "Researchers, NGOs, and journalists access the full raw dataset for free via our RESTful API, no rate limits, ever.",
       },
       {
         title: "Alert System",
@@ -152,7 +152,7 @@ export const appsData: AppData[] = [
       {
         step: 1,
         title: "Observe & Capture",
-        desc: "Use your phone to photograph, measure, or record any environmental metric — from a dying river to a thriving coral reef.",
+        desc: "Use your phone to photograph, measure, or record any environmental metric, from a dying river to a thriving coral reef.",
       },
       {
         step: 2,
@@ -175,7 +175,7 @@ export const appsData: AppData[] = [
       {
         title: "Global Map View",
         description:
-          "Interactive 3D globe with layered data filters — air, water, land, and biodiversity.",
+          "Interactive 3D globe with layered data filters, air, water, land, and biodiversity.",
       },
       {
         title: "Data Submission",
@@ -306,7 +306,7 @@ export const appsData: AppData[] = [
     description:
       "Collaborative courses and wikis for community knowledge sharing.",
     longDescription:
-      "Together Learn is a next-generation Learning Management System built for real communities — not corporations. Create courses, host living wikis, and earn certifications recognized across the entire Together ecosystem. Designed specifically for adults with limited time, including those returning to education and communities with low connectivity.",
+      "Together Learn is a next-generation Learning Management System built for real communities, not corporations. Create courses, host living wikis, and earn certifications recognized across the entire Together ecosystem. Designed specifically for adults with limited time, including those returning to education and communities with low connectivity.",
     color: "#fa8c16",
     icon: <ReadOutlined />,
     status: "planning",
@@ -324,7 +324,7 @@ export const appsData: AppData[] = [
     features: [
       {
         title: "Peer-Reviewed Assignments",
-        desc: "Work is evaluated by fellow community members, not just AI — building real human connections around learning.",
+        desc: "Work is evaluated by fellow community members, not just AI, building real human connections around learning.",
       },
       {
         title: "Offline-First Design",
@@ -336,7 +336,7 @@ export const appsData: AppData[] = [
       },
       {
         title: "Adaptive Learning",
-        desc: "AI-powered modules that adapt to your pace and schedule — a full lesson in 10 minutes or an hour, your choice.",
+        desc: "AI-powered modules that adapt to your pace and schedule, a full lesson in 10 minutes or an hour, your choice.",
       },
       {
         title: "Community Certifications",
@@ -357,7 +357,7 @@ export const appsData: AppData[] = [
       {
         step: 2,
         title: "Learn at Your Pace",
-        desc: "Consume content in micro-sessions or deep dives — the app saves your exact position and adapts to your schedule.",
+        desc: "Consume content in micro-sessions or deep dives, the app saves your exact position and adapts to your schedule.",
       },
       {
         step: 3,
@@ -400,7 +400,7 @@ export const appsData: AppData[] = [
         role: "Adult Learner",
         location: "São Paulo, Brazil",
         quote:
-          "I'm 42 and never finished school. Knowing this platform was built for people like me — not students — makes all the difference. I can't wait.",
+          "I'm 42 and never finished school. Knowing this platform was built for people like me, not students, makes all the difference. I can't wait.",
         initials: "MS",
         avatarColor: "#fa8c16",
       },
@@ -457,7 +457,7 @@ export const appsData: AppData[] = [
       {
         question: "Will courses be free?",
         answer:
-          "Most community-created courses will be free. Creators can optionally set a price, which goes directly to them — Together takes no cut.",
+          "Most community-created courses will be free. Creators can optionally set a price, which goes directly to them, Together takes no cut.",
       },
       {
         question: "How will it work for people with low connectivity?",
@@ -478,7 +478,7 @@ export const appsData: AppData[] = [
     tagline: "Async Collaboration for Distributed Teams",
     description: "Async tools for distributed teams to build faster.",
     longDescription:
-      "The traditional office is obsolete. Together Work provides a complete suite of asynchronous collaboration tools — kanban boards, shared whiteboards, decision logs, and governance voting — designed from the ground up for decentralized teams, DAOs, and remote-first organizations that span continents and time zones.",
+      "The traditional office is obsolete. Together Work provides a complete suite of asynchronous collaboration tools, kanban boards, shared whiteboards, decision logs, and governance voting, designed from the ground up for decentralized teams, DAOs, and remote-first organizations that span continents and time zones.",
     color: "#0050B3",
     icon: <RocketOutlined />,
     status: "planning",
@@ -499,7 +499,7 @@ export const appsData: AppData[] = [
       },
       {
         title: "Crypto Payroll",
-        desc: "Automate recurring payroll and one-off bounties in stablecoins — across borders, without banks.",
+        desc: "Automate recurring payroll and one-off bounties in stablecoins, across borders, without banks.",
       },
       {
         title: "Timezone Intelligence",
@@ -507,7 +507,7 @@ export const appsData: AppData[] = [
       },
       {
         title: "Decision Logs",
-        desc: "Every team decision is documented, searchable, and traceable — so new members can understand the why, not just the what.",
+        desc: "Every team decision is documented, searchable, and traceable, so new members can understand the why, not just the what.",
       },
       {
         title: "Kanban & Sprints",
@@ -515,7 +515,7 @@ export const appsData: AppData[] = [
       },
       {
         title: "Video Memos",
-        desc: "Record short async video updates instead of scheduling meetings — your team watches when it works for them.",
+        desc: "Record short async video updates instead of scheduling meetings, your team watches when it works for them.",
       },
     ],
 
@@ -533,12 +533,12 @@ export const appsData: AppData[] = [
       {
         step: 3,
         title: "Work Across Time Zones",
-        desc: "Post updates, make proposals, and move work forward asynchronously — no one needs to be online at the same time.",
+        desc: "Post updates, make proposals, and move work forward asynchronously, no one needs to be online at the same time.",
       },
       {
         step: 4,
         title: "Reward & Compensate",
-        desc: "Trigger payroll, distribute bounties, and recognize contributions — all automated within the platform.",
+        desc: "Trigger payroll, distribute bounties, and recognize contributions, all automated within the platform.",
       },
     ],
 
@@ -551,7 +551,7 @@ export const appsData: AppData[] = [
       {
         title: "Voting Interface",
         description:
-          "Clean proposal and voting UI — see who's voted, the current result, and the full discussion thread.",
+          "Clean proposal and voting UI, see who's voted, the current result, and the full discussion thread.",
       },
       {
         title: "Timezone Map",
@@ -589,7 +589,7 @@ export const appsData: AppData[] = [
     roadmap: [
       {
         quarter: "Q3 2025",
-        title: "Alpha — Kanban & Decisions",
+        title: "Alpha, Kanban & Decisions",
         desc: "Core async project management and decision log for early access teams.",
         status: "planned",
       },
@@ -623,7 +623,7 @@ export const appsData: AppData[] = [
       {
         question: "Does this work for regular companies, not just DAOs?",
         answer:
-          "Absolutely. The governance tools are optional — you can use Together Work as a straightforward async collaboration suite without any crypto or voting features.",
+          "Absolutely. The governance tools are optional, you can use Together Work as a straightforward async collaboration suite without any crypto or voting features.",
       },
       {
         question: "Which stablecoins will payroll support?",
@@ -644,7 +644,7 @@ export const appsData: AppData[] = [
     tagline: "A Mesh Network for Human Kindness",
     description: "Community aid, crisis response, and mutual support.",
     longDescription:
-      "A mesh network for human kindness. Together Help connects you with the people around you — to offer help, ask for it, or coordinate responses to local crises. Whether it's a neighbor who needs a ride to a hospital or a community recovering from a flood, Help makes mutual aid as easy as sending a message.",
+      "A mesh network for human kindness. Together Help connects you with the people around you, to offer help, ask for it, or coordinate responses to local crises. Whether it's a neighbor who needs a ride to a hospital or a community recovering from a flood, Help makes mutual aid as easy as sending a message.",
     color: "#eb2f96",
     icon: <HeartOutlined />,
     status: "planning",
@@ -661,11 +661,11 @@ export const appsData: AppData[] = [
     features: [
       {
         title: "Geofenced Alerts",
-        desc: "When urgent help is needed, nearby community members get notified automatically — no shouting into the void.",
+        desc: "When urgent help is needed, nearby community members get notified automatically, no shouting into the void.",
       },
       {
         title: "Resource Pooling",
-        desc: "Manage shared community inventories — tools, food, medicine, vehicles — and see who has what in real-time.",
+        desc: "Manage shared community inventories, tools, food, medicine, vehicles, and see who has what in real-time.",
       },
       {
         title: "Privacy by Design",
@@ -677,11 +677,11 @@ export const appsData: AppData[] = [
       },
       {
         title: "Skills Matching",
-        desc: "Match people with the right skills — nursing, carpentry, translation — to the neighbors who need them most.",
+        desc: "Match people with the right skills, nursing, carpentry, translation, to the neighbors who need them most.",
       },
       {
         title: "Long-term Projects",
-        desc: "Organize ongoing mutual aid initiatives — community gardens, elder care networks, neighborhood watch programs.",
+        desc: "Organize ongoing mutual aid initiatives, community gardens, elder care networks, neighborhood watch programs.",
       },
     ],
 
@@ -689,7 +689,7 @@ export const appsData: AppData[] = [
       {
         step: 1,
         title: "Join Your Community",
-        desc: "Set your neighborhood radius. Your identity stays private — you're just a helpful neighbor in your zone.",
+        desc: "Set your neighborhood radius. Your identity stays private, you're just a helpful neighbor in your zone.",
       },
       {
         step: 2,
@@ -717,7 +717,7 @@ export const appsData: AppData[] = [
       {
         title: "Crisis Board",
         description:
-          "Centralized coordination view for community emergencies — tasks, resources, and who's helping.",
+          "Centralized coordination view for community emergencies, tasks, resources, and who's helping.",
       },
       {
         title: "Request Form",
@@ -794,7 +794,7 @@ export const appsData: AppData[] = [
       {
         question: "Can Together Help be used for disaster response?",
         answer:
-          "Yes — Crisis Mode is a core feature. We're designing it in partnership with disaster relief organizations to ensure it meets real-world emergency requirements.",
+          "Yes, Crisis Mode is a core feature. We're designing it in partnership with disaster relief organizations to ensure it meets real-world emergency requirements.",
       },
     ],
 
@@ -847,7 +847,7 @@ export const appsData: AppData[] = [
       },
       {
         title: "Contributor Profiles",
-        desc: "Build a verifiable public record of your open-source contributions — portable across platforms.",
+        desc: "Build a verifiable public record of your open-source contributions, portable across platforms.",
       },
     ],
 
@@ -860,7 +860,7 @@ export const appsData: AppData[] = [
       {
         step: 2,
         title: "Pick an Issue",
-        desc: "Browse curated issues with bounties attached — from first-timer bugs to complex architectural challenges.",
+        desc: "Browse curated issues with bounties attached, from first-timer bugs to complex architectural challenges.",
       },
       {
         step: 3,
@@ -970,7 +970,7 @@ export const appsData: AppData[] = [
     description:
       "Connect food donors with nonprofits to fight waste and hunger.",
     longDescription:
-      "Every year, one-third of all food produced globally is wasted — while 800 million people go hungry. Together Eat is a real-time logistics platform connecting restaurants, supermarkets, and households who have surplus food with the nonprofits and community kitchens who need it. Zero waste. Zero hunger. Together.",
+      "Every year, one-third of all food produced globally is wasted, while 800 million people go hungry. Together Eat is a real-time logistics platform connecting restaurants, supermarkets, and households who have surplus food with the nonprofits and community kitchens who need it. Zero waste. Zero hunger. Together.",
     color: "#d4380d",
     icon: <CoffeeOutlined />,
     status: "planning",
@@ -991,7 +991,7 @@ export const appsData: AppData[] = [
       },
       {
         title: "Pickup Logistics",
-        desc: "Volunteer pickup coordination built in — no nonprofit needs their own logistics team to receive donations.",
+        desc: "Volunteer pickup coordination built in, no nonprofit needs their own logistics team to receive donations.",
       },
       {
         title: "Nutrition Tracker",
@@ -1003,7 +1003,7 @@ export const appsData: AppData[] = [
       },
       {
         title: "Healthy Recipes",
-        desc: "Community-contributed recipes built around commonly donated ingredients — making surplus food delicious.",
+        desc: "Community-contributed recipes built around commonly donated ingredients, making surplus food delicious.",
       },
       {
         title: "Corporate Programs",
@@ -1015,7 +1015,7 @@ export const appsData: AppData[] = [
       {
         step: 1,
         title: "Post Surplus",
-        desc: "A restaurant, store, or household lists available food — item, quantity, pickup window, and location.",
+        desc: "A restaurant, store, or household lists available food, item, quantity, pickup window, and location.",
       },
       {
         step: 2,
@@ -1030,7 +1030,7 @@ export const appsData: AppData[] = [
       {
         step: 4,
         title: "Impact Is Measured",
-        desc: "Every transaction is logged — meals served, food saved, emissions avoided — and shared with all participants.",
+        desc: "Every transaction is logged, meals served, food saved, emissions avoided, and shared with all participants.",
       },
     ],
 
@@ -1048,7 +1048,7 @@ export const appsData: AppData[] = [
       {
         title: "Impact Report",
         description:
-          "Beautiful, shareable impact dashboards for donors — perfect for social media and CSR reporting.",
+          "Beautiful, shareable impact dashboards for donors, perfect for social media and CSR reporting.",
       },
       {
         title: "Recipe Library",
@@ -1063,7 +1063,7 @@ export const appsData: AppData[] = [
         role: "Food Bank Director",
         location: "Abuja, Nigeria",
         quote:
-          "Our biggest challenge isn't the need — it's the logistics. A real-time matching platform would let us feed three times as many people with the same team.",
+          "Our biggest challenge isn't the need, it's the logistics. A real-time matching platform would let us feed three times as many people with the same team.",
         initials: "CO",
         avatarColor: "#d4380d",
       },
@@ -1115,7 +1115,7 @@ export const appsData: AppData[] = [
       {
         question: "Who can post food donations?",
         answer:
-          "Anyone — restaurants, supermarkets, caterers, bakeries, households, and farms. We verify business donors to ensure food safety standards are met.",
+          "Anyone, restaurants, supermarkets, caterers, bakeries, households, and farms. We verify business donors to ensure food safety standards are met.",
       },
       {
         question: "How do you ensure food safety?",
@@ -1137,7 +1137,7 @@ export const appsData: AppData[] = [
     description:
       "Comprehensive mental health and addiction support for everyone.",
     longDescription:
-      "Mental health care shouldn't be a privilege. Together Support is a safe, stigma-free platform providing access to virtual therapy, peer support groups, guided mental health tools, and addiction recovery resources — for everyone, regardless of income or insurance. We're not replacing therapists; we're making sure no one ever waits alone.",
+      "Mental health care shouldn't be a privilege. Together Support is a safe, stigma-free platform providing access to virtual therapy, peer support groups, guided mental health tools, and addiction recovery resources, for everyone, regardless of income or insurance. We're not replacing therapists; we're making sure no one ever waits alone.",
     color: "#722ed1",
     icon: <SafetyOutlined />,
     status: "planning",
@@ -1154,11 +1154,11 @@ export const appsData: AppData[] = [
     features: [
       {
         title: "Virtual Therapy Access",
-        desc: "Connect with licensed therapists via text, audio, or video — with sliding scale pricing based on what you can afford.",
+        desc: "Connect with licensed therapists via text, audio, or video, with sliding scale pricing based on what you can afford.",
       },
       {
         title: "Peer Support Circles",
-        desc: "Moderated group sessions run by trained peer supporters — people with lived experience of the same challenges.",
+        desc: "Moderated group sessions run by trained peer supporters, people with lived experience of the same challenges.",
       },
       {
         title: "Daily Mental Health Tools",
@@ -1174,7 +1174,7 @@ export const appsData: AppData[] = [
       },
       {
         title: "Anonymous Mode",
-        desc: "Participate in communities and access all tools with zero identifying information required — safety first.",
+        desc: "Participate in communities and access all tools with zero identifying information required, safety first.",
       },
     ],
 
@@ -1197,7 +1197,7 @@ export const appsData: AppData[] = [
       {
         step: 4,
         title: "Grow With Community",
-        desc: "When you're ready, contribute to peer support spaces — your experience could be someone else's lifeline.",
+        desc: "When you're ready, contribute to peer support spaces, your experience could be someone else's lifeline.",
       },
     ],
 
@@ -1215,7 +1215,7 @@ export const appsData: AppData[] = [
       {
         title: "Therapy Matching",
         description:
-          "Therapist profiles, specializations, availability, and pricing — matched to your needs.",
+          "Therapist profiles, specializations, availability, and pricing, matched to your needs.",
       },
       {
         title: "Recovery Path",
@@ -1249,7 +1249,7 @@ export const appsData: AppData[] = [
       {
         quarter: "Q3 2025",
         title: "Self-Guided Tools Beta",
-        desc: "CBT exercises, mood tracking, and breathing tools — no account required.",
+        desc: "CBT exercises, mood tracking, and breathing tools, no account required.",
         status: "planned",
       },
       {
@@ -1282,7 +1282,7 @@ export const appsData: AppData[] = [
       {
         question: "Is this a replacement for professional therapy?",
         answer:
-          "No — Together Support complements professional care. It provides tools and community for the 75% of people with mental health needs who currently receive no care at all.",
+          "No, Together Support complements professional care. It provides tools and community for the 75% of people with mental health needs who currently receive no care at all.",
       },
       {
         question: "How do you ensure safety in peer support spaces?",
@@ -1304,7 +1304,7 @@ export const appsData: AppData[] = [
     description:
       "Personal transformation through community-driven fitness and habits.",
     longDescription:
-      "Most fitness apps are built for people who are already fit. Together Transform is different — it's a holistic personal transformation platform that combines adaptive workout plans, habit building, nutrition guidance, and real community accountability. Built for real people, real starting points, real lives.",
+      "Most fitness apps are built for people who are already fit. Together Transform is different, it's a holistic personal transformation platform that combines adaptive workout plans, habit building, nutrition guidance, and real community accountability. Built for real people, real starting points, real lives.",
     color: "#fa541c",
     icon: <ThunderboltOutlined />,
     status: "planning",
@@ -1321,7 +1321,7 @@ export const appsData: AppData[] = [
     features: [
       {
         title: "Adaptive Workout Plans",
-        desc: "Plans that start where you are — not where a fitness model is. Adjusts automatically based on your feedback and progress.",
+        desc: "Plans that start where you are, not where a fitness model is. Adjusts automatically based on your feedback and progress.",
       },
       {
         title: "Habit Stack Builder",
@@ -1329,11 +1329,11 @@ export const appsData: AppData[] = [
       },
       {
         title: "Accountability Circles",
-        desc: "Small groups of 5-8 people working toward similar goals — daily check-ins, celebrations, and honest support.",
+        desc: "Small groups of 5-8 people working toward similar goals, daily check-ins, celebrations, and honest support.",
       },
       {
         title: "Nutrition Without Obsession",
-        desc: "Practical, flexible nutrition guidance focused on sustainable change — not calorie counting or restriction.",
+        desc: "Practical, flexible nutrition guidance focused on sustainable change, not calorie counting or restriction.",
       },
       {
         title: "Mental & Physical Together",
@@ -1359,7 +1359,7 @@ export const appsData: AppData[] = [
       {
         step: 3,
         title: "Join Your Circle",
-        desc: "Match with a small accountability group of people with similar goals and timezone — check in daily.",
+        desc: "Match with a small accountability group of people with similar goals and timezone, check in daily.",
       },
       {
         step: 4,
@@ -1372,7 +1372,7 @@ export const appsData: AppData[] = [
       {
         title: "Daily Dashboard",
         description:
-          "Your workout, habit checklist, and circle activity — everything for today in one clean view.",
+          "Your workout, habit checklist, and circle activity, everything for today in one clean view.",
       },
       {
         title: "Workout Player",
@@ -1387,7 +1387,7 @@ export const appsData: AppData[] = [
       {
         title: "Accountability Circle",
         description:
-          "Your small group's daily check-ins, wins, and encouragement — intimate and real.",
+          "Your small group's daily check-ins, wins, and encouragement, intimate and real.",
       },
     ],
 
@@ -1406,7 +1406,7 @@ export const appsData: AppData[] = [
         role: "Recovering from Injury",
         location: "Lisbon, Portugal",
         quote:
-          "An app that starts from where I actually am — not an idealized version — feels revolutionary. Can't wait.",
+          "An app that starts from where I actually am, not an idealized version, feels revolutionary. Can't wait.",
         initials: "CS",
         avatarColor: "#ad2102",
       },
@@ -1449,7 +1449,7 @@ export const appsData: AppData[] = [
       {
         question: "Is this only for fitness beginners?",
         answer:
-          "Not at all — Together Transform adapts to any level. Whether you're starting from zero or training for a marathon, the platform meets you where you are.",
+          "Not at all, Together Transform adapts to any level. Whether you're starting from zero or training for a marathon, the platform meets you where you are.",
       },
       {
         question: "How are accountability circles formed?",
@@ -1471,7 +1471,7 @@ export const appsData: AppData[] = [
     description:
       "Connect travel enthusiasts for shared adventures and authentic experiences.",
     longDescription:
-      "Together Explore is where curious travelers find each other. Share local tips, co-plan itineraries, join group adventures, and experience places the way only a local friend can show you. Not a booking platform — a community for people who travel to connect, not just consume.",
+      "Together Explore is where curious travelers find each other. Share local tips, co-plan itineraries, join group adventures, and experience places the way only a local friend can show you. Not a booking platform, a community for people who travel to connect, not just consume.",
     color: "#1d39c4",
     icon: <CompassOutlined />,
     status: "planning",
@@ -1488,7 +1488,7 @@ export const appsData: AppData[] = [
     features: [
       {
         title: "Local Tips Network",
-        desc: "Hyper-local recommendations from people who actually live there — not SEO-optimized listicles.",
+        desc: "Hyper-local recommendations from people who actually live there, not SEO-optimized listicles.",
       },
       {
         title: "Shared Itineraries",
@@ -1496,7 +1496,7 @@ export const appsData: AppData[] = [
       },
       {
         title: "Group Trip Organizer",
-        desc: "Tools for organizing group travel — from expense splitting to voting on destinations and activities.",
+        desc: "Tools for organizing group travel, from expense splitting to voting on destinations and activities.",
       },
       {
         title: "Travel Buddy Matching",
@@ -1504,11 +1504,11 @@ export const appsData: AppData[] = [
       },
       {
         title: "Hidden Gem Database",
-        desc: "Community-documented places that don't appear in guidebooks — protected from over-tourism by careful curation.",
+        desc: "Community-documented places that don't appear in guidebooks, protected from over-tourism by careful curation.",
       },
       {
         title: "Offline Maps & Notes",
-        desc: "Download your full itinerary, local tips, and maps for complete offline access — for when you really get off the grid.",
+        desc: "Download your full itinerary, local tips, and maps for complete offline access, for when you really get off the grid.",
       },
     ],
 
@@ -1554,7 +1554,7 @@ export const appsData: AppData[] = [
       {
         title: "Local Tips Feed",
         description:
-          "Hyperlocal recommendations from residents — neighborhoods, restaurants, transport, timing.",
+          "Hyperlocal recommendations from residents, neighborhoods, restaurants, transport, timing.",
       },
     ],
 
@@ -1616,7 +1616,7 @@ export const appsData: AppData[] = [
       {
         question: "Is this competing with TripAdvisor or Google Maps?",
         answer:
-          "No. Together Explore is fundamentally about community and connection — not reviews or booking. It's the difference between asking a friend and reading a review.",
+          "No. Together Explore is fundamentally about community and connection, not reviews or booking. It's the difference between asking a friend and reading a review.",
       },
       {
         question: "How do you protect hidden gems from over-tourism?",
@@ -1638,7 +1638,7 @@ export const appsData: AppData[] = [
     description:
       "Entrepreneurship, innovation, and startup collaboration platform.",
     longDescription:
-      "Together Innovate is a collaborative space for entrepreneurs, innovators, and creative minds who are building the future. Find co-founders, validate ideas with real users, access mentors, and connect with impact-driven investors — in a community that values building things that matter over building things that merely scale.",
+      "Together Innovate is a collaborative space for entrepreneurs, innovators, and creative minds who are building the future. Find co-founders, validate ideas with real users, access mentors, and connect with impact-driven investors, in a community that values building things that matter over building things that merely scale.",
     color: "#faad14",
     icon: <BulbOutlined />,
     status: "planning",
@@ -1655,11 +1655,11 @@ export const appsData: AppData[] = [
     features: [
       {
         title: "Co-Founder Matching",
-        desc: "Find your missing piece — technical, business, design, or domain expertise — matched by skills, values, and vision.",
+        desc: "Find your missing piece, technical, business, design, or domain expertise, matched by skills, values, and vision.",
       },
       {
         title: "Idea Validation Lab",
-        desc: "Post your idea and get structured feedback from community members in your target market — before you build a thing.",
+        desc: "Post your idea and get structured feedback from community members in your target market, before you build a thing.",
       },
       {
         title: "Mentor Network",
@@ -1675,7 +1675,7 @@ export const appsData: AppData[] = [
       },
       {
         title: "Startup Resources",
-        desc: "Legal templates, financial models, pitch decks, and technical infrastructure — a full startup toolkit for builders.",
+        desc: "Legal templates, financial models, pitch decks, and technical infrastructure, a full startup toolkit for builders.",
       },
     ],
 
@@ -1693,7 +1693,7 @@ export const appsData: AppData[] = [
       {
         step: 3,
         title: "Validate & Iterate",
-        desc: "Use the community as your first user research panel — get honest feedback before writing a single line of code.",
+        desc: "Use the community as your first user research panel, get honest feedback before writing a single line of code.",
       },
       {
         step: 4,
@@ -1706,7 +1706,7 @@ export const appsData: AppData[] = [
       {
         title: "Idea Board",
         description:
-          "Community feed of ideas in development — vote, comment, and offer to join the team.",
+          "Community feed of ideas in development, vote, comment, and offer to join the team.",
       },
       {
         title: "Co-Founder Matching",
@@ -1731,7 +1731,7 @@ export const appsData: AppData[] = [
         role: "First-Time Founder",
         location: "Lagos, Nigeria",
         quote:
-          "I have the idea and the domain expertise but no technical co-founder. Having a platform designed to find that person — especially in emerging markets — is huge.",
+          "I have the idea and the domain expertise but no technical co-founder. Having a platform designed to find that person, especially in emerging markets, is huge.",
         initials: "TA",
         avatarColor: "#faad14",
       },
@@ -1776,12 +1776,12 @@ export const appsData: AppData[] = [
       {
         question: "Is this only for tech startups?",
         answer:
-          "Not at all. Together Innovate is for any kind of innovation — social enterprises, creative businesses, community projects, and yes, tech startups too.",
+          "Not at all. Together Innovate is for any kind of innovation, social enterprises, creative businesses, community projects, and yes, tech startups too.",
       },
       {
         question: "How do you curate the mentor network?",
         answer:
-          "Mentors are verified through a combination of professional background review and community vouching. We prioritize practitioners over advisors — people who've actually built things.",
+          "Mentors are verified through a combination of professional background review and community vouching. We prioritize practitioners over advisors, people who've actually built things.",
       },
     ],
 
