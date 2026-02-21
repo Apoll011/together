@@ -5,7 +5,6 @@
   "exports": {
     "./*": "./src/*.ts",
     "./react/*": "./src/*.tsx"
-
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -22,7 +21,8 @@
     "@clerk/types": "^4.101.18",
     "@repo/together-apps": "workspace:*",
     "react": "^19.2.0",
-    "react-dom": "^19.2.0"
+    "react-dom": "^19.2.0",
+    "lucide-react": "^0.574.0"
   },
   "devDependencies": {
     "@repo/eslint-config": "workspace:*",

@@ -27,7 +27,6 @@ import logo from "../static/logov2.png";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
-import AppLauncher from "@repo/ui/applauncher";
 import { useAppUser } from "@repo/auth/provider/client";
 
 import {
@@ -37,6 +36,7 @@ import {
   SignedOut,
   UserButton
 } from "@repo/auth/react/provider/components";
+import AppLauncher from "@repo/auth/react/components/applauncher";
 
 const { useBreakpoint } = Grid;
 const { Text } = Typography;

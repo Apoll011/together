@@ -100,6 +100,9 @@ importers:
       antd:
         specifier: ^6.3.0
         version: 6.3.0(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
+      lucide-react:
+        specifier: ^0.574.0
+        version: 0.574.0(react@19.2.3)
       next:
         specifier: 16.1.5
         version: 16.1.5(babel-plugin-react-compiler@1.0.0)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
@@ -206,9 +209,6 @@ importers:
 
   packages/ui:
     dependencies:
-      '@repo/auth':
-        specifier: workspace:*
-        version: link:../auth
       '@repo/together-apps':
         specifier: workspace:*
         version: link:../together-apps
