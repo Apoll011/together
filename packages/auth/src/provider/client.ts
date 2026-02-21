@@ -1,6 +1,6 @@
 "use client";
 
-import { useUser } from "@clerk/nextjs";
+import { useAuth, useUser } from "@clerk/nextjs";
 import type { UserResource } from "@clerk/types";
 import { normalizeMetadata } from "../normalize";
 import type { AppUserMetadata } from "../types";
@@ -27,4 +27,10 @@ export function useAppUser(): UseAppUserResult {
     metadata: normalizeMetadata(user.publicMetadata),
     isLoaded: true,
   };
+}
+
+export function isSignIn(): boolean {
+    const { isSignedIn } = useAuth();
+
+    return isSignedIn ?? false;
 }

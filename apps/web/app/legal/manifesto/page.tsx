@@ -2,6 +2,7 @@
 
 import React, { useEffect, useRef } from "react";
 import { useTheme } from "@repo/ui/ThemeContext";
+import Link from "next/link";
 
 // ─── Manifesto Copy ────────────────────────────────────────────────────────────
 // Tone: A trusted friend. Apple sharpness. Obama warmth.
@@ -351,8 +352,8 @@ export default function ManifestoPage() {
         className="manifesto-section"
         style={{ ...sectionStyle, marginBottom: 100 }}
       >
-        <a
-          href="/join"
+        <Link
+          href="/sign-up"
           style={{
             display: "inline-block",
             padding: "18px 52px",
@@ -377,7 +378,7 @@ export default function ManifestoPage() {
           }}
         >
           We'll meet you there
-        </a>
+        </Link>
       </div>
 
       {/* ── Footer stamp ── */}

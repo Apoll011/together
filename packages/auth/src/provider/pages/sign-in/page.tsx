@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { useSignIn } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
 import { useTheme } from "@repo/ui/ThemeContext";
+import Link from "next/link";
 
 const EyeIcon = ({ open }: { open: boolean }) => (
   <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -198,7 +199,7 @@ export default function SignInPage() {
 
         <p style={{ marginTop: 20, fontSize: 14, color: muted, textAlign: "center" }}>
           Don't have an account?{" "}
-          <a href="/join" style={{ color: primary, textDecoration: "none", fontWeight: 500 }}>Sign up</a>
+          <Link href="/sign-up" style={{ color: primary, textDecoration: "none", fontWeight: 500 }}>Sign up</Link>
         </p>
       </div>
 

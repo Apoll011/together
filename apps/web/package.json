@@ -13,9 +13,9 @@
   "dependencies": {
     "@ant-design/cssinjs": "^2.1.0",
     "@ant-design/icons": "^6.1.0",
-    "@clerk/nextjs": "^6.38.0",
     "@repo/together-apps": "workspace:*",
     "@repo/ui": "workspace:*",
+    "@repo/auth": "workspace:*",
     "antd": "^6.3.0",
     "framer-motion": "^12.34.2",
     "lucide-react": "^0.574.0",

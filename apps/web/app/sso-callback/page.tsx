@@ -1,11 +1,5 @@
-import { AuthenticateWithRedirectCallback } from '@clerk/nextjs'
+import SSOCallBackPage from "@repo/auth/react/provider/pages/sso-callback/page";
 
 export default function Page() {
- return (
-    <>
-      <AuthenticateWithRedirectCallback />
-
-      <div id="clerk-captcha" />
-    </>
-  )
+  return <SSOCallBackPage />;
 }

@@ -34,7 +34,7 @@ export async function updatePublicMetadata(
 
   const user = await client.users.getUser(userId);
 
-  await client.users.updateUser(userId, {
+  return await client.users.updateUser(userId, {
     publicMetadata: {
       ...user.publicMetadata,
       ...data,

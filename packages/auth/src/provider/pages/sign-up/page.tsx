@@ -1,12 +1,15 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { useSignUp, useUser } from "@clerk/nextjs";
+import { useSignUp } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
 import { useTheme } from "@repo/ui/ThemeContext";
 import { completeOnboarding } from "./_actions";
 import { appsData } from "@repo/together-apps/data";
 import { Typography } from "antd";
+import { useAppUser } from "../../client";
+import { Captcha } from "../../components";
+import Link from "next/link";
 const { Text } = Typography;
 
 type Step = "signup" | "verify" | "apps" | "done";
@@ -57,13 +60,13 @@ const GoogleIcon = () => (
   </svg>
 );
 
-export default function JoinPage() {
+export default function SignUpPage() {
   const { colors, mode } = useTheme();
   const isDark = mode === "dark";
   const router = useRouter();
 
   const { isLoaded, signUp, setActive } = useSignUp();
-  const { user } = useUser();
+  const { user } = useAppUser();
 
   const [step, setStep] = useState<Step>("signup");
   const [firstName, setFirstName] = useState("");
@@ -188,7 +191,7 @@ export default function JoinPage() {
       await signUp.authenticateWithRedirect({
         strategy: "oauth_google",
         redirectUrl: "/sso-callback",
-        redirectUrlComplete: "/join/apps",
+        redirectUrlComplete: "/sign-up/apps",
       });
     } catch (err: any) {
       setError(err.errors?.[0]?.message || "Google sign-up failed.");
@@ -438,7 +441,7 @@ export default function JoinPage() {
             </div>
             <Err msg={error} />
 
-            <div id="clerk-captcha" />
+            <Captcha/>
 
             <button type="submit" style={primaryBtn} disabled={loading}>
               {loading ? "Creating account…" : "Continue"}
@@ -453,7 +456,7 @@ export default function JoinPage() {
             }}
           >
             Already have an account?{" "}
-            <a
+            <Link
               href="/sign-in"
               style={{
                 color: primary,
@@ -462,7 +465,7 @@ export default function JoinPage() {
               }}
             >
               Sign in
-            </a>
+            </Link>
           </p>
         </div>
       )}

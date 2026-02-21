@@ -27,15 +27,16 @@ import logo from "../static/logov2.png";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
+import AppLauncher from "./applancher";
+import { useAppUser } from "@repo/auth/provider/client";
+
 import {
   SignInButton,
   SignUpButton,
   SignedIn,
   SignedOut,
-  UserButton,
-  useUser,
-} from "@clerk/nextjs";
-import AppLauncher from "./applancher";
+  UserButton
+} from "@repo/auth/react/provider/components";
 
 const { useBreakpoint } = Grid;
 const { Text } = Typography;
@@ -339,7 +340,7 @@ export const Navbar: React.FC<NavbarProps> = ({ variant = "default" }) => {
   const isMobile = !screens.lg;
   const { colors, mode } = useTheme();
   const router = useRouter();
-  const { user } = useUser();
+  const { user } = useAppUser();
 
   const isTransparent = variant === "transparent" && !scrolled;
   const isDark = mode === "dark";

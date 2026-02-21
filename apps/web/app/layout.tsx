@@ -6,9 +6,7 @@ import "./globals.css";
 import { Navbar } from "./components/Navbar";
 import { Footer } from "./components/Footer";
 import { ThemeProvider } from "@repo/ui/ThemeContext";
-import {
-  ClerkProvider
-} from '@clerk/nextjs'
+import { AuthProvider } from "@repo/auth/react/provider/components";
 
 export const metadata: Metadata = {
   title: "Together",
@@ -24,7 +22,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body>
-      <ClerkProvider>
+      <AuthProvider>
         <ThemeProvider>
           <App>
             <Layout
@@ -49,7 +47,7 @@ export default function RootLayout({
             </Layout>
           </App>
         </ThemeProvider>
-        </ClerkProvider>
+        </AuthProvider>
       </body>
     </html>
   );

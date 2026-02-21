@@ -163,7 +163,7 @@ export const Footer: React.FC = () => {
           {/* Brand column */}
           <Col xs={24} sm={24} md={8} lg={7}>
             {/* Logo */}
-            <a
+            <Link
               href="/"
               style={{
                 display: "inline-flex",
@@ -200,7 +200,7 @@ export const Footer: React.FC = () => {
                 Together
                 <span style={{ color: colors.accentText }}>.</span>
               </span>
-            </a>
+            </Link>
 
             <Text
               style={{
