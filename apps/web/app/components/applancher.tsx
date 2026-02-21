@@ -2,8 +2,9 @@ import React, { useState } from "react";
 import { Popover, Typography, Divider, Avatar, Tooltip } from "antd";
 import { useUser } from "@clerk/nextjs";
 import { useTheme } from "@repo/ui/ThemeContext";
-import { AppData, appsData } from "@repo/together-apps/data";
-import { GridIcon, LayoutGrid } from "lucide-react";
+import { appsData } from "@repo/together-apps/data";
+import { AppData } from "@repo/together-apps/types"
+import { LayoutGrid } from "lucide-react";
 
 const { Text } = Typography;
 

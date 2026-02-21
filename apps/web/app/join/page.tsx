@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import { useTheme } from "@repo/ui/ThemeContext";
 import { completeOnboarding } from "./_actions";
 import { appsData } from "@repo/together-apps/data";
-import { Tag, Typography } from "antd";
+import { Typography } from "antd";
 const { Text } = Typography;
 
 type Step = "signup" | "verify" | "apps" | "done";

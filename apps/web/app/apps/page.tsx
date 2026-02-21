@@ -5,7 +5,8 @@ import { Typography, Button } from "antd";
 import { ArrowRightOutlined } from "@ant-design/icons";
 import Link from "next/link";
 import { useTheme } from "@repo/ui/ThemeContext";
-import { appsData, AppData, AppStatus } from "@repo/together-apps/data";
+import { appsData } from "@repo/together-apps/data";
+import { AppData, AppStatus } from "@repo/together-apps/types"
 
 const { Title, Paragraph, Text } = Typography;
 

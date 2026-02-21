@@ -8,7 +8,8 @@ import {
 } from "@ant-design/icons";
 import { useTheme } from "@repo/ui/ThemeContext";
 import { motion } from "framer-motion";
-import { AppData, appsData } from "@repo/together-apps/data";
+import { appsData } from "@repo/together-apps/data";
+import { AppData } from "@repo/together-apps/types"
 
 const { Title, Paragraph, Text } = Typography;
 
