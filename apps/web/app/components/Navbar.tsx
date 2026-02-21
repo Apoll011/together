@@ -20,14 +20,14 @@ import {
 } from "@ant-design/icons";
 import { useTheme } from "@repo/ui/ThemeContext";
 import { appsData } from "@repo/together-apps/data";
-import { ToggleTheme } from "./theme-toggle";
+import { ToggleTheme } from "@repo/ui/theme-toggle";
 
 import Image from "next/image";
 import logo from "../static/logov2.png";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
-import AppLauncher from "./applancher";
+import AppLauncher from "@repo/ui/applauncher";
 import { useAppUser } from "@repo/auth/provider/client";
 
 import {
