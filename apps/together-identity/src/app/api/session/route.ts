@@ -10,7 +10,6 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ ok: false, error: "Unauthenticated" }, { status: 401 });
   }
 
-  // Hydrate extended fields from DB
   const db = await getDb();
   const userDoc = await db.collection("users").findOne({ id: session.user.id });
 

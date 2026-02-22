@@ -8,5 +8,5 @@ export async function GET() {
     await ensureIndexes();
     bootstrapped = true;
   }
-  return NextResponse.json({ ok: true, service: "@together/identity" });
+  return NextResponse.json({ ok: true, service: "together-identity" });
 }

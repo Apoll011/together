@@ -8,6 +8,7 @@ export interface TogetherUser {
   emailVerified: boolean;
   name: string | null;
   username: string | null;
+  displayUsername: string | null;
   image: string | null;
   roles: GlobalRole[];
   appRoles: AppRoles;
