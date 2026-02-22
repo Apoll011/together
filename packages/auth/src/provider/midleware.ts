@@ -1,9 +1,9 @@
 import { clerkMiddleware, createRouteMatcher } from '@clerk/nextjs/server'
 import { NextRequest, NextResponse } from 'next/server'
 
-const isOnboardingRoute = createRouteMatcher(['/join'])
+const isOnboardingRoute = createRouteMatcher(['/sign-up'])
 const isProtectedRoute = createRouteMatcher([])
-const isUnAuthenticated = createRouteMatcher(['/login'])
+const isUnAuthenticated = createRouteMatcher(['/sign-in'])
 
 export default clerkMiddleware(async (auth, req: NextRequest) => {
   const { isAuthenticated, sessionClaims, redirectToSignIn } = await auth()
