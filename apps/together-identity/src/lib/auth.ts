@@ -10,26 +10,22 @@ if (!process.env.BETTER_AUTH_SECRET) {
   throw new Error("Missing environment variable: BETTER_AUTH_SECRET");
 }
 
-
 export const auth = betterAuth({
   secret: process.env.BETTER_AUTH_SECRET,
   baseURL: process.env.NEXT_PUBLIC_IDENTITY_URL ?? "http://localhost:3001",
   basePath: "/api/auth",
-  
-  database: mongodbAdapter(await getDb(), {client: await client}),
+
+  database: mongodbAdapter(await getDb(), { client: await client }),
 
   session: {
-    expiresIn: 60 * 60 * 24 * 30, // 30 days
-    updateAge: 60 * 60 * 24,       // refresh if older than 1 day
-    cookieCache: {
-      enabled: true,
-      maxAge: 60 * 5, // 5-minute client-side cache
-    },
-    storeSessionInDatabase: true
+    expiresIn: 60 * 60 * 24 * 30,
+    updateAge: 60 * 60 * 24,
+    cookieCache: { enabled: true, maxAge: 60 * 5 },
+    storeSessionInDatabase: true,
   },
 
   silenceWarnings: {
-    oauthAuthServerConfig: true
+    oauthAuthServerConfig: true,
   },
 
   advanced: {
@@ -38,8 +34,6 @@ export const auth = betterAuth({
       sameSite: "lax",
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
-      // Set to parent domain in production for cross-app SSO
-      // domain: ".together.app",
     },
   },
 
@@ -48,60 +42,64 @@ export const auth = betterAuth({
     requireEmailVerification: true,
     minPasswordLength: 8,
     maxPasswordLength: 128,
-
     sendResetPassword: async ({ user, url }) => {
-      const urlObj = new URL(url);
-      const token = urlObj.searchParams.get("token") ?? url;
+      const token = new URL(url).searchParams.get("token") ?? url;
       await sendPasswordResetEmail(user.email, token);
     },
-
-    resetPasswordTokenExpiresIn: 60 * 15, // 15 minutes
+    resetPasswordTokenExpiresIn: 60 * 15,
   },
 
   emailVerification: {
     sendOnSignUp: true,
     autoSignInAfterVerification: true,
-    expiresIn: 60 * 60 * 24, // 24 hours
-
+    expiresIn: 60 * 60 * 24,
     sendVerificationEmail: async ({ user, url }) => {
-      const urlObj = new URL(url);
-      const token = urlObj.searchParams.get("token") ?? url;
+      const token = new URL(url).searchParams.get("token") ?? url;
       await sendVerificationEmail(user.email, token);
     },
   },
-
-  /*socialProviders: {
-    google: {
-      clientId: process.env.GOOGLE_CLIENT_ID ?? "",
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET ?? "",
-      allowDangerousEmailAccountLinking: true,
-    },
-    github: {
-      clientId: process.env.GITHUB_CLIENT_ID ?? "",
-      clientSecret: process.env.GITHUB_CLIENT_SECRET ?? "",
-      allowDangerousEmailAccountLinking: true,
-    },
-  },*/
 
   plugins: [
     twoFactor({
       issuer: "Together",
       totpOptions: { period: 30, digits: 6 },
-      backupCodes: {
-        enabled: true,
-        count: 10,
-        length: 10,
-      },
+      backupCodes: { enabled: true, count: 10, length: 10 },
     }),
-    username({
-      minUsernameLength: 4,
-      maxUsernameLength: 25
-    }),
+    username({ minUsernameLength: 4, maxUsernameLength: 25 }),
     jwt(),
     oauthProvider({
       loginPage: "/login",
       consentPage: "/consent",
-    })
+
+      scopes: ["openid", "profile", "email", "offline_access"],
+
+      customAccessTokenClaims: async ({ user }) => {
+        const roles = (user as any).roles as GlobalRole[] ?? ["user"];
+        let appRoles: AppRoles = {};
+        try {
+          appRoles = JSON.parse((user as any).appRoles ?? "{}") as AppRoles;
+        } catch {}
+        return {
+          roles,
+          app_roles: appRoles,
+        };
+      },
+
+      customUserInfoClaims: async ({ user }) => {
+        const roles = (user as any).roles as GlobalRole[] ?? ["user"];
+        let appRoles: AppRoles = {};
+        try {
+          appRoles = JSON.parse((user as any).appRoles ?? "{}") as AppRoles;
+        } catch {}
+
+        return {
+          username: (user as any).username ?? null,
+          roles,
+          // Namespaced to avoid collision with future OIDC standard claims
+          app_roles: appRoles,
+        };
+      },
+    }),
   ],
 
   user: {
@@ -117,7 +115,7 @@ export const auth = betterAuth({
         required: false,
         defaultValue: JSON.stringify({} satisfies AppRoles),
         fieldName: "appRoles",
-      }
+      },
     },
   },
 
@@ -128,7 +126,6 @@ export const auth = betterAuth({
     },
   },
 });
-
 
 export async function getUserById(id: string) {
   const db = await getDb();

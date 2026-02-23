@@ -14,29 +14,30 @@ export type AppRoles = Record<string, string[]>;
 
 /**
  * The normalized user object exposed by the SDK.
- * Maps directly to the TogetherSessionPayload from the identity server.
- * Do not add fields that are not present in that payload.
+ * Shape intentionally unchanged — components depending on this type require
+ * no migration.
  */
 export interface TogetherUser {
-  /** Stable unique identifier */
   readonly userId: string;
   readonly email: string;
   readonly emailVerified: boolean;
   readonly name: string | null;
   readonly username: string | null;
   readonly image: string | null;
-  /** Global roles (e.g. "user", "admin") */
   readonly roles: readonly GlobalRole[];
-  /** Per-app roles keyed by app identifier */
   readonly appRoles: Readonly<AppRoles>;
 }
 
 // ─── Session ──────────────────────────────────────────────────────────────────
 
 export interface TogetherSession {
+  /**
+   * In the OAuth flow this is the access token's `jti` (JWT ID) when present,
+   * otherwise the user's `sub` claim. Shape identical to v1 for consumers.
+   */
   readonly sessionId: string;
   readonly user: TogetherUser;
-  /** ISO-8601 expiry timestamp */
+  /** ISO-8601 — now reflects access token expiry */
   readonly expiresAt: string;
 }
 
@@ -48,12 +49,32 @@ export interface TogetherAuthConfig {
    * @example "https://identity.together.com"
    */
   identityBaseUrl: string;
+
   /**
-   * When true, unauthenticated users are automatically redirected to the
-   * identity server's login page (with `?redirect=<current_url>`).
+   * OAuth 2.1 client_id issued by the identity server.
+   * Register one with `auth.api.createOAuthClient(...)`.
+   */
+  clientId: string;
+
+  /**
+   * The full URL the identity server should redirect to after authorization.
+   * Must be registered in `redirect_uris` for this client.
+   * @example "https://studio.together.com/auth/callback"
+   */
+  redirectUri: string;
+
+  /**
+   * OAuth scopes to request.
+   * @default ["openid", "profile", "email", "offline_access"]
+   */
+  scopes?: string[];
+
+  /**
+   * When true, unauthenticated users are automatically redirected to login.
    * @default true
    */
   autoRedirect?: boolean;
+
   /**
    * The identifier of this app within the Together ecosystem.
    * Used as the key for `appRoles` lookups.
@@ -69,12 +90,32 @@ export interface TogetherAuthContextValue {
   user: TogetherUser | null;
   isLoading: boolean;
   isAuthenticated: boolean;
-  /** Manually trigger a session re-fetch */
   refresh: () => Promise<void>;
   config: Required<TogetherAuthConfig>;
 }
 
-// ─── API response shape (mirrors identity server) ────────────────────────────
+// ─── OIDC UserInfo response ───────────────────────────────────────────────────
+// Shape returned by /api/auth/oauth2/userinfo (standard claims + custom ones
+// added via customUserInfoClaims on the identity server).
+
+export interface OIDCUserInfo {
+  sub: string;
+  email?: string;
+  email_verified?: boolean;
+  name?: string;
+  picture?: string;
+  given_name?: string;
+  family_name?: string;
+  // Custom claims added by the identity server
+  username?: string;
+  roles?: GlobalRole[];
+  app_roles?: AppRoles;
+  // JWT fields present when userinfo is a signed JWT
+  jti?: string;
+  exp?: number;
+}
+
+// ─── Legacy API types (kept for server.ts normalisation) ─────────────────────
 
 export interface IdentitySessionResponse {
   ok: true;
@@ -97,7 +138,3 @@ export interface IdentityErrorResponse {
   error: string;
   code?: string;
 }
-
-export type IdentityApiResponse<T = IdentitySessionResponse> =
-  | T
-  | IdentityErrorResponse;

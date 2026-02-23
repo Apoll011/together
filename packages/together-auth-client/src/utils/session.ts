@@ -1,59 +1,106 @@
 import type {
   TogetherSession,
   TogetherUser,
-  IdentitySessionResponse,
+  OIDCUserInfo,
 } from "../types/index.ts";
-import { getIdentityUrl } from "../config.ts";
+import { getIdentityUrl, getConfig } from "../config.ts";
+import {
+  getStoredTokens,
+  isTokenExpired,
+  storeTokens,
+  clearTokens,
+} from "../token-store.ts";
+import { refreshAccessToken } from "../oauth.ts";
 
-// ─── Response normalizer ──────────────────────────────────────────────────────
+// ─── Normalizer ───────────────────────────────────────────────────────────────
 
-export function normalizeSession(
-  data: IdentitySessionResponse["data"]
+export function normalizeUserInfo(
+  info: OIDCUserInfo,
+  tokenExpiresAt: number
 ): TogetherSession {
   const user: TogetherUser = {
-    userId: data.userId,
-    email: data.email,
-    emailVerified: data.emailVerified,
-    name: data.name,
-    username: data.username,
-    image: data.image,
-    roles: data.roles,
-    appRoles: data.appRoles,
+    userId: info.sub,
+    email: info.email ?? "",
+    emailVerified: info.email_verified ?? false,
+    name: info.name ?? null,
+    username: info.username ?? null,
+    image: info.picture ?? null,
+    roles: info.roles ?? ["user"],
+    appRoles: info.app_roles ?? {},
   };
 
   return {
-    sessionId: data.sessionId,
+    // Prefer JWT ID for uniqueness; fall back to sub (user ID)
+    sessionId: info.jti ?? info.sub,
     user,
-    expiresAt: data.expiresAt,
+    expiresAt: new Date(tokenExpiresAt).toISOString(),
   };
 }
 
-// ─── Client-side fetch (uses browser cookie) ─────────────────────────────────
+// ─── Token refresh helper ─────────────────────────────────────────────────────
+
+async function tryRefresh(): Promise<string | null> {
+  const stored = getStoredTokens();
+  if (!stored?.refreshToken) return null;
+
+  try {
+    const config = getConfig();
+    const tokens = await refreshAccessToken({
+      identityBaseUrl: config.identityBaseUrl,
+      clientId: config.clientId,
+      refreshToken: stored.refreshToken,
+    });
+
+    const expiresAt = Date.now() + tokens.expires_in * 1000;
+    storeTokens({
+      accessToken: tokens.access_token,
+      expiresAt,
+      refreshToken: tokens.refresh_token ?? stored.refreshToken,
+      idToken: tokens.id_token ?? stored.idToken,
+    });
+
+    return tokens.access_token;
+  } catch {
+    clearTokens();
+    return null;
+  }
+}
+
+// ─── fetchSession ─────────────────────────────────────────────────────────────
 
 /**
- * Fetches the current session from the identity server.
- * Uses `credentials: "include"` so the httpOnly session cookie is forwarded.
- * Returns `null` if the user is not authenticated or the request fails.
+ * Fetches the current session by calling /oauth2/userinfo with a Bearer token.
+ * Auto-refreshes the access token when expired (if a refresh_token is stored).
+ * Returns null when unauthenticated.
  */
 export async function fetchSession(): Promise<TogetherSession | null> {
+  let stored = getStoredTokens();
+  if (!stored) return null;
+
+  // Refresh if expired
+  if (isTokenExpired(stored)) {
+    const newToken = await tryRefresh();
+    if (!newToken) return null;
+    stored = getStoredTokens()!;
+  }
+
   try {
-    const res = await fetch(getIdentityUrl("/api/session"), {
+    const res = await fetch(getIdentityUrl("/api/auth/oauth2/userinfo"), {
       method: "GET",
-      credentials: "include",
-      headers: { "Content-Type": "application/json" },
-      // Don't cache — always get fresh session state
+      headers: {
+        Authorization: `Bearer ${stored.accessToken}`,
+        "Content-Type": "application/json",
+      },
       cache: "no-store",
     });
 
-    if (!res.ok) return null;
+    if (!res.ok) {
+      if (res.status === 401) clearTokens();
+      return null;
+    }
 
-    const json = (await res.json()) as
-      | IdentitySessionResponse
-      | { ok: false };
-
-    if (!json.ok) return null;
-
-    return normalizeSession((json as IdentitySessionResponse).data);
+    const info = (await res.json()) as OIDCUserInfo;
+    return normalizeUserInfo(info, stored.expiresAt);
   } catch {
     return null;
   }
@@ -61,31 +108,34 @@ export async function fetchSession(): Promise<TogetherSession | null> {
 
 // ─── Logout ───────────────────────────────────────────────────────────────────
 
-/**
- * Signs the user out by calling the identity server's sign-out endpoint.
- * The identity server will clear the httpOnly cookie.
- */
 export async function logout(): Promise<void> {
+  // Best-effort revocation of the access token
+  const stored = getStoredTokens();
+  clearTokens();
+
+  if (!stored) return;
+
   try {
-    await fetch(getIdentityUrl("/api/auth/sign-out"), {
+    await fetch(getIdentityUrl("/api/auth/oauth2/revoke"), {
       method: "POST",
-      credentials: "include",
-      headers: { "Content-Type": "application/json" },
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body: new URLSearchParams({
+        token: stored.accessToken,
+        token_type_hint: "access_token",
+      }),
     });
   } catch {
-    // Best-effort — even if request fails, let the caller handle redirect
+    // Best-effort — caller handles redirect
   }
 }
 
-// ─── Redirect ─────────────────────────────────────────────────────────────────
+// ─── Login redirect (kept for backward-compat import surface) ────────────────
 
-/**
- * Redirects the browser to the identity server's login page,
- * with a `redirect` parameter pointing back to the current URL.
- */
-export function redirectToLogin(identityBaseUrl: string, returnUrl?: string): void {
+export function redirectToLogin(
+  identityBaseUrl: string,
+  returnUrl?: string
+): void {
   if (typeof window === "undefined") return;
-
   const base = identityBaseUrl.replace(/\/$/, "");
   const redirect = returnUrl ?? window.location.href;
   window.location.href = `${base}/login?redirect=${encodeURIComponent(redirect)}`;

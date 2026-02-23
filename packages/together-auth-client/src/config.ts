@@ -1,54 +1,33 @@
 import type { TogetherAuthConfig } from "./types/index.ts";
 
-const DEFAULT_CONFIG: Required<TogetherAuthConfig> = {
-  identityBaseUrl: "",
-  autoRedirect: true,
-  appName: "",
-};
+const DEFAULT_SCOPES = ["openid", "profile", "email", "offline_access"];
 
-let _config: Required<TogetherAuthConfig> = { ...DEFAULT_CONFIG };
-let _initialized = false;
+type ResolvedConfig = Required<TogetherAuthConfig>;
 
-/**
- * Initialize the SDK configuration.
- * Must be called before any SDK utilities are used — typically in your
- * app's root layout or `instrumentation.ts`.
- */
+let _config: ResolvedConfig | null = null;
+
 export function configure(config: TogetherAuthConfig): void {
-  if (!config.identityBaseUrl) {
-    throw new Error(
-      "[@together/auth-client] `identityBaseUrl` is required in configure()"
-    );
-  }
   _config = {
-    ...DEFAULT_CONFIG,
-    ...config,
+    identityBaseUrl: config.identityBaseUrl.replace(/\/$/, ""),
+    clientId: config.clientId,
+    redirectUri: config.redirectUri,
+    scopes: config.scopes ?? DEFAULT_SCOPES,
+    autoRedirect: config.autoRedirect ?? true,
+    appName: config.appName ?? "",
   };
-  _initialized = true;
 }
 
-export function getConfig(): Required<TogetherAuthConfig> {
-  if (!_initialized) {
-    // Attempt env fallback for Next.js environments
-    const envUrl =
-      typeof process !== "undefined"
-        ? (process.env["NEXT_PUBLIC_IDENTITY_URL"] ?? "")
-        : "";
-
-    if (envUrl) {
-      _config = { ...DEFAULT_CONFIG, identityBaseUrl: envUrl };
-      _initialized = true;
-    } else {
-      throw new Error(
-        "[@together/auth-client] SDK not configured. Call configure() with identityBaseUrl, " +
-          "or set NEXT_PUBLIC_IDENTITY_URL."
-      );
-    }
+export function getConfig(): ResolvedConfig {
+  if (!_config) {
+    throw new Error(
+      "[@together/auth-client] SDK not configured. " +
+        "Wrap your app with <TogetherAuthProvider config={...}>."
+    );
   }
   return _config;
 }
 
 export function getIdentityUrl(path: string): string {
-  const base = getConfig().identityBaseUrl.replace(/\/$/, "");
-  return `${base}${path}`;
+  const base = getConfig().identityBaseUrl;
+  return `${base}${path.startsWith("/") ? path : `/${path}`}`;
 }

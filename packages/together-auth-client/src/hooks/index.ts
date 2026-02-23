@@ -16,9 +16,6 @@ export interface UseSessionReturn {
   refresh: () => Promise<void>;
 }
 
-/**
- * Returns the raw session object and loading state.
- */
 export function useSession(): UseSessionReturn {
   const { session, isLoading, isAuthenticated, refresh } =
     useTogetherAuthContext();
@@ -34,9 +31,6 @@ export interface UseTogetherAccountReturn {
   refresh: () => Promise<void>;
 }
 
-/**
- * Primary hook — returns the current user and auth state.
- */
 export function useTogetherAccount(): UseTogetherAccountReturn {
   const { user, isLoading, isAuthenticated, refresh } =
     useTogetherAuthContext();
@@ -46,45 +40,28 @@ export function useTogetherAccount(): UseTogetherAccountReturn {
 // ─── useRoles ─────────────────────────────────────────────────────────────────
 
 export interface UseRolesReturn {
-  /** Global roles assigned to the current user */
   roles: readonly GlobalRole[];
-  /** Per-app roles map */
   appRoles: Readonly<Record<string, string[]>>;
-  /** Returns true if the user has the given global role */
   hasRole: (role: string) => boolean;
-  /** Returns true if the user has the given role within the given app */
   hasAppRole: (app: string, role: string) => boolean;
 }
 
-/**
- * Returns the current user's roles and role-checking helpers.
- */
 export function useRoles(): UseRolesReturn {
   const { user } = useTogetherAuthContext();
 
   const roles: readonly GlobalRole[] = user?.roles ?? [];
   const appRoles: Readonly<Record<string, string[]>> = user?.appRoles ?? {};
 
-  function hasRole(role: string): boolean {
-    return roles.includes(role);
-  }
-
-  function hasAppRole(app: string, role: string): boolean {
-    return (appRoles[app] ?? []).includes(role);
-  }
-
-  return { roles, appRoles, hasRole, hasAppRole };
+  return {
+    roles,
+    appRoles,
+    hasRole: (role) => roles.includes(role),
+    hasAppRole: (app, role) => (appRoles[app] ?? []).includes(role),
+  };
 }
 
 // ─── useHasRole ───────────────────────────────────────────────────────────────
 
-/**
- * Returns true if the current user has the given global role.
- * Returns false while loading.
- *
- * @example
- * const isAdmin = useHasRole("admin");
- */
 export function useHasRole(role: string): boolean {
   const { user } = useTogetherAuthContext();
   return user?.roles.includes(role) ?? false;
@@ -92,13 +69,6 @@ export function useHasRole(role: string): boolean {
 
 // ─── useHasAppRole ────────────────────────────────────────────────────────────
 
-/**
- * Returns true if the current user has the given role within the given app.
- * Returns false while loading.
- *
- * @example
- * const canEdit = useHasAppRole("together-studio", "editor");
- */
 export function useHasAppRole(app: string, role: string): boolean {
   const { user } = useTogetherAuthContext();
   return (user?.appRoles[app] ?? []).includes(role);
