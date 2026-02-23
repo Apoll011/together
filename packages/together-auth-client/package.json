@@ -1,6 +1,6 @@
 {
-  "name": "@repo/together-auth-client",
-  "version": "0.1.0",
+  "name": "@together/auth-sdk",
+  "version": "0.2.0",
   "description": "Authentication integration SDK for the Together Identity Provider",
   "license": "MIT",
   "exports": {

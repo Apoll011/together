@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { Popover, Typography, Divider, Avatar, Tooltip } from "antd";
 import { useTheme } from "@repo/ui/ThemeContext";
-import { appsData } from "@repo/together-apps/data";
-import { AppData } from "@repo/together-apps/types"
+import { appsData } from "@together/apps-repo/data";
+import { AppData } from "@together/apps-repo/types"
 import { LayoutGrid } from "lucide-react";
 import { useAppUser } from "@repo/auth/provider/client";
 

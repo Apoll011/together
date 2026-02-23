@@ -1,5 +1,5 @@
 {
-  "name": "together-identity",
+  "name": "@together/identity",
   "version": "0.1.0",
   "private": true,
   "scripts": {

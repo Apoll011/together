@@ -19,7 +19,7 @@ import {
   ArrowRightOutlined,
 } from "@ant-design/icons";
 import { useTheme } from "@repo/ui/ThemeContext";
-import { appsData } from "@repo/together-apps/data";
+import { appsData } from "@together/apps-repo/data";
 import { ToggleTheme } from "@repo/ui/theme-toggle";
 
 import Image from "next/image";

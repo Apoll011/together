@@ -11,7 +11,7 @@ import {
   ArrowRightOutlined,
 } from "@ant-design/icons";
 import { useTheme } from "@repo/ui/ThemeContext";
-import { AppData } from "@repo/together-apps/types"
+import { AppData } from "@together/apps-repo/types"
 import Link from "next/link";
 import { DownloadButton } from "../../components/DownloadButton";
 
