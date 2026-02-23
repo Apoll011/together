@@ -91,8 +91,8 @@ export default function ConsentPage() {
     setError("");
     try {
       const res = await authClient.oauth2.consent({ accept: false });
-      if (res.error) throw new Error(res.error.message ?? "Request failed");
-      if ((res as any).data?.redirectTo) router.push((res as any).data.redirectTo);
+      if ((res as any).data?.redirect) router.push((res as any).data.uri)
+      else if ((res as any).code) throw new Error((res as any).message ?? "Request failed");
     } catch (err: any) {
       setError(err.message ?? "Something went wrong.");
       setLoading(null);
