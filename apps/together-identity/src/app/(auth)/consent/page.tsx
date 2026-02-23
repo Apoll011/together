@@ -55,7 +55,6 @@ export default function ConsentPage() {
 
     authClient.oauth2.publicClient({query: {client_id: clientId}})
       .then(({ data, error }) => {
-        console.log(data);
         if (data) setAppInfo(data as PublicClient);
         if (error) console.error("Could not load client info:", error);
       })
@@ -79,8 +78,8 @@ export default function ConsentPage() {
         accept: true,
         scope: Array.from(accepted).join(" "),
       });
-      if (res.error) throw new Error(res.error.message ?? "Consent failed");
-      if ((res as any).data?.redirectTo) router.push((res as any).data.redirectTo);
+      if ((res as any).data?.redirect) router.push((res as any).data.uri)
+      else if ((res as any).code) throw new Error((res as any).message ?? "Consent failed");
     } catch (err: any) {
       setError(err.message ?? "Something went wrong.");
       setLoading(null);

@@ -1,20 +1,25 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { authClient, useSession } from "@/lib/auth-client";
 
 export default function AccountPage() {
   const { data: session, isPending } = useSession();
-  const [username, setUsername] = useState(session?.user.username ?? "");
+  const [username, setUsername] = useState("");
   const [usernameStatus, setUsernameStatus] = useState<
     "idle" | "saving" | "saved" | "error"
   >("idle");
   const [usernameError, setUsernameError] = useState("");
 
+  useEffect(() => {
+    if (isPending) return;
+    setUsername(session?.user.username ?? "");
+  }, [isPending]);
+
   if (isPending) return <p style={{ color: "#6b7280" }}>Loading…</p>;
   if (!session) return null;
-
   const user = session.user;
+
 
   async function handleUsernameChange(e: React.FormEvent) {
     e.preventDefault();

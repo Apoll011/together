@@ -70,7 +70,7 @@ export const auth = betterAuth({
     },
   },
 
-  socialProviders: {
+  /*socialProviders: {
     google: {
       clientId: process.env.GOOGLE_CLIENT_ID ?? "",
       clientSecret: process.env.GOOGLE_CLIENT_SECRET ?? "",
@@ -81,11 +81,7 @@ export const auth = betterAuth({
       clientSecret: process.env.GITHUB_CLIENT_SECRET ?? "",
       allowDangerousEmailAccountLinking: true,
     },
-  },
-
-  disabledPaths: [
-    "/token",
-  ],
+  },*/
 
   plugins: [
     twoFactor({
