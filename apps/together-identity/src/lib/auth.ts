@@ -28,6 +28,10 @@ export const auth = betterAuth({
     storeSessionInDatabase: true
   },
 
+  silenceWarnings: {
+    oauthAuthServerConfig: true
+  },
+
   advanced: {
     useSecureCookies: process.env.NODE_ENV === "production",
     defaultCookieAttributes: {
