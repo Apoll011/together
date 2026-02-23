@@ -2,9 +2,9 @@ import { cookies, headers } from "next/headers";
 import type {
   TogetherSession,
   IdentitySessionResponse,
-} from "./types/index.js";
-import { normalizeSession } from "./utils/session.js";
-import { getConfig, getIdentityUrl } from "./config.js";
+} from "./types/index.ts";
+import { normalizeSession } from "./utils/session.ts";
+import { getConfig, getIdentityUrl } from "./config.ts";
 
 /**
  * Fetches the current session from the identity server during SSR.
@@ -116,5 +116,5 @@ export async function requireServerSession(): Promise<TogetherSession> {
 }
 
 // Re-export types so consumers can import everything from the server entry
-export type { TogetherSession, TogetherUser, GlobalRole, AppRoles } from "./types/index.js";
-export { configure, getConfig } from "./config.js";
+export type { TogetherSession, TogetherUser, GlobalRole, AppRoles } from "./types/index.ts";
+export { configure, getConfig } from "./config.ts";

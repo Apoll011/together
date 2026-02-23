@@ -1,34 +1,11 @@
 {
-  "name": "@together/auth-client",
+  "name": "@repo/together-auth-client",
   "version": "0.1.0",
   "description": "Authentication integration SDK for the Together Identity Provider",
   "license": "MIT",
-  "type": "module",
   "exports": {
-    ".": {
-      "import": "./dist/index.js",
-      "require": "./dist/index.cjs",
-      "types": "./dist/index.d.ts"
-    },
-    "./server": {
-      "import": "./dist/server.js",
-      "require": "./dist/server.cjs",
-      "types": "./dist/server.d.ts"
-    }
-  },
-  "main": "./dist/index.js",
-  "types": "./dist/index.d.ts",
-  "files": [
-    "dist"
-  ],
-  "scripts": {
-    "build": "tsup",
-    "typecheck": "tsc --noEmit"
-  },
-  "peerDependencies": {
-    "next": ">=14.0.0",
-    "react": ">=18.0.0",
-    "react-dom": ">=18.0.0"
+    "./*": "./src/*.ts",
+    "./react/*": "./src/*.tsx"
   },
   "devDependencies": {
     "@types/node": "^20.0.0",
@@ -37,7 +14,6 @@
     "next": "^15.0.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "tsup": "^8.0.0",
     "typescript": "^5.0.0"
   },
   "dependencies": {

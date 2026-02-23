@@ -9,8 +9,8 @@ import {
   type ReactNode,
   type CSSProperties,
 } from "react";
-import { useTogetherAuthContext } from "../context/TogetherAuthProvider.js";
-import { redirectToLogin } from "../utils/session.js";
+import { useTogetherAuthContext } from "../context/TogetherAuthProvider.tsx";
+import { redirectToLogin } from "../utils/session.ts";
 import type { TogetherUser } from "../types/index.ts";
 import { sha256 } from "js-sha256/index.js";
 

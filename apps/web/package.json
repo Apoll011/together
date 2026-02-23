@@ -4,7 +4,7 @@
   "type": "module",
   "private": true,
   "scripts": {
-    "dev": "next dev  --port 3000",
+    "dev": "next dev --hostname together.local",
     "build": "next build",
     "start": "next start",
     "lint": "eslint --max-warnings 0",
@@ -13,9 +13,10 @@
   "dependencies": {
     "@ant-design/cssinjs": "^2.1.0",
     "@ant-design/icons": "^6.1.0",
-    "@repo/together-apps": "workspace:*",
-    "@repo/ui": "workspace:*",
     "@repo/auth": "workspace:*",
+    "@repo/together-apps": "workspace:*",
+    "@repo/together-auth-client": "workspace:*",
+    "@repo/ui": "workspace:*",
     "antd": "^6.3.0",
     "framer-motion": "^12.34.2",
     "lucide-react": "^0.574.0",

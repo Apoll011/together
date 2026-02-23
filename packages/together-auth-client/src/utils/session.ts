@@ -2,8 +2,8 @@ import type {
   TogetherSession,
   TogetherUser,
   IdentitySessionResponse,
-} from "../types/index.js";
-import { getIdentityUrl } from "../config.js";
+} from "../types/index.ts";
+import { getIdentityUrl } from "../config.ts";
 
 // ─── Response normalizer ──────────────────────────────────────────────────────
 

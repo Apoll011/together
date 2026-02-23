@@ -1,8 +1,8 @@
 "use client";
 
 import { useEffect, type ReactNode } from "react";
-import { useTogetherAuthContext } from "../context/TogetherAuthProvider.js";
-import { redirectToLogin } from "../utils/session.js";
+import { useTogetherAuthContext } from "../context/TogetherAuthProvider.tsx";
+import { redirectToLogin } from "../utils/session.ts";
 
 // ─── Shared helpers ───────────────────────────────────────────────────────────
 

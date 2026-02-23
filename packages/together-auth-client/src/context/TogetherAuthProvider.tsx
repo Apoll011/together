@@ -14,8 +14,8 @@ import type {
   TogetherAuthContextValue,
   TogetherSession,
 } from "../types/index.js";
-import { configure, getConfig } from "../config.js";
-import { fetchSession, redirectToLogin } from "../utils/session.js";
+import { configure, getConfig } from "../config.ts";
+import { fetchSession, redirectToLogin } from "../utils/session.ts";
 
 // ─── Context ──────────────────────────────────────────────────────────────────
 

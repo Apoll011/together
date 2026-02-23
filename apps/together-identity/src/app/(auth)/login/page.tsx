@@ -8,7 +8,7 @@ import { signIn } from "@/lib/auth-client";
 export default function LoginPage() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const callbackUrl = searchParams.get("callbackUrl") ?? "/account";
+  const callbackUrl = searchParams.get("redirect") ?? "/account";
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -129,7 +129,7 @@ export default function LoginPage() {
 
         <p style={{ textAlign: "center", marginTop: "1.25rem", fontSize: ".875rem", color: "#6b7280" }}>
           Don&apos;t have an account?{" "}
-          <Link href="/register">Create one</Link>
+          <Link href="/register ">Create one</Link>
         </p>
       </div>
     </div>

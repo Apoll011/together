@@ -1,11 +1,11 @@
 "use client";
 
-import { useTogetherAuthContext } from "../context/TogetherAuthProvider.js";
+import { useTogetherAuthContext } from "../context/TogetherAuthProvider.tsx";
 import type {
   TogetherSession,
   TogetherUser,
   GlobalRole,
-} from "../types/index.js";
+} from "../types/index.ts";
 
 // ─── useSession ───────────────────────────────────────────────────────────────
 

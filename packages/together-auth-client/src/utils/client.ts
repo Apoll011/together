@@ -1,6 +1,6 @@
-import { getConfig, getIdentityUrl } from "../config.js";
-import { fetchSession, redirectToLogin as _redirectToLogin, logout as _logout } from "./session.js";
-import type { TogetherSession } from "../types/index.js";
+import { getConfig, getIdentityUrl } from "../config.ts";
+import { fetchSession, redirectToLogin as _redirectToLogin, logout as _logout } from "./session.ts";
+import type { TogetherSession } from "../types/index.ts";
 
 export { fetchSession };
 
