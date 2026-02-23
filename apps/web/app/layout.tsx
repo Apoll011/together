@@ -6,7 +6,6 @@ import "./globals.css";
 import { Navbar } from "./components/Navbar";
 import { Footer } from "./components/Footer";
 import { ThemeProvider } from "@repo/ui/ThemeContext";
-import { AuthProvider } from "@repo/auth/react/provider/components";
 import { RequireAppRole, RequireAuth, RequireRole, SignedIn, SignedOut } from "@repo/together-auth-client/react/components/index";
 import { getServerSession } from "@repo/together-auth-client/server";
 import { TogetherAuthProvider } from "@repo/together-auth-client/react/context/TogetherAuthProvider";
@@ -35,7 +34,6 @@ export default async function RootLayout({
           }}
           initialSession={initialSession}
         >
-          <AuthProvider>
             <ThemeProvider>
               <App>
                 <Layout
@@ -83,7 +81,6 @@ export default async function RootLayout({
                 </Layout>
               </App>
             </ThemeProvider>
-          </AuthProvider>
         </TogetherAuthProvider>
       </body>
     </html>

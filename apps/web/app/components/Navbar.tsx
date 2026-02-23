@@ -26,29 +26,10 @@ import Image from "next/image";
 import logo from "../static/logov2.png";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-
-import { useAppUser } from "@repo/auth/provider/client";
-
-import {
-  SignInButton,
-  SignUpButton,
-  SignedIn,
-  SignedOut,
-  UserButton
-} from "@repo/auth/react/provider/components";
-import AppLauncher from "@repo/auth/react/components/applauncher";
+import AppLauncher from "@repo/together-auth-client/react/components/applauncher";
 
 const { useBreakpoint } = Grid;
 const { Text } = Typography;
-
-interface AppItem {
-  key: string;
-  label: string;
-  description: string;
-  color: string;
-  icon: string;
-  tag?: string;
-}
 
 interface NavbarProps {
   variant?: "default" | "transparent";
@@ -305,9 +286,6 @@ const MobileNav: React.FC<{ onClose: () => void }> = ({ onClose }) => {
       <Divider style={{ margin: "8px 0" }} />
 
       <Space orientation="vertical" style={{ width: "100%" }}>
-        <SignedOut>
-          <SignInButton />
-          <SignUpButton>
             <Button
               block
               ghost={isDark}
@@ -320,11 +298,7 @@ const MobileNav: React.FC<{ onClose: () => void }> = ({ onClose }) => {
             >
               Sign Up
             </Button>
-          </SignUpButton>
-        </SignedOut>
-        <SignedIn>
-          <UserButton />
-        </SignedIn>
+          
         <Button type="primary" block icon={<ArrowRightOutlined />}>
           Get Started
         </Button>
@@ -340,7 +314,6 @@ export const Navbar: React.FC<NavbarProps> = ({ variant = "default" }) => {
   const isMobile = !screens.lg;
   const { colors, mode } = useTheme();
   const router = useRouter();
-  const { user } = useAppUser();
 
   const isTransparent = variant === "transparent" && !scrolled;
   const isDark = mode === "dark";
@@ -526,14 +499,9 @@ export const Navbar: React.FC<NavbarProps> = ({ variant = "default" }) => {
               }}
             >
               <ToggleTheme />
-              <SignedOut>
-                <SignInButton>
                   <Button type="primary" ghost={isTransparent || isDark}>
                     Sign In
                   </Button>
-                </SignInButton>
-              </SignedOut>
-              <SignedIn>
                 <div
                   style={{
                     display: "flex",
@@ -544,14 +512,10 @@ export const Navbar: React.FC<NavbarProps> = ({ variant = "default" }) => {
                 >
                   <AppLauncher
                     usedAppKeys={
-                      (user?.publicMetadata.togetherInterests as
-                        | string[]
-                        | null) ?? []
+                    []
                     }
                   />
-                  <UserButton />
                 </div>
-              </SignedIn>
             </Space>
           )}
 
