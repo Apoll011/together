@@ -34,31 +34,3 @@ export async function getDb(): Promise<Db> {
 }
 
 export { clientPromise };
-
-export async function ensureIndexes(): Promise<void> {
-  const db = await getDb();
-
-  await db.collection("users").createIndexes([
-    { key: { email: 1 }, unique: true, name: "email_unique" },
-    { key: { username: 1 }, unique: true, sparse: true, name: "username_unique" },
-  ]);
-
-  await db.collection("sessions").createIndexes([
-    { key: { userId: 1 }, name: "session_userId" },
-    { key: { expiresAt: 1 }, expireAfterSeconds: 0, name: "session_ttl" },
-  ]);
-
-  await db.collection("accounts").createIndexes([
-    { key: { userId: 1 }, name: "account_userId" },
-    {
-      key: { providerId: 1, accountId: 1 },
-      unique: true,
-      name: "account_provider_unique",
-    },
-  ]);
-
-  await db.collection("verifications").createIndexes([
-    { key: { identifier: 1 }, name: "verification_identifier" },
-    { key: { expiresAt: 1 }, expireAfterSeconds: 0, name: "verification_ttl" },
-  ]);
-}

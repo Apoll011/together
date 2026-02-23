@@ -28,11 +28,12 @@ function scopeLabel(scope: string) {
 }
 
 type PublicClient = {
-  name?: string;
-  icon?: string;
-  uri?: string;
-  tos?: string;
-  policy?: string;
+  client_id: string,
+  client_name?: string;
+  logo_uri?: string;
+  client_uri?: string;
+  tos_uri?: string;
+  policy_uri?: string;
 };
 
 export default function ConsentPage() {
@@ -51,13 +52,15 @@ export default function ConsentPage() {
 
   useEffect(() => {
     if (!clientId) { setAppLoading(false); return; }
+
     authClient.oauth2.publicClient({query: {client_id: clientId}})
       .then(({ data, error }) => {
+        console.log(data);
         if (data) setAppInfo(data as PublicClient);
         if (error) console.error("Could not load client info:", error);
       })
       .finally(() => setAppLoading(false));
-  }, [clientId]);
+  }, []);
 
   function toggle(scope: string) {
     if (scope === "openid") return; // always required
@@ -97,7 +100,7 @@ export default function ConsentPage() {
     }
   }
 
-  const appName = appInfo?.name ?? (clientId
+  const appName = appInfo?.client_name ?? (clientId
     ? clientId.replace(/-/g, " ").replace(/\b\w/g, (c) => c.toUpperCase())
     : "An application");
 
@@ -109,9 +112,9 @@ export default function ConsentPage() {
 
         <div style={{ textAlign: "center", margin: "1.5rem 0 1.25rem" }}>
           {/* App icon: use fetched icon URL or fall back to initial letter */}
-          {appInfo?.icon ? (
+          {appInfo?.logo_uri ? (
             <img
-              src={appInfo.icon}
+              src={appInfo.logo_uri}
               alt={appName}
               className="app-avatar"
               style={{ objectFit: "cover" }}
@@ -127,14 +130,14 @@ export default function ConsentPage() {
           <p className="subtitle" style={{ margin: 0 }}>
             wants to access your Together account
           </p>
-          {appInfo?.uri && (
+          {appInfo?.client_uri && (
             <a
-              href={appInfo.uri}
+              href={appInfo.client_uri}
               target="_blank"
               rel="noopener noreferrer"
               style={{ fontSize: ".75rem", color: "#6b7280", marginTop: ".25rem", display: "inline-block" }}
             >
-              {appInfo.uri.replace(/^https?:\/\//, "")}
+              {appInfo.client_uri.replace(/^https?:\/\//, "")}
             </a>
           )}
         </div>

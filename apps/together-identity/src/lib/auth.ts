@@ -105,7 +105,6 @@ export const auth = betterAuth({
     oauthProvider({
       loginPage: "/login",
       consentPage: "/consent",
-      // ...other options
     })
   ],
 

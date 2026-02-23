@@ -8,8 +8,6 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-console.log(process.env.EMAIL_SERVER_USER, process.env.EMAIL_SERVER_PASS);
-
 const FROM = process.env.EMAIL_FROM ?? "Together <noreply@example.com>";
 const BASE_URL =
   process.env.NEXT_PUBLIC_IDENTITY_URL ?? "http://localhost:3001";
