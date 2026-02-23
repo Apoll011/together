@@ -1,9 +1,10 @@
 import { betterAuth } from "better-auth";
 import { mongodbAdapter } from "better-auth/adapters/mongodb";
-import { twoFactor, username } from "better-auth/plugins";
+import { jwt, twoFactor, username } from "better-auth/plugins";
 import { clientPromise as client, getDb } from "@/lib/db";
 import { sendVerificationEmail, sendPasswordResetEmail } from "@/lib/email";
 import type { GlobalRole, AppRoles } from "@/types/auth";
+import { oauthProvider } from "@better-auth/oauth-provider";
 
 if (!process.env.BETTER_AUTH_SECRET) {
   throw new Error("Missing environment variable: BETTER_AUTH_SECRET");
@@ -14,7 +15,7 @@ export const auth = betterAuth({
   secret: process.env.BETTER_AUTH_SECRET,
   baseURL: process.env.NEXT_PUBLIC_IDENTITY_URL ?? "http://localhost:3001",
   basePath: "/api/auth",
-
+  
   database: mongodbAdapter(await getDb(), {client: await client}),
 
   session: {
@@ -24,6 +25,7 @@ export const auth = betterAuth({
       enabled: true,
       maxAge: 60 * 5, // 5-minute client-side cache
     },
+    storeSessionInDatabase: true
   },
 
   advanced: {
@@ -77,6 +79,10 @@ export const auth = betterAuth({
     },
   },
 
+  disabledPaths: [
+    "/token",
+  ],
+
   plugins: [
     twoFactor({
       issuer: "Together",
@@ -91,6 +97,12 @@ export const auth = betterAuth({
       minUsernameLength: 4,
       maxUsernameLength: 25
     }),
+    jwt(),
+    oauthProvider({
+      loginPage: "/login",
+      consentPage: "/consent",
+      // ...other options
+    })
   ],
 
   user: {
