@@ -26,7 +26,7 @@ import Image from "next/image";
 import logo from "../static/logov2.png";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import AppLauncher from "@repo/together-auth-client/react/components/applauncher";
+import AppLauncher from "@together/auth-sdk/react/components/applauncher";
 
 const { useBreakpoint } = Grid;
 const { Text } = Typography;
@@ -510,11 +510,7 @@ export const Navbar: React.FC<NavbarProps> = ({ variant = "default" }) => {
                     gap: 10,
                   }}
                 >
-                  <AppLauncher
-                    usedAppKeys={
-                    []
-                    }
-                  />
+                 
                 </div>
             </Space>
           )}

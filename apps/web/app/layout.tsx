@@ -6,9 +6,9 @@ import "./globals.css";
 import { Navbar } from "./components/Navbar";
 import { Footer } from "./components/Footer";
 import { ThemeProvider } from "@repo/ui/ThemeContext";
-import { RequireAppRole, RequireAuth, RequireRole, SignedIn, SignedOut } from "@repo/together-auth-client/react/components/index";
-import { getServerSession } from "@repo/together-auth-client/server";
-import { TogetherAuthProvider } from "@repo/together-auth-client/react/context/TogetherAuthProvider";
+import { TogetherAuthProvider } from "@together/auth-sdk/react/context/TogetherAuthProvider";
+import { SignedOut, SignedIn, RequireAuth, RequireRole, RequireAppRole } from "@together/auth-sdk/react/components/index";
+import { getServerSession } from "@together/auth-sdk/server";
 
 export const metadata: Metadata = {
   title: "Together",
@@ -21,16 +21,18 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const initialSession = await getServerSession();
+  const initialSession = await getServerSession({identityBaseUrl: process.env.IDENTITY_URL!});
 
   return (
     <html lang="en" suppressHydrationWarning>
       <body>
         <TogetherAuthProvider
           config={{
-            identityBaseUrl: "http://localhost:3001",
+            clientId: process.env.TOGETHER_CLIENT_ID!,
+            identityBaseUrl: process.env.IDENTITY_URL!,
             autoRedirect: true,
-            appName: "main", // used for appRoles lookup
+            appName: "main",
+            redirectUri: process.env.TOGETHER_REDIRECT_URI!
           }}
           initialSession={initialSession}
         >

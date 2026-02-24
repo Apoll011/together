@@ -4,11 +4,12 @@ import { useTheme } from "@repo/ui/ThemeContext";
 import { appsData } from "@together/apps-repo/data";
 import { AppData } from "@together/apps-repo/types"
 import { LayoutGrid } from "lucide-react";
-import { useAppUser } from "@repo/auth/provider/client";
+import { TogetherUser } from "../types";
 
 const { Text } = Typography;
 
 interface AppLauncherProps {
+  user: TogetherUser
   usedAppKeys: string[];
 }
 
@@ -146,22 +147,22 @@ const AppGrid: React.FC<AppGridProps> = ({
 );
 
 interface UserHeaderProps {
+  user: TogetherUser
   textColor: string;
   subTextColor: string;
   borderColor: string;
 }
 
 const UserHeader: React.FC<UserHeaderProps> = ({
+  user,
   textColor,
   subTextColor,
   borderColor,
 }) => {
-  const { user, isLoaded } = useAppUser();
+  if (!user) return null;
 
-  if (!isLoaded || !user) return null;
-
-  const fullName = user.fullName ?? user.username ?? "User";
-  const email = user.primaryEmailAddress?.emailAddress ?? "";
+  const fullName = user.name ?? user.username ?? "User";
+  const email = user.email;
 
   return (
     <div
@@ -175,7 +176,7 @@ const UserHeader: React.FC<UserHeaderProps> = ({
       }}
     >
       <Avatar
-        src={user.imageUrl}
+        src={user.image}
         size={40}
         style={{
           flexShrink: 0,
@@ -217,12 +218,14 @@ const UserHeader: React.FC<UserHeaderProps> = ({
 // ─── Launcher Overlay ──────────────────────────────────────────────────────────
 
 interface LauncherOverlayProps {
+  user: TogetherUser
   usedAppKeys: string[];
   apps: AppData[];
   isDark: boolean;
 }
 
 const LauncherOverlay: React.FC<LauncherOverlayProps> = ({
+  user,
   usedAppKeys,
   apps,
   isDark,
@@ -261,6 +264,7 @@ const LauncherOverlay: React.FC<LauncherOverlayProps> = ({
     >
       {/* User */}
       <UserHeader
+        user={user}
         textColor={textColor}
         subTextColor={subText}
         borderColor={borderColor}
@@ -300,7 +304,7 @@ const LauncherOverlay: React.FC<LauncherOverlayProps> = ({
 
 // ─── Main Export ───────────────────────────────────────────────────────────────
 
-const AppLauncher: React.FC<AppLauncherProps> = ({ usedAppKeys }) => {
+const AppLauncher: React.FC<AppLauncherProps> = ({ user, usedAppKeys }) => {
   const { colors, mode } = useTheme();
   const [open, setOpen] = useState(false);
 
@@ -320,6 +324,7 @@ const AppLauncher: React.FC<AppLauncherProps> = ({ usedAppKeys }) => {
       }}
       content={
         <LauncherOverlay
+          user={user}
           usedAppKeys={usedAppKeys}
           apps={appsData}
           isDark={isDark}
