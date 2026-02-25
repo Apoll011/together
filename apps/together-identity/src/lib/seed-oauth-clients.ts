@@ -5,15 +5,15 @@ import { auth } from "./auth";
 const FIRST_PARTY_CLIENTS = [
   {
     key: "TOGETHER_WEB_CLIENT_ID",
-    id: 'mzJGTDMTvJvAdUhisaErfHacTZZxCJKC',
+    id: 'ovqEMuOsRjPKrHxLsYXSTcnFwKgqdiaA',
     body: {
       client_name: "Together Web",
       logo_uri: "http://localhost:3000/favicon.ico",
       client_uri: "http://localhost:3000",
-      redirect_uris: ["http://localhost:3000/api/auth/callback"],
+      redirect_uris: ["http://localhost:3000/auth/callback"],
       tos_uri: "",
       policy_uri: "",
-      skip_consent: true,
+      skip_consent: false,
       enable_end_session: true,
     },
   }

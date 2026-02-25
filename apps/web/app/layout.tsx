@@ -7,7 +7,6 @@ import { Navbar } from "./components/Navbar";
 import { Footer } from "./components/Footer";
 import { ThemeProvider } from "@repo/ui/ThemeContext";
 import { TogetherAuthProvider } from "@together/auth-sdk/react/context/TogetherAuthProvider";
-import { SignedOut, SignedIn, RequireAuth, RequireRole, RequireAppRole } from "@together/auth-sdk/react/components/index";
 import { getServerSession } from "@together/auth-sdk/server";
 
 export const metadata: Metadata = {
@@ -46,30 +45,7 @@ export default async function RootLayout({
                   }}
                 >
                   <Navbar />
- <>
-      <SignedOut>
-        <p>Please sign in.</p>
-      </SignedOut>
 
-      <SignedIn>
-        <p>You are signed in.</p>
-      </SignedIn>
-
-      {/* Redirects to login if not authenticated */}
-      <RequireAuth loading={<p>Checking auth…</p>}>
-        <p>Authenticated content</p>
-      </RequireAuth>
-
-      {/* Requires global "admin" role */}
-      <RequireRole role="admin" unauthorized={<p>Access denied.</p>}>
-        <p>Admin-only content</p>
-      </RequireRole>
-
-      {/* Requires "editor" role inside "my-app" appRoles */}
-      <RequireAppRole app="main" role="editor" unauthorized={<p>Not an editor.</p>}>
-        <p>Editor content</p>
-      </RequireAppRole>
-    </>
                   <Content
                     style={{
                       flex: 1,

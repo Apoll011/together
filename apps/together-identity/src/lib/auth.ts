@@ -10,6 +10,8 @@ if (!process.env.BETTER_AUTH_SECRET) {
   throw new Error("Missing environment variable: BETTER_AUTH_SECRET");
 }
 
+export const runtime = "nodejs";
+
 export const auth = betterAuth({
   secret: process.env.BETTER_AUTH_SECRET,
   baseURL: process.env.NEXT_PUBLIC_IDENTITY_URL ?? "http://localhost:3001",
