@@ -1,0 +1,40 @@
+{
+  "name": "@together/auth",
+  "version": "0.0.0",
+  "private": true,
+  "exports": {
+    "./types":        "./src/types.ts",
+    "./config":       "./src/config.ts",
+    "./provider":     "./src/provider.tsx",
+    "./hooks":        "./src/hooks/index.ts",
+    "./server":       "./src/server/index.ts",
+    "./route-handler": "./src/route-handler.ts",
+    "./*":            "./src/components/*.tsx"
+  },
+  "scripts": {
+    "lint": "eslint . --max-warnings 0",
+    "check-types": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@repo/eslint-config": "workspace:*",
+    "@repo/typescript-config": "workspace:*",
+    "@types/node": "^22.15.3",
+    "@types/react": "19.2.2",
+    "@types/react-dom": "19.2.2",
+    "eslint": "^9.39.1",
+    "typescript": "5.9.2"
+  },
+  "dependencies": {
+    "@logto/next": "^3.3.0",
+    "antd": "^5.29.3",
+    "@ant-design/icons": "^6.1.0",
+    "lucide-react": "^0.574.0",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
+    "next": "^15.0.0"
+  },
+  "peerDependencies": {
+    "next": ">=14.0.0",
+    "react": ">=18.0.0"
+  }
+}

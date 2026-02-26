@@ -28,7 +28,7 @@ export default async function Home() {
     <nav>
       {isAuthenticated ? (
         <p>
-          Hello, {claims?.sub},
+          Hello, {claims?.username},
           <SignOut
             onSignOut={async () => {
               'use server';
@@ -45,7 +45,7 @@ export default async function Home() {
 
               await signIn(logtoConfig);
             }}
-          />
+          />account/aboutme
         </p>
       )}
     </nav>
