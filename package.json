@@ -13,11 +13,12 @@
     "turbo": "^2.8.10",
     "typescript": "5.9.2"
   },
-  "packageManager": "pnpm@9.0.0",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "packageManager": "yarn@3.8.7",
   "engines": {
     "node": ">=18"
-  },
-  "dependencies": {
-    "antd": "^6.3.0"
   }
 }

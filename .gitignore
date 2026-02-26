@@ -41,3 +41,4 @@ yarn-error.log*
 
 db.sqlite
 better-auth_migrations
+.yarn

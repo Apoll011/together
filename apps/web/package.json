@@ -13,15 +13,15 @@
   "dependencies": {
     "@ant-design/cssinjs": "^2.1.0",
     "@ant-design/icons": "^6.1.0",
-    "@together/apps-repo": "workspace:*",
-    "@together/auth-sdk": "workspace:*",
+    "@logto/next": "^4.2.9",
     "@repo/ui": "workspace:*",
+    "@together/apps-repo": "workspace:*",
     "antd": "^6.3.0",
     "framer-motion": "^12.34.2",
     "lucide-react": "^0.574.0",
-    "next": "16.1.5",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "next": "^16.1.6",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
   },
   "devDependencies": {
     "@repo/eslint-config": "workspace:*",
