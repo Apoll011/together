@@ -16,7 +16,7 @@
     "@ant-design/icons": "^6.1.0",
     "@repo/ui": "workspace:*",
     "antd": "^6.3.0",
-    "next": "16.1.5",
+    "next": "16.1.7",
     "@clerk/nextjs": "^6.38.0",
     "@clerk/types": "^4.101.18",
     "@repo/together-apps": "workspace:*",
