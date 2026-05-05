@@ -17,7 +17,7 @@
     "@repo/ui": "workspace:*",
     "antd": "^6.3.0",
     "next": "16.1.5",
-    "@clerk/nextjs": "^6.38.0",
+    "@clerk/nextjs": "^6.39.3",
     "@clerk/types": "^4.101.18",
     "@repo/together-apps": "workspace:*",
     "react": "^19.2.0",
